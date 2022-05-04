@@ -14,7 +14,7 @@ col1, col2 = st.columns(2)
 example_ =  col1.checkbox("use an example ", False)
 cif_or_xyz = "None"
 if example_:
-    cif_or_xyz = col2.radio("choose cif or xyz", ["None", "cif", "xyz"])
+    cif_or_xyz = col2.radio("choose cif or xyz", ["None", "cif", "xyz", "vasp"])
 
 filetype_supported = ["cif", "xyz", "vasp"]
 filetype =""
@@ -30,20 +30,23 @@ if uploaded_file:
     if filext in filetype_supported: 
         filetype = filext
     else:
-        filetype = st.radio("filetype", ["None", "cif", "xyz", "vasp", "more is coming"])
+        filetype = st.radio("choose your filetype", ["None", "cif", "xyz", "vasp", "more is coming"])
 elif cif_or_xyz == "cif":
     filename = "cifs/FeAs.cif"  
     filetype = "cif"
 elif  cif_or_xyz == "xyz":
     filename = "xyz_files/C60.xyz"  
     filetype = "xyz"
+elif cif_or_xyz == "vasp":
+    filename = "vasp_examples/POSCAR_BN_cart"
+    filetype = "vasp"
 else:
     st.markdown("upload a file or choose an example")
 
 if not (filetype in filetype_supported):
     st.markdown(filetype +  " filetype not programed")
 else:
-  #st.write(crmg.species)
+  st.markdown("File used: "+filename)
   description = st.text_input("description", value="description of the input file")
   rmginput_str = 'description="'+description+'"  \n'
 
