@@ -7,7 +7,7 @@ from rmg_parser import *
 from add_items import *
 st.title('RMG input User Interface')
 st.markdown("Welcome to use rmg package! This interface will help you generate input file to run with our open-source rmg package. You can use one of the examples to show the options, you can also upload your own atomic structure file and choose options. Currently cif, xyz, and vasp formats are supported for loading the atomic structure information")
-st.markdown("without any options change, the default calculation will be gamma point, norm-conservering pseudopotentials, and quench electron only."
+st.markdown("without any options change, the default calculation will be gamma point, norm-conservering pseudopotentials, and quench electron only.")
 st.write('<style>div.row-widget.stRadio > div{flex-direction:row;justify-content: left}<style>',
         unsafe_allow_html=True)
 
