@@ -6,10 +6,11 @@ import subprocess
 from rmg_parser import *
 from add_items import *
 st.title('RMG input User Interface')
+st.markdown("Welcome to use rmg package! This interface will help you generate input file to run with our open-source rmg package. You can use one of the examples to show the options, you can also upload your own atomic structure file and choose options. Currently cif, xyz, and vasp formats are supported for loading the atomic structure information")
 st.write('<style>div.row-widget.stRadio > div{flex-direction:row;justify-content: left}<style>',
         unsafe_allow_html=True)
 
-uploaded_file = st.file_uploader("Uploda a file")
+uploaded_file = st.file_uploader("Uploda a file with cif, xyz or vasp format")
 col1, col2 = st.columns(2)
 example_ =  col1.checkbox("use an example ", False)
 cif_or_xyz = "None"
@@ -50,17 +51,21 @@ else:
   description = st.text_input("description", value="description of the input file")
   rmginput_str = 'description="'+description+'"  \n'
 
+  st.subheader("BASIC OPTIONS")
   crmg = rmg_interface(filename, filetype)
   grid_lines = add_grid(crmg.cell)
   pseudo_lines = add_pseudo(crmg.species)
   kpoint_lines = add_kpoints(crmg.cell)
+  spin_lines, mag = add_spin(crmg.species, crmg.atoms)
   ctrl_lines = add_control()
+  st.subheader("COMMONLY USED OPTIONS")
   scf_lines = add_scf()
   mixing_lines = add_mixing()
   xc_lines = add_xc(crmg.species)
   qmcpack_lines = add_qmcpack()
   IO_lines = add_IOctrl()
-  spin_lines, mag = add_spin(crmg.species, crmg.atoms)
+
+  st.subheader("PERFORMANCE TUNING OPTIONS")
   misc_lines = add_misc()
 
       
