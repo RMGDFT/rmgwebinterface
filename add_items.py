@@ -720,83 +720,83 @@ def add_misc():
         wannier90_scdm_sigma= col2.number_input("wannier90_scdm_sigma", 1.0)
         misc_lines += 'wannier90_scdm_sigma = "%f"  \n'%wannier90_scdm_sigma
         stress= col0.checkbox("stress",False)
-        misc_lines += 'stress = "%f"  \n'%stress
+        misc_lines += 'stress = "%s"  \n'%str(stress)
         cell_relax= col1.checkbox("cell_relax",False)
-        misc_lines += 'cell_relax = "%f"  \n'%cell_relax
+        misc_lines += 'cell_relax = "%s"  \n'%str(cell_relax)
         dipole_moment= col2.checkbox("dipole_moment",False)
-        misc_lines += 'dipole_moment = "%f"  \n'%dipole_moment
+        misc_lines += 'dipole_moment = "%s"  \n'%str(dipole_moment)
         use_gpu_fd= col0.checkbox("use_gpu_fd",False)
-        misc_lines += 'use_gpu_fd = "%f"  \n'%use_gpu_fd
+        misc_lines += 'use_gpu_fd = "%s"  \n'%str(use_gpu_fd)
         laplacian_offdiag= col1.checkbox("laplacian_offdiag",False)
-        misc_lines += 'laplacian_offdiag = "%f"  \n'%laplacian_offdiag
+        misc_lines += 'laplacian_offdiag = "%s"  \n'%str(laplacian_offdiag)
         laplacian_autocoeff= col2.checkbox("laplacian_autocoeff",False)
-        misc_lines += 'laplacian_autocoeff = "%f"  \n'%laplacian_autocoeff
+        misc_lines += 'laplacian_autocoeff = "%s"  \n'%str(laplacian_autocoeff)
         use_cpdgemr2d= col0.checkbox("use_cpdgemr2d",True)
-        misc_lines += 'use_cpdgemr2d = "%f"  \n'%use_cpdgemr2d
+        misc_lines += 'use_cpdgemr2d = "%s"  \n'%str(use_cpdgemr2d)
         use_symmetry= col1.checkbox("use_symmetry",True)
-        misc_lines += 'use_symmetry = "%f"  \n'%use_symmetry
+        misc_lines += 'use_symmetry = "%s"  \n'%str(use_symmetry)
         frac_symmetry= col2.checkbox("frac_symmetry",True)
-        misc_lines += 'frac_symmetry = "%f"  \n'%frac_symmetry
+        misc_lines += 'frac_symmetry = "%s"  \n'%str(frac_symmetry)
         rmg2bgw= col0.checkbox("rmg2bgw",False)
-        misc_lines += 'rmg2bgw = "%f"  \n'%rmg2bgw
+        misc_lines += 'rmg2bgw = "%s"  \n'%str(rmg2bgw)
         pin_nonlocal_weights= col1.checkbox("pin_nonlocal_weights",False)
-        misc_lines += 'pin_nonlocal_weights = "%f"  \n'%pin_nonlocal_weights
+        misc_lines += 'pin_nonlocal_weights = "%s"  \n'%str(pin_nonlocal_weights)
         use_cublasxt= col2.checkbox("use_cublasxt",False)
-        misc_lines += 'use_cublasxt = "%f"  \n'%use_cublasxt
+        misc_lines += 'use_cublasxt = "%s"  \n'%str(use_cublasxt)
         use_bessel_projectors= col0.checkbox("use_bessel_projectors",False)
-        misc_lines += 'use_bessel_projectors = "%f"  \n'%use_bessel_projectors
+        misc_lines += 'use_bessel_projectors = "%s"  \n'%str(use_bessel_projectors)
         write_orbital_overlaps= col1.checkbox("write_orbital_overlaps",False)
-        misc_lines += 'write_orbital_overlaps = "%f"  \n'%write_orbital_overlaps
+        misc_lines += 'write_orbital_overlaps = "%s"  \n'%str(write_orbital_overlaps)
         kohn_sham_ke_fft= col2.checkbox("kohn_sham_ke_fft",False)
-        misc_lines += 'kohn_sham_ke_fft = "%f"  \n'%kohn_sham_ke_fft
+        misc_lines += 'kohn_sham_ke_fft = "%s"  \n'%str(kohn_sham_ke_fft)
         fast_density= col0.checkbox("fast_density",True)
-        misc_lines += 'fast_density = "%f"  \n'%fast_density
+        misc_lines += 'fast_density = "%s"  \n'%str(fast_density)
         lcao_use_empty_orbitals= col1.checkbox("lcao_use_empty_orbitals",False)
-        misc_lines += 'lcao_use_empty_orbitals = "%f"  \n'%lcao_use_empty_orbitals
+        misc_lines += 'lcao_use_empty_orbitals = "%s"  \n'%str(lcao_use_empty_orbitals)
         write_qmcpack_restart_localized= col2.checkbox("write_qmcpack_restart_localized",False)
-        misc_lines += 'write_qmcpack_restart_localized = "%f"  \n'%write_qmcpack_restart_localized
+        misc_lines += 'write_qmcpack_restart_localized = "%s"  \n'%str(write_qmcpack_restart_localized)
         alt_laplacian= col0.checkbox("alt_laplacian",True)
-        misc_lines += 'alt_laplacian = "%f"  \n'%alt_laplacian
+        misc_lines += 'alt_laplacian = "%s"  \n'%str(alt_laplacian)
         use_alt_zgemm= col1.checkbox("use_alt_zgemm",False)
-        misc_lines += 'use_alt_zgemm = "%f"  \n'%use_alt_zgemm
+        misc_lines += 'use_alt_zgemm = "%s"  \n'%str(use_alt_zgemm)
         filter_dpot= col2.checkbox("filter_dpot",False)
-        misc_lines += 'filter_dpot = "%f"  \n'%filter_dpot
+        misc_lines += 'filter_dpot = "%s"  \n'%str(filter_dpot)
         sqrt_interpolation= col0.checkbox("sqrt_interpolation",False)
-        misc_lines += 'sqrt_interpolation = "%f"  \n'%sqrt_interpolation
+        misc_lines += 'sqrt_interpolation = "%s"  \n'%str(sqrt_interpolation)
         renormalize_forces= col1.checkbox("renormalize_forces",True)
-        misc_lines += 'renormalize_forces = "%f"  \n'%renormalize_forces
+        misc_lines += 'renormalize_forces = "%s"  \n'%str(renormalize_forces)
         coalesce_states= col2.checkbox("coalesce_states",False)
-        misc_lines += 'coalesce_states = "%f"  \n'%coalesce_states
+        misc_lines += 'coalesce_states = "%s"  \n'%str(coalesce_states)
         equal_initial_density= col0.checkbox("equal_initial_density",False)
-        misc_lines += 'equal_initial_density = "%f"  \n'%equal_initial_density
+        misc_lines += 'equal_initial_density = "%s"  \n'%str(equal_initial_density)
         write_pdos= col1.checkbox("write_pdos",False)
-        misc_lines += 'write_pdos = "%f"  \n'%write_pdos
+        misc_lines += 'write_pdos = "%s"  \n'%str(write_pdos)
         folded_spectrum= col2.checkbox("folded_spectrum",False)
-        misc_lines += 'folded_spectrum = "%f"  \n'%folded_spectrum
+        misc_lines += 'folded_spectrum = "%s"  \n'%str(folded_spectrum)
         use_numa= col0.checkbox("use_numa",True)
-        misc_lines += 'use_numa = "%f"  \n'%use_numa
+        misc_lines += 'use_numa = "%s"  \n'%str(use_numa)
         use_hwloc= col1.checkbox("use_hwloc",False)
-        misc_lines += 'use_hwloc = "%f"  \n'%use_hwloc
+        misc_lines += 'use_hwloc = "%s"  \n'%str(use_hwloc)
         use_async_allreduce= col2.checkbox("use_async_allreduce",True)
-        misc_lines += 'use_async_allreduce = "%f"  \n'%use_async_allreduce
+        misc_lines += 'use_async_allreduce = "%s"  \n'%str(use_async_allreduce)
         mpi_queue_mode= col0.checkbox("mpi_queue_mode",True)
-        misc_lines += 'mpi_queue_mode = "%f"  \n'%mpi_queue_mode
+        misc_lines += 'mpi_queue_mode = "%s"  \n'%str(mpi_queue_mode)
         spin_manager_thread= col1.checkbox("spin_manager_thread",True)
-        misc_lines += 'spin_manager_thread = "%f"  \n'%spin_manager_thread
+        misc_lines += 'spin_manager_thread = "%s"  \n'%str(spin_manager_thread)
         spin_worker_threads= col2.checkbox("spin_worker_threads",True)
-        misc_lines += 'spin_worker_threads = "%f"  \n'%spin_worker_threads
+        misc_lines += 'spin_worker_threads = "%s"  \n'%str(spin_worker_threads)
         require_huge_pages= col0.checkbox("require_huge_pages",False)
-        misc_lines += 'require_huge_pages = "%f"  \n'%require_huge_pages
+        misc_lines += 'require_huge_pages = "%s"  \n'%str(require_huge_pages)
         relax_dynamic_timestep= col1.checkbox("relax_dynamic_timestep",False)
-        misc_lines += 'relax_dynamic_timestep = "%f"  \n'%relax_dynamic_timestep
+        misc_lines += 'relax_dynamic_timestep = "%s"  \n'%str(relax_dynamic_timestep)
         freeze_occupied= col2.checkbox("freeze_occupied",False)
-        misc_lines += 'freeze_occupied = "%f"  \n'%freeze_occupied
+        misc_lines += 'freeze_occupied = "%s"  \n'%str(freeze_occupied)
         md_randomize_velocity= col0.checkbox("md_randomize_velocity",True)
-        misc_lines += 'md_randomize_velocity = "%f"  \n'%md_randomize_velocity
+        misc_lines += 'md_randomize_velocity = "%s"  \n'%str(md_randomize_velocity)
         time_reversal= col1.checkbox("time_reversal",True)
-        misc_lines += 'time_reversal = "%f"  \n'%time_reversal
+        misc_lines += 'time_reversal = "%s"  \n'%str(time_reversal)
         wannier90= col2.checkbox("wannier90",False)
-        misc_lines += 'wannier90 = "%f"  \n'%wannier90
+        misc_lines += 'wannier90 = "%s"  \n'%str(wannier90)
         processor_grid= st.text_input("processor_grid", "1 1 1")
         misc_lines += 'processor_grid = "%s"  \n'%processor_grid
         dipole_correction= st.text_input("dipole_correction", "0  0  0")
