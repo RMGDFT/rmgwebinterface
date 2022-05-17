@@ -559,7 +559,8 @@ def add_IOctrl():
     IO_lines += 'output_rho_xsf = "%s"  \n'%str(output_rho_xsf) 
     IO_lines += 'cube_vh = "%s"  \n'%str(cube_vh) 
     IO_lines += 'cube_pot = "%s"  \n'%str(cube_pot) 
-    IO_lines += 'cube_states_list = "%s"  \n'%cube_states_list
+    if cube_states_list != "":
+        IO_lines += 'cube_states_list = "%s"  \n'%cube_states_list
     IO_lines += 'write_data_period = "%d"  \n'%write_data_period 
     IO_lines += 'write_eigvals_period = "%d"  \n'%write_eigvals_period
     return IO_lines
@@ -808,11 +809,14 @@ def add_misc():
         electric_field_vector= st.text_input("electric_field_vector", "0  0  1")
         misc_lines += 'electric_field_vector = "%s"  \n'%electric_field_vector
         states_count_and_occupation_spin_up= st.text_input("states_count_and_occupation_spin_up", "")
-        misc_lines += 'states_count_and_occupation_spin_up = "%s"  \n'%states_count_and_occupation_spin_up
+        if states_count_and_occupation_spin_up != "":
+            misc_lines += 'states_count_and_occupation_spin_up = "%s"  \n'%states_count_and_occupation_spin_up
         states_count_and_occupation_spin_down= st.text_input("states_count_and_occupation_spin_down", "")
-        misc_lines += 'states_count_and_occupation_spin_down = "%s"  \n'%states_count_and_occupation_spin_down
+        if states_count_and_occupation_spin_down != "":
+            misc_lines += 'states_count_and_occupation_spin_down = "%s"  \n'%states_count_and_occupation_spin_down
         states_count_and_occupation= st.text_input("states_count_and_occupation", "")
-        misc_lines += 'states_count_and_occupation = "%s"  \n'%states_count_and_occupation
+        if states_count_and_occupation != "":
+            misc_lines += 'states_count_and_occupation = "%s"  \n'%states_count_and_occupation
         energy_output_units= st.radio("energy_output_units", ["Hartrees", "Rydbergs"])
         misc_lines += 'energy_output_units = "%s"  \n'%energy_output_units
         interpolation_type= st.radio("interpolation_type", ["FFT", "Cubic Polynomial", "prolong"])
