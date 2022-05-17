@@ -89,16 +89,42 @@ class rmg_interface():
         ##########
         #  for xyz file, read-in the lattice information
         ###########
-        # bounding box of the xyz atoms
-        x_max = max(self.atoms, key=lambda x:x[1])[1]
-        x_min = min(self.atoms, key=lambda x:x[1])[1]
-        y_max = max(self.atoms, key=lambda x:x[2])[2]
-        y_min = min(self.atoms, key=lambda x:x[2])[2]
-        z_max = max(self.atoms, key=lambda x:x[3])[3]
-        z_min = min(self.atoms, key=lambda x:x[3])[3]
+        ibrav = 0
+        a = 1.0
+        b = 1.0
+        c = 1.0
+        need_lattice = True
+        latticevectors = []
+        if len(all_lines) > num_atoms + 2:
+            if "lattice" in all_lines[num_atoms+2] and len(all_lines) > num_atoms + 5:
+                a0 = float(all_lines[num_atoms+3].split()[0])
+                a1 = float(all_lines[num_atoms+3].split()[1])
+                a2 = float(all_lines[num_atoms+3].split()[2])
+                latticevectors.append([a0, a1, a2])
+                a = sqrt(a0*a0+a1*a1+a2*a2)
+                a0 = float(all_lines[num_atoms+4].split()[0])
+                a1 = float(all_lines[num_atoms+4].split()[1])
+                a2 = float(all_lines[num_atoms+4].split()[2])
+                latticevectors.append([a0, a1, a2])
+                b = sqrt(a0*a0+a1*a1+a2*a2)
+                a0 = float(all_lines[num_atoms+5].split()[0])
+                a1 = float(all_lines[num_atoms+5].split()[1])
+                a2 = float(all_lines[num_atoms+5].split()[2])
+                latticevectors.append([a0, a1, a2])
+                c = sqrt(a0*a0+a1*a1+a2*a2)
 
-        bounding_box = [x_min,x_max, y_min, y_max, z_min, z_max]
-        (ibrav, a, b, c,latticevectors) = add_lattice(bounding_box)
+                need_lattice = False
+        if need_lattice:
+            # bounding box of the xyz atoms
+            x_max = max(self.atoms, key=lambda x:x[1])[1]
+            x_min = min(self.atoms, key=lambda x:x[1])[1]
+            y_max = max(self.atoms, key=lambda x:x[2])[2]
+            y_min = min(self.atoms, key=lambda x:x[2])[2]
+            z_max = max(self.atoms, key=lambda x:x[3])[3]
+            z_min = min(self.atoms, key=lambda x:x[3])[3]
+
+            bounding_box = [x_min,x_max, y_min, y_max, z_min, z_max]
+            (ibrav, a, b, c,latticevectors) = add_lattice(bounding_box)
         self.cell = CellData()
         self.ibrav = ibrav
         self.cell.a = a

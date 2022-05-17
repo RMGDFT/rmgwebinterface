@@ -1,0 +1,244 @@
+description="description of the input file"  
+wavefunction_grid="48 48 48"  
+potential_grid_refinement="2"  
+max_scf_steps = "40"  
+max_md_steps = "10"  
+max_exx_steps = "10"  
+energy_convergence_criterion="1.0e-9"  
+rms_convergence_criterion = "1.0e-7"  
+preconditioner_threshold = "0.0001"  
+exx_convergence_criterion = "1.0e-9"  
+vexx_fft_threshold = "1.0e-14"  
+charge_mixing_type = "Broyden"  
+charge_density_mixing ="0.5"  
+charge_broyden_order = "5"  
+charge_broyden_scale = "0.5"  
+charge_broyden_refresh = "100"  
+exchange_correlaton_type="AUTO_XC"  
+exx_mode = "Local fft"  
+exxdiv_treatment = "gygi-baldereschi"  
+x_gamma_extrapolation ="True"  
+exx_fracton = "-1.0"  
+vdw_corr            ="None"  
+vdwdf_grid_type     ="Coarse"  
+vdwdf_kernel_filepath ="vdW_kernel_table"  
+ldaU_mode = "None"  
+write_qmcpack_restart = "False"  
+start_mode          ="LCAO Start"  
+calculation_mode    ="Quench Electrons  "  
+kohn_sham_solver    ="davidson"  
+subdiag_driver      ="auto"  
+relax_mass          ="Atomic"  
+dos_method          ="tetrahedra"  
+occupations_type    ="Fermi Dirac"  
+occupation_electron_temperature_eV="0.100000"  
+MP_order="2"  
+poisson_solver      ="pfft"  
+md_temperature_control    ="Nose Hoover Chains"  
+md_integration_order="2nd Velocity Verlet"  
+md_number_of_nose_thermostats ="5"  
+davidson_multiplier = "0"  
+davidson_max_steps  = "8"  
+davidson_premg      = "4"  
+kpoint_mesh = "1 1 1"  
+kpoint_shift = "0 0 0"  
+internal_pseudo_type = "nc_accuracy"  
+localize_localpp ="True"  
+localize_projectors ="True"  
+max_nlradius ="100.000000"  
+min_nlradius ="2.000000"  
+max_qradius ="100.000000"  
+min_qradius ="2.000000"  
+write_pseudopotential_plots ="False"  
+verbose = "False"  
+input_wave_function_file = "Waves/wave.out"  
+output_wave_function_file = "Waves/wave.out"  
+write_serial_restart = "False"  
+read_serial_restart = "False"  
+compressed_infile = "True"  
+compressed_outfile = "True"  
+input_tddft_file = "Waves/wave_tddft.out"  
+output_tddft_file = "Waves/wave_tddft.out"  
+nvme_weights = "False"  
+nvme_work = "False"  
+nvme_orbitals = "False"  
+nvme_qfunctons = "False"  
+nvme_weights_filepath = "Weights/"  
+nvme_work_filepath = "Work/"  
+nvme_orbitals_filepath = "Orbitals/"  
+qfunction_filepath = "Qfunctions/"  
+cube_rho = "True"  
+output_rho_xsf = "False"  
+cube_vh = "True"  
+cube_pot = "False"  
+cube_states_list = "0,2-4"  
+write_data_period = "5"  
+write_eigvals_period = "5"  
+dftd3_version = "3"  
+charge_analysis_period = "0"  
+omp_threads_per_node = "0"  
+fd_allocation_limit = "65536"  
+rmg_threads_per_node = "0"  
+unoccupied_states_per_kpoint = "10"  
+state_block_size = "64"  
+extra_random_lcao_states = "0"  
+kohn_sham_fd_order = "8"  
+force_grad_order = "8"  
+non_local_block_size = "512"  
+dynamic_time_delay = "5"  
+dynamic_time_counter = "0"  
+scf_steps_offset = "0"  
+total_scf_steps_offset = "0"  
+md_steps_offset = "0"  
+coalesce_factor = "4"  
+folded_spectrum_iterations = "2"  
+vxc_diag_nmin = "1"  
+vxc_diag_nmax = "1"  
+num_wanniers = "0"  
+wannier90_scdm = "0"  
+md_temperature = "300.000000"  
+md_nose_oscillation_frequency_THz = "15.590000"  
+filter_factor = "0.250000"  
+potential_acceleration_constant_step = "0.000000"  
+ionic_time_step = "50.000000"  
+ionic_time_step_increase = "1.100000"  
+ionic_time_step_decrease = "0.500000"  
+max_ionic_time_step = "150.000000"  
+system_charge = "0.000000"  
+unoccupied_tol_factor = "1000.000000"  
+projector_expansion_factor = "1.000000"  
+folded_spectrum_width = "0.300000"  
+ecutrho = "0.000000"  
+ecutwfc = "0.000000"  
+test_energy = "0.000000"  
+test_energy_tolerance = "0.000000"  
+test_bond_length = "0.000000"  
+test_bond_length_tolerance = "0.001000"  
+relax_max_force = "0.002500"  
+stress_convergence_criterion = "0.500000"  
+gw_residual_convergence_criterion = "0.000001"  
+gw_residual_fraction = "0.900000"  
+hartree_rms_ratio = "100000.000000"  
+electric_field_magnitude = "0.000000"  
+wannier90_scdm_mu = "0.000000"  
+wannier90_scdm_sigma = "1.000000"  
+stress = "0.000000"  
+cell_relax = "0.000000"  
+dipole_moment = "0.000000"  
+use_gpu_fd = "0.000000"  
+laplacian_offdiag = "0.000000"  
+laplacian_autocoeff = "0.000000"  
+use_cpdgemr2d = "1.000000"  
+use_symmetry = "1.000000"  
+frac_symmetry = "1.000000"  
+rmg2bgw = "0.000000"  
+pin_nonlocal_weights = "0.000000"  
+use_cublasxt = "0.000000"  
+use_bessel_projectors = "0.000000"  
+write_orbital_overlaps = "0.000000"  
+kohn_sham_ke_fft = "0.000000"  
+fast_density = "1.000000"  
+lcao_use_empty_orbitals = "0.000000"  
+write_qmcpack_restart_localized = "0.000000"  
+alt_laplacian = "1.000000"  
+use_alt_zgemm = "0.000000"  
+filter_dpot = "0.000000"  
+sqrt_interpolation = "0.000000"  
+renormalize_forces = "1.000000"  
+coalesce_states = "0.000000"  
+equal_initial_density = "0.000000"  
+write_pdos = "0.000000"  
+folded_spectrum = "0.000000"  
+use_numa = "1.000000"  
+use_hwloc = "0.000000"  
+use_async_allreduce = "1.000000"  
+mpi_queue_mode = "1.000000"  
+spin_manager_thread = "1.000000"  
+spin_worker_threads = "1.000000"  
+require_huge_pages = "0.000000"  
+relax_dynamic_timestep = "0.000000"  
+freeze_occupied = "0.000000"  
+md_randomize_velocity = "1.000000"  
+time_reversal = "1.000000"  
+wannier90 = "0.000000"  
+processor_grid = "1 1 1"  
+dipole_correction = "0  0  0"  
+cell_movable = "0 0 0 0 0 0 0 0 0"  
+atomic_orbital_type = "delocalized"  
+electric_field_vector = "0  0  1"  
+states_count_and_occupation_spin_up = ""  
+states_count_and_occupation_spin_down = ""  
+states_count_and_occupation = ""  
+energy_output_units = "Hartrees"  
+interpolation_type = "FFT"  
+bravais_lattice_type="None"  
+crds_units = "Angstrom"  
+lattice_units = "Angstrom"  
+lattice_vector="  
+ 9.525189794400e+00  0.000000000000e+00  0.000000000000e+00   
+ 0.000000000000e+00  9.525189794400e+00  0.000000000000e+00   
+ 0.000000000000e+00  0.000000000000e+00  9.525189794400e+00   
+"  
+atomic_coordinate_type = "Absolute"  
+atoms="  
+C  8.111916217520e+00 6.858136651970e+00 6.387168934360e-01  1 1 1   0.00   0.00   0.00  
+C  9.279810321750e+00 6.858136651970e+00 9.411787118130e+00  1 1 1   0.00   0.00   0.00  
+C  7.266291034660e+00 8.029311654910e+00 6.482950009510e-01  1 1 1   0.00   0.00   0.00  
+C  7.624544006370e+00 9.149103550680e+00 9.432636700230e+00  1 1 1   0.00   0.00   0.00  
+C  5.889319014440e+00 7.581098557360e+00 6.629002919690e-01  1 1 1   0.00   0.00   0.00  
+C  4.924258535100e+00 8.275167387050e+00 9.465974864510e+00  1 1 1   0.00   0.00   0.00  
+C  5.889319014440e+00 6.135227664290e+00 6.629002919690e-01  1 1 1   0.00   0.00   0.00  
+C  4.924258535100e+00 5.441158834610e+00 9.465974864510e+00  1 1 1   0.00   0.00   0.00  
+C  7.266291034660e+00 5.687014566750e+00 6.482950009510e-01  1 1 1   0.00   0.00   0.00  
+C  7.624544006370e+00 4.567222670970e+00 9.432636700230e+00  1 1 1   0.00   0.00   0.00  
+C  1.262616824970e-01 8.024231553690e+00 8.646067694100e+00  1 1 1   0.00   0.00   0.00  
+C  8.846308350660e+00 9.150532329150e+00 8.658767947160e+00  1 1 1   0.00   0.00   0.00  
+C  1.262616824970e-01 5.692094667970e+00 8.646067694100e+00  1 1 1   0.00   0.00   0.00  
+C  8.846255432940e+00 4.565793892500e+00 8.658767947160e+00  1 1 1   0.00   0.00   0.00  
+C  7.218506332520e-01 7.577817658660e+00 7.406470077800e+00  1 1 1   0.00   0.00   0.00  
+C  5.038825401240e-01 8.272891925040e+00 6.225875720500e+00  1 1 1   0.00   0.00   0.00  
+C  7.218506332520e-01 6.138455645280e+00 7.406470077800e+00  1 1 1   0.00   0.00   0.00  
+C  5.038825401240e-01 5.443381378890e+00 6.225875720500e+00  1 1 1   0.00   0.00   0.00  
+C  6.622176533670e+00 3.385675794700e-01 8.680411295080e+00  1 1 1   0.00   0.00   0.00  
+C  5.299074753510e+00 9.442373560910e+00 8.699144168340e+00  1 1 1   0.00   0.00   0.00  
+C  8.602410574210e+00 3.390967566810e-01 7.427266742180e+00  1 1 1   0.00   0.00   0.00  
+C  9.185616778230e+00 9.442902738120e+00 6.237358865980e+00  1 1 1   0.00   0.00   0.00  
+C  7.226867332450e+00 7.849814745010e-01 7.445417520510e+00  1 1 1   0.00   0.00   0.00  
+C  6.489247218320e+00 7.850873099430e-01 6.270749947980e+00  1 1 1   0.00   0.00   0.00  
+C  3.921308967470e+00 7.552840494310e+00 8.718247465650e+00  1 1 1   0.00   0.00   0.00  
+C  3.921308967470e+00 6.163432809630e+00 8.718247465650e+00  1 1 1   0.00   0.00   0.00  
+C  4.530497772540e+00 9.442955655840e+00 7.478808602520e+00  1 1 1   0.00   0.00   0.00  
+C  5.113651058840e+00 3.392555098440e-01 6.288900726310e+00  1 1 1   0.00   0.00   0.00  
+C  3.687148051690e+00 8.272891925040e+00 7.490344665710e+00  1 1 1   0.00   0.00   0.00  
+C  3.469179958560e+00 7.577817658660e+00 6.309750308420e+00  1 1 1   0.00   0.00   0.00  
+C  5.299074753510e+00 4.273899743030e+00 8.699144168340e+00  1 1 1   0.00   0.00   0.00  
+C  6.622176533670e+00 3.852515930070e+00 8.680411295080e+00  1 1 1   0.00   0.00   0.00  
+C  3.687148051690e+00 5.443381378890e+00 7.490344665710e+00  1 1 1   0.00   0.00   0.00  
+C  3.469179958560e+00 6.138455645280e+00 6.309750308420e+00  1 1 1   0.00   0.00   0.00  
+C  4.530497772540e+00 4.273317648090e+00 7.478808602520e+00  1 1 1   0.00   0.00   0.00  
+C  5.113703976570e+00 3.851880917410e+00 6.288953644030e+00  1 1 1   0.00   0.00   0.00  
+C  7.226867332450e+00 3.406154952760e+00 7.445417520510e+00  1 1 1   0.00   0.00   0.00  
+C  6.489247218320e+00 3.405996199590e+00 6.270749947980e+00  1 1 1   0.00   0.00   0.00  
+C  8.602410574210e+00 3.852039670580e+00 7.427266742180e+00  1 1 1   0.00   0.00   0.00  
+C  9.185616778230e+00 4.273370565820e+00 6.237358865980e+00  1 1 1   0.00   0.00   0.00  
+C  8.417092714980e+00 9.442373560910e+00 5.017023300150e+00  1 1 1   0.00   0.00   0.00  
+C  7.093990934820e+00 3.385675794700e-01 5.035809091140e+00  1 1 1   0.00   0.00   0.00  
+C  2.697216243450e-01 7.552840494310e+00 4.997920002840e+00  1 1 1   0.00   0.00   0.00  
+C  2.697216243450e-01 6.163432809630e+00 4.997920002840e+00  1 1 1   0.00   0.00   0.00  
+C  8.791961851120e+00 8.275167387050e+00 4.250192603980e+00  1 1 1   0.00   0.00   0.00  
+C  7.826901371780e+00 7.581098557360e+00 3.528130299850e+00  1 1 1   0.00   0.00   0.00  
+C  4.869859117830e+00 9.150585246870e+00 5.057452439060e+00  1 1 1   0.00   0.00   0.00  
+C  4.064768909320e+00 8.024231553690e+00 5.070152692120e+00  1 1 1   0.00   0.00   0.00  
+C  6.091623462120e+00 9.149050632960e+00 4.283583685980e+00  1 1 1   0.00   0.00   0.00  
+C  6.449876433840e+00 8.029311654910e+00 3.542735590860e+00  1 1 1   0.00   0.00   0.00  
+C  4.064768909320e+00 5.692041750250e+00 5.070152692120e+00  1 1 1   0.00   0.00   0.00  
+C  4.869859117830e+00 4.565688057060e+00 5.057452439060e+00  1 1 1   0.00   0.00   0.00  
+C  4.436410064460e+00 6.858136651970e+00 4.304486185810e+00  1 1 1   0.00   0.00   0.00  
+C  5.604304168700e+00 6.858136651970e+00 3.552313698380e+00  1 1 1   0.00   0.00   0.00  
+C  7.093990934820e+00 3.852515930070e+00 5.035809091140e+00  1 1 1   0.00   0.00   0.00  
+C  8.417092714980e+00 4.273899743030e+00 5.017023300150e+00  1 1 1   0.00   0.00   0.00  
+C  6.091623462120e+00 4.567222670970e+00 4.283583685980e+00  1 1 1   0.00   0.00   0.00  
+C  6.449876433840e+00 5.686961649030e+00 3.542735590860e+00  1 1 1   0.00   0.00   0.00  
+C  8.791961851120e+00 5.441158834610e+00 4.250192603980e+00  1 1 1   0.00   0.00   0.00  
+C  7.826901371780e+00 6.135227664290e+00 3.528130299850e+00  1 1 1   0.00   0.00   0.00  
+"  
