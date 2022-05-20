@@ -28,24 +28,28 @@ def add_pseudo(species):
                    pseudolines += sp + '   ' + pseudo_dict[sp] +'  \n'
 
                pseudolines += '"  \n' 
-        cstart, col1, col2 = st.columns([0.1,1,1])
-        localize_projectors = col1.checkbox("non-local projector localization", value = True, 
-                help = "false: non-local projectors will spread in whole space, similar to plane wave codes")
-        localize_localpp = col2.checkbox("local potential localization", value = True, 
-                help = "fasle: pseudopotential's local part spreads in the whole space")
-        max_nlradius = col1.number_input("max radius of non-local projector", 100.0)
-        min_nlradius = col2.number_input("max radius of non-local projector", 2.0)
-        max_qradius = col1.number_input("max radius of q functions in Ultrasoft PP", 100.0)
-        min_qradius = col2.number_input("min radius of q functions in Ultrasoft PP", 2.0)
-        write_pseudopotential_plots = col1.checkbox("flag to write pseudopotential plots", False)
 
-        pseudolines += 'localize_localpp ="%s"  \n'%str(localize_localpp)
-        pseudolines += 'localize_projectors ="%s"  \n'%str(localize_projectors)
-        pseudolines += 'max_nlradius ="%f"  \n'%max_nlradius
-        pseudolines += 'min_nlradius ="%f"  \n'%min_nlradius
-        pseudolines += 'max_qradius ="%f"  \n'%max_qradius
-        pseudolines += 'min_qradius ="%f"  \n'%min_qradius
+        write_pseudopotential_plots = st.checkbox("flag to write pseudopotential plots", False)
         pseudolines += 'write_pseudopotential_plots ="%s"  \n'%str(write_pseudopotential_plots)
+
+        tune_pp = st.checkbox("tune the localization of pseudopotenitals ", False)
+        if tune_pp:
+            cstart, col1, col2 = st.columns([0.1,1,1])
+            localize_projectors = col1.checkbox("non-local projector localization", value = True, 
+                    help = "false: non-local projectors will spread in whole space, similar to plane wave codes")
+            localize_localpp = col2.checkbox("local potential localization", value = True, 
+                    help = "fasle: pseudopotential's local part spreads in the whole space")
+            max_nlradius = col1.number_input("max radius of non-local projector", 100.0)
+            min_nlradius = col2.number_input("max radius of non-local projector", 2.0)
+            max_qradius = col1.number_input("max radius of q functions in Ultrasoft PP", 100.0)
+            min_qradius = col2.number_input("min radius of q functions in Ultrasoft PP", 2.0)
+
+            pseudolines += 'localize_localpp ="%s"  \n'%str(localize_localpp)
+            pseudolines += 'localize_projectors ="%s"  \n'%str(localize_projectors)
+            pseudolines += 'max_nlradius ="%f"  \n'%max_nlradius
+            pseudolines += 'min_nlradius ="%f"  \n'%min_nlradius
+            pseudolines += 'max_qradius ="%f"  \n'%max_qradius
+            pseudolines += 'min_qradius ="%f"  \n'%min_qradius
 
     return pseudolines    
 def add_kpoint_mesh(cell):
@@ -170,104 +174,107 @@ def add_control():
                 extra_lines += 'tddft_qpos = "%s"  \n'%tddft_qpos
                 extra_lines += 'tddft_qgau = "%f"  \n'%tddft_qgau
 
-
-        kohn_sham_solver=st.radio("kohn_sham_solver", 
-                ["davidson", "multigrid"],
-                help="Davidson is prefered for a small system and multigrid for a large system")
-        if kohn_sham_solver == "davidson":
-            cs, col1,col2,col3 = st.columns([0.1,1,1,1])
-            davidson_multiplier = col1.number_input("davidson_multiplier",0)
-            davidson_max_steps  = col2.number_input("davidson_max_steps", 8)
-            davidson_premg      = col3.number_input("davidson_premg", 4, help = "number of multigrid steps before davidson") 
-            extra_lines += 'davidson_multiplier = "%d"  \n'%davidson_multiplier
-            extra_lines += 'davidson_max_steps  = "%d"  \n'%davidson_max_steps
-            extra_lines += 'davidson_premg      = "%d"  \n'%davidson_premg
-        else:
-            cs, col1,col2,col3= st.columns([0.1,1,1,1])
-            kohn_sham_mg_levels = col1.number_input("kohn_sham_mg_levels", -1, 
-                help = "negative: code determines by automatically")
-            kohn_sham_pre_smoothing = col2.number_input("kohn_sham_pre_smoothing", 2)
-            kohn_sham_post_smoothing = col3.number_input("kohn_sham_post_smoothing", 2)
-            kohn_sham_mucycles = col1.number_input("kohn_sham_mucycles", 2)
-            kohn_sham_coarse_time_step = col2.number_input("kohn_sham_coarse_time_step", 1.0)
-            kohn_sham_time_step = col3.number_input("kohn_sham_time_step", 0.66)
-            kohn_sham_mg_timestep = col1.number_input("kohn_sham_mg_timestep", 0.66)
-
-            extra_lines += 'kohn_sham_mg_levels = "%d"  \n'%kohn_sham_mg_levels
-            extra_lines += 'kohn_sham_pre_smoothing = "%d"  \n'%kohn_sham_pre_smoothing
-            extra_lines += 'kohn_sham_post_smoothing = "%d"  \n'%kohn_sham_post_smoothing
-            extra_lines += 'kohn_sham_mucycles = "%d"  \n'%kohn_sham_mucycles
-            extra_lines += 'kohn_sham_coarse_time_step = "%f"  \n'%kohn_sham_coarse_time_step
-            extra_lines += 'kohn_sham_time_step = "%f"  \n'%kohn_sham_time_step
-            extra_lines += 'kohn_sham_mg_timestep = "%f"  \n'%kohn_sham_mg_timestep
-        poisson_solver = st.radio("Poisson Solver",
-                ["pfft", "multigrid"])
-        if poisson_solver == "multigrid":
-            cs, col1,col2,col3 = st.columns([0.1,1,1,1])
-            poisson_mg_levels = col1.number_input("poisson_mg_levels", -1)
-            poisson_pre_smoothing = col2.number_input(" poisson_pre_smoothing", 2)
-            poisson_post_smoothing = col3.number_input(" poisson_post_smoothing", 1)
-            poisson_mucycles = col1.number_input(" poisson_mucycles", 3)
-            poisson_finest_time_step = col2.number_input(" poisson_finest_time_step", 1.0)
-            poisson_coarse_time_step = col3.number_input(" poisson_coarse_time_step", 0.8)
-            poisson_coarsest_steps = col1.number_input(" poisson_coarsest_steps", 25)
-            hartree_max_sweeps = col2.number_input(" hartree_max_sweeps", 10)
-            hartree_min_sweeps = col3.number_input(" hartree_min_sweeps", 5)
-            extra_lines += 'poisson_mg_levels = "%d"  \n'%poisson_mg_levels
-            extra_lines += 'poisson_pre_smoothing = "%d"  \n'% poisson_pre_smoothing
-            extra_lines += 'poisson_post_smoothing = "%d"  \n'% poisson_post_smoothing
-            extra_lines += 'poisson_mucycles = "%d"  \n'% poisson_mucycles
-            extra_lines += 'poisson_finest_time_step = "%f"  \n'% poisson_finest_time_step
-            extra_lines += 'poisson_coarse_time_step = "%f"  \n'% poisson_coarse_time_step
-            extra_lines += 'poisson_coarsest_steps = "%d"  \n'% poisson_coarsest_steps
-            extra_lines += 'hartree_max_sweeps = "%d"  \n'% hartree_max_sweeps
-            extra_lines += 'hartree_min_sweeps = "%d"  \n'% hartree_min_sweeps
-
         subdiag_driver = st.radio("diagonalizatoin libs",
                 ["auto", "lapack", "scalapack", "magma", 
                  "cusolver", "elpa", "rocsolver"])
         if subdiag_driver == "scalapack":
             blk_size = st.number_input("block dim for scalapack", 64)
             extgra_lines += 'scalapack_block_factor = "%d"  \n'%blk_size
+        kohn_sham_solver=st.radio("kohn_sham_solver", ["davidson", "multigrid"],
+               help="Davidson is prefered for a small system and multigrid for a large system")
 
 
-        relax_mass = st.radio("mass for atoms", ["Atomic", "Equal"], 
-                help="equal mas for fast relax may help in some cases")
-        dos_method = st.radio("density of state calc", 
-              ["tetrahedra", "Gaussian"])
-        if dos_method == "Gaussian":
-            dos_broading = st.number_input("Gaissian broading in eV", 0.1)
-            extgra_lines += 'dos_broading = "%f"  \n'%dos_broading
+        more_ctrl = st.checkbox("check the box for more control options", False)
+        if more_ctrl:
+            if kohn_sham_solver == "davidson":
+                cs, col1,col2,col3 = st.columns([0.1,1,1,1])
+                davidson_multiplier = col1.number_input("davidson_multiplier",0)
+                davidson_max_steps  = col2.number_input("davidson_max_steps", 8)
+                davidson_premg      = col3.number_input("davidson_premg", 4, help = "number of multigrid steps before davidson") 
+                extra_lines += 'davidson_multiplier = "%d"  \n'%davidson_multiplier
+                extra_lines += 'davidson_max_steps  = "%d"  \n'%davidson_max_steps
+                extra_lines += 'davidson_premg      = "%d"  \n'%davidson_premg
+            else:
+                cs, col1,col2,col3= st.columns([0.1,1,1,1])
+                kohn_sham_mg_levels = col1.number_input("kohn_sham_mg_levels", -1, 
+                    help = "negative: code determines by automatically")
+                kohn_sham_pre_smoothing = col2.number_input("kohn_sham_pre_smoothing", 2)
+                kohn_sham_post_smoothing = col3.number_input("kohn_sham_post_smoothing", 2)
+                kohn_sham_mucycles = col1.number_input("kohn_sham_mucycles", 2)
+                kohn_sham_coarse_time_step = col2.number_input("kohn_sham_coarse_time_step", 1.0)
+                kohn_sham_time_step = col3.number_input("kohn_sham_time_step", 0.66)
+                kohn_sham_mg_timestep = col1.number_input("kohn_sham_mg_timestep", 0.66)
 
-        occupations_type = st.radio("occupation type",
-                ["Fermi Dirac", "Fixed", "Cold Smearing", "MethfesselPaxton"])
-        if occupations_type != "Fixed":
-            cs, col1,col2 = st.columns([0.1,1,1])
-            occ_smear = col1.number_input("occupation smear in eV", value =0.1)
-            MP_order = col2.number_input("Order of Methefessel Paxton Occupation", value=2)
+                extra_lines += 'kohn_sham_mg_levels = "%d"  \n'%kohn_sham_mg_levels
+                extra_lines += 'kohn_sham_pre_smoothing = "%d"  \n'%kohn_sham_pre_smoothing
+                extra_lines += 'kohn_sham_post_smoothing = "%d"  \n'%kohn_sham_post_smoothing
+                extra_lines += 'kohn_sham_mucycles = "%d"  \n'%kohn_sham_mucycles
+                extra_lines += 'kohn_sham_coarse_time_step = "%f"  \n'%kohn_sham_coarse_time_step
+                extra_lines += 'kohn_sham_time_step = "%f"  \n'%kohn_sham_time_step
+                extra_lines += 'kohn_sham_mg_timestep = "%f"  \n'%kohn_sham_mg_timestep
+            poisson_solver = st.radio("Poisson Solver",
+                    ["pfft", "multigrid"])
+            if poisson_solver == "multigrid":
+                cs, col1,col2,col3 = st.columns([0.1,1,1,1])
+                poisson_mg_levels = col1.number_input("poisson_mg_levels", -1)
+                poisson_pre_smoothing = col2.number_input(" poisson_pre_smoothing", 2)
+                poisson_post_smoothing = col3.number_input(" poisson_post_smoothing", 1)
+                poisson_mucycles = col1.number_input(" poisson_mucycles", 3)
+                poisson_finest_time_step = col2.number_input(" poisson_finest_time_step", 1.0)
+                poisson_coarse_time_step = col3.number_input(" poisson_coarse_time_step", 0.8)
+                poisson_coarsest_steps = col1.number_input(" poisson_coarsest_steps", 25)
+                hartree_max_sweeps = col2.number_input(" hartree_max_sweeps", 10)
+                hartree_min_sweeps = col3.number_input(" hartree_min_sweeps", 5)
+                extra_lines += 'poisson_mg_levels = "%d"  \n'%poisson_mg_levels
+                extra_lines += 'poisson_pre_smoothing = "%d"  \n'% poisson_pre_smoothing
+                extra_lines += 'poisson_post_smoothing = "%d"  \n'% poisson_post_smoothing
+                extra_lines += 'poisson_mucycles = "%d"  \n'% poisson_mucycles
+                extra_lines += 'poisson_finest_time_step = "%f"  \n'% poisson_finest_time_step
+                extra_lines += 'poisson_coarse_time_step = "%f"  \n'% poisson_coarse_time_step
+                extra_lines += 'poisson_coarsest_steps = "%d"  \n'% poisson_coarsest_steps
+                extra_lines += 'hartree_max_sweeps = "%d"  \n'% hartree_max_sweeps
+                extra_lines += 'hartree_min_sweeps = "%d"  \n'% hartree_min_sweeps
 
 
-        md_tem_ctrl = st.radio("MD temperature control", 
-                ["Nose Hoover Chains","Anderson Rescaling"])
-        md_integration_order = st.radio("MD Integration order",
-                ["2nd Velocity Verlet",
-                 "3rd Beeman-Velocity Verlet",
-                 "5th Beeman-Velocity Verlet"])
-        md_number_of_nose_thermostats = st.number_input("Number of Nosethermostats", 5)
+            relax_mass = st.radio("mass for atoms", ["Atomic", "Equal"], 
+                    help="equal mas for fast relax may help in some cases")
+            dos_method = st.radio("density of state calc", 
+                  ["tetrahedra", "Gaussian"])
+            if dos_method == "Gaussian":
+                dos_broading = st.number_input("Gaissian broading in eV", 0.1)
+                extgra_lines += 'dos_broading = "%f"  \n'%dos_broading
+
+            occupations_type = st.radio("occupation type",
+                    ["Fermi Dirac", "Fixed", "Cold Smearing", "MethfesselPaxton"])
+            if occupations_type != "Fixed":
+                cs, col1,col2 = st.columns([0.1,1,1])
+                occ_smear = col1.number_input("occupation smear in eV", value =0.1)
+                MP_order = col2.number_input("Order of Methefessel Paxton Occupation", value=2)
+
+
+            md_tem_ctrl = st.radio("MD temperature control", 
+                    ["Nose Hoover Chains","Anderson Rescaling"])
+            md_integration_order = st.radio("MD Integration order",
+                    ["2nd Velocity Verlet",
+                     "3rd Beeman-Velocity Verlet",
+                     "5th Beeman-Velocity Verlet"])
+            md_number_of_nose_thermostats = st.number_input("Number of Nosethermostats", 5)
+            ctrl_lines += 'relax_mass          ="' +relax_mass +'"  \n'
+            ctrl_lines += 'dos_method          ="' +dos_method +'"  \n'
+            ctrl_lines += 'occupations_type    ="' +occupations_type +'"  \n'
+            ctrl_lines += 'occupation_electron_temperature_eV="%f"  \n'%occ_smear
+            ctrl_lines += 'MP_order="%d"  \n'%MP_order
+            ctrl_lines += 'poisson_solver      ="' +poisson_solver +'"  \n'
+            ctrl_lines += 'md_temperature_control    ="' +md_tem_ctrl +'"  \n'
+            ctrl_lines += 'md_integration_order="' +md_integration_order +'"  \n'
+            ctrl_lines += 'md_number_of_nose_thermostats ="%d"  \n'%md_number_of_nose_thermostats
+
         ctrl_lines = ""
         ctrl_lines += 'start_mode          ="' +start_mode +'"  \n'
         ctrl_lines += 'calculation_mode    ="' +calculation_mode +'"  \n'
         ctrl_lines += 'kohn_sham_solver    ="' +kohn_sham_solver +'"  \n'
         ctrl_lines += 'subdiag_driver      ="' +subdiag_driver +'"  \n'
-        ctrl_lines += 'relax_mass          ="' +relax_mass +'"  \n'
-        ctrl_lines += 'dos_method          ="' +dos_method +'"  \n'
-        ctrl_lines += 'occupations_type    ="' +occupations_type +'"  \n'
-        ctrl_lines += 'occupation_electron_temperature_eV="%f"  \n'%occ_smear
-        ctrl_lines += 'MP_order="%d"  \n'%MP_order
-        ctrl_lines += 'poisson_solver      ="' +poisson_solver +'"  \n'
-        ctrl_lines += 'md_temperature_control    ="' +md_tem_ctrl +'"  \n'
-        ctrl_lines += 'md_integration_order="' +md_integration_order +'"  \n'
-        ctrl_lines += 'md_number_of_nose_thermostats ="%d"  \n'%md_number_of_nose_thermostats
+        ctrl_lines += '#auto: if cuda available, use cusolver, otherwise use lapack for n<128 and scaplack for large system  \n'
         ctrl_lines += extra_lines
         return ctrl_lines
 
@@ -377,32 +384,37 @@ def add_xc(species):
                   "REVPBE", "PW86PBE", "PBESOL", "PBE0", "HSE", "B3LYP", "gaupbe", 
                   "vdw-df", "VDW-DF", "hartree-fock"], 
                 help = "AUTO_XC: XC will be determined from pseudopotential")
-        cs, col1, col2 = st.columns([0.1,1,1])
-        exx_mode = col1.radio("Exx mode", ["Local fft", "Distributed fft"])
-
-        exxdiv_treatment = col2.radio("Exx divergence treatment", 
-                ["gygi-baldereschi", "none"])
-        x_gamma_extrapolation = col1.checkbox("x_gamma_extrapolation", True)
-        exx_fracton = col2.text_input("the fraction of Exx for hybrid functional", value="-1.0", 
-                help="negative value: the fraction determined by code for different hybrid functionals")
-        vdw_corr = col1.radio("empirical van der Waals correction", 
-                ["None", "DFT-D2", "Grimme-D2","DFT-D3"])
-        vdwdf_grid = col2.radio("grid for vdw corr",
-                ["Coarse", "Fine"])
-        vdwdf_kernel_filepath = col1.text_input("van der Waals Kernel file", "vdW_kernel_table")
         xc_lines  = 'exchange_correlaton_type="'+xc_type +'"  \n'
-        xc_lines += 'exx_mode = "' + exx_mode + '"  \n'
-        xc_lines += 'exxdiv_treatment = "' + exxdiv_treatment +'"  \n'
-        xc_lines += 'x_gamma_extrapolation ="' + str(x_gamma_extrapolation) +'"  \n'
-        xc_lines += 'exx_fracton = "' + exx_fracton +'"  \n'
-        xc_lines += 'vdw_corr            ="' +vdw_corr +'"  \n'
-        xc_lines += 'vdwdf_grid_type     ="' +vdwdf_grid +'"  \n'
-        xc_lines += 'vdwdf_kernel_filepath ="%s"  \n'%vdwdf_kernel_filepath 
+        xc_lines += '#AUTO_XC: XC will be determined from pseudopotential  \n'
+        vdw_corr = st.radio("empirical van der Waals correction", 
+                ["None", "DFT-D2", "Grimme-D2","DFT-D3"])
+        cs, col1, col2 = st.columns([0.1,1,1])
+        if xc_type in ["PBESOL", "PBE0", "HSE", "B3LYP", "gaupbe"]:
+            exx_mode = col1.radio("Exx mode", ["Local fft", "Distributed fft"])
 
+            exxdiv_treatment = col2.radio("Exx divergence treatment", 
+                    ["gygi-baldereschi", "none"])
+            x_gamma_extrapolation = col1.checkbox("x_gamma_extrapolation", True)
+            exx_fracton = col2.text_input("the fraction of Exx for hybrid functional", value="-1.0", 
+                help="negative value: the fraction determined by code for different hybrid functionals")
+            xc_lines += 'exx_mode = "' + exx_mode + '"  \n'
+            xc_lines += 'exxdiv_treatment = "' + exxdiv_treatment +'"  \n'
+            xc_lines += 'x_gamma_extrapolation ="' + str(x_gamma_extrapolation) +'"  \n'
+            xc_lines += 'exx_fracton = "' + exx_fracton +'"  \n'
+        if xc_type in ["vdw-df", "VDW-DF"]:
+            vdwdf_grid = col2.radio("grid for vdw corr",
+                    ["Coarse", "Fine"])
+            vdwdf_kernel_filepath = col1.text_input("van der Waals Kernel file", "vdW_kernel_table")
+
+            xc_lines += 'vdwdf_grid_type     ="' +vdwdf_grid +'"  \n'
+            xc_lines += 'vdwdf_kernel_filepath ="%s"  \n'%vdwdf_kernel_filepath 
+
+        if vdw_corr != "None":
+            xc_lines += 'vdw_corr            ="' +vdw_corr +'"  \n'
 
         ldaU_mode = st.radio("LDA+U type",["None","Simple"])
-        xc_lines += 'ldaU_mode = "%s"  \n'%ldaU_mode
         if(ldaU_mode == "Simple"):
+            xc_lines += 'ldaU_mode = "%s"  \n'%ldaU_mode
             cs, col1, col2 = st.columns([0.1,1,1])
             Hubbard_U = col1.text_area("HUbbard U for species", "", 
                 help= "Ni 6.5 3d 0.0 0.0 0.0 for each specie ")

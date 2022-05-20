@@ -11,7 +11,7 @@ st.markdown("without any options change, the default calculation will be gamma p
 st.write('<style>div.row-widget.stRadio > div{flex-direction:row;justify-content: left}<style>',
         unsafe_allow_html=True)
 
-uploaded_file = st.file_uploader("Uploda a file with cif, xyz or vasp format")
+uploaded_file = st.file_uploader("Uploda a file in CIF, XYZ, or VASP(v5+) POSCAR format")
 col1, col2 = st.columns(2)
 example_ =  col1.checkbox("use an example ", False)
 cif_or_xyz = "None"
@@ -31,6 +31,8 @@ if uploaded_file:
     if len(name_split) >1: filext = name_split[len(name_split)-1]
     if filext in filetype_supported: 
         filetype = filext
+    elif "POSCAR" in uploaded_file.name:
+        filetype = "vasp"
     else:
         filetype = st.radio("choose your filetype", ["None", "cif", "xyz", "vasp", "more is coming"])
 elif cif_or_xyz == "cif":
@@ -49,7 +51,17 @@ if not (filetype in filetype_supported):
     st.markdown(filetype +  " filetype not programed")
 else:
   st.markdown("File used: "+filename)
-  description = st.text_input("description", value="description of the input file")
+
+  desc_text = ""
+  if filetype == "vasp":
+      with open(filename, "r") as f:
+          desc_text = f.readline()
+  elif uploaded_file:
+      desc_text = uploaded_file.name
+  else:
+      desc_text = filename;
+
+  description = st.text_input("description", value=desc_text)
   rmginput_str = 'description="'+description+'"  \n'
 
   st.subheader("BASIC OPTIONS")
@@ -57,17 +69,28 @@ else:
   grid_lines = add_grid(crmg.cell)
   pseudo_lines = add_pseudo(crmg.species)
   kpoint_lines = add_kpoints(crmg.cell)
-  spin_lines, mag = add_spin(crmg.species, crmg.atoms)
   ctrl_lines = add_control()
-  st.subheader("COMMONLY USED OPTIONS")
-  scf_lines = add_scf()
-  mixing_lines = add_mixing()
   xc_lines = add_xc(crmg.species)
-  qmcpack_lines = add_qmcpack()
-  IO_lines = add_IOctrl()
+  spin_lines, mag = add_spin(crmg.species, crmg.atoms)
+  st.subheader("COMMONLY USED OPTIONS")
+  scf_lines=""
+  mixing_lines = ""
+  qmcpack_lines = ""
+  IO_lines=""
+  opts_more = st.checkbox("check the box for more options", False)
+  if opts_more:
+      scf_lines = add_scf()
+      mixing_lines = add_mixing()
+      qmcpack_lines = add_qmcpack()
+      IO_lines = add_IOctrl()
 
-  st.subheader("PERFORMANCE TUNING OPTIONS")
-  misc_lines = add_misc()
+  misc_lines = ""
+
+  st.subheader("ADVANCED OPTIONS")
+  misc_more = st.checkbox("check the box for other options", False)
+   
+  if misc_more:
+    misc_lines = add_misc()
 
       
   rmginput_str += grid_lines
