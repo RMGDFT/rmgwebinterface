@@ -94,13 +94,13 @@ else:
 
       
   rmginput_str += grid_lines
-  rmginput_str += scf_lines
-  rmginput_str += mixing_lines
-  rmginput_str += xc_lines
-  rmginput_str += qmcpack_lines
   rmginput_str += ctrl_lines
   rmginput_str += kpoint_lines
   rmginput_str += pseudo_lines
+  rmginput_str += xc_lines
+  rmginput_str += scf_lines
+  rmginput_str += mixing_lines
+  rmginput_str += qmcpack_lines
   rmginput_str += IO_lines
   rmginput_str += spin_lines
   rmginput_str += misc_lines

@@ -1,27 +1,49 @@
 
 import streamlit as st
+from internal_pp_list import *
 def add_pseudo(species):  
     expand_ = st.expander("PSEUDOPOTENTIAL")
     with expand_:
         st.subheader('Pseudopotentials')
         cstart, col1 = st.columns([0.1,1])
         pseudo_dict={}
-        with col1:
-            pp_oncv = st.checkbox("ONCV: build-in normal conserving Haman pseudopotentials", True)
-            pp_gbrv = st.checkbox("GBRV: build-in ultra-soft pseudopotentials", False) 
-              
-            pseudolines = ""  
-            if pp_oncv:
-                pseudolines = 'internal_pseudo_type = "nc_accuracy"  \n'
-            if pp_gbrv:
-                pseudolines = 'internal_pseudo_type = "ultrasoft"  \n'
-            select_pp = st.checkbox("select pseudopotentials files by yourself", False)
+        internal_pp = True 
+        pp_type = st.radio("Select pseudopotentials", ["ONCV", "GBRV", "SelectFiles"], 
+            help = """
+            ONCV: build-in normal conserving Haman pseudopotentials
+            GBRV: build-in ultra-soft pseudopotentials
+            SelectFiles: need to be in upf2 or xml format""")
+        pseudolines = ""  
+        if pp_type == "ONCV":
+            for sp in species:
+                if sp.lower() not in species_list_ncpp:
+                    internal_pp = False
+                    st.markdown("no internal ONCV pseudopotential available for specie " + sp )
+                    st.markdown("select pseudopotentials by yourself ")
+                    break;
+
+            pseudolines = '#******* Pseudopotentials *******   \n'
+            pseudolines += 'internal_pseudo_type = "nc_accuracy"  \n'
+            pseudolines += '#use Optimized Norm-Conserving Vanderbilt (ONCV) pseudopotenitals  \n'
+            pseudolines += '#those pseudopotentials are built in with RMG  \n'
+        if pp_type == "GBRV":
+            for sp in species:
+                if sp.lower() not in species_list_uspp:
+                    internal_pp = False
+                    st.markdown("no internal GBRV pseudopotential available for specie " + sp )
+                    st.markdown("select pseudopotentials by yourself ")
+                    break;
+            pseudolines = '#******* Pseudopotentials *******   \n'
+            pseudolines += 'internal_pseudo_type = "ultrasoft"  \n'
+            pseudolines += '#use Vanderbilt ultrasoft (GBRV) pseudopotenitals  \n'
+            pseudolines += '#those pseudopotentials are built in with RMG   \n'
 
         cstart, col1 = st.columns([0.2,1])
         with col1:
-            if select_pp:
+            if pp_type == "SelectFiles" or not internal_pp:
                pseudo_dir = st.text_input("pseudopotential file directory", value="./", on_change=None)
-               pseudolines = 'pseudo_dir = "' + pseudo_dir + '"  \n'
+               pseudolines = '#******* Pseudopotentials *******   \n'
+               pseudolines += 'pseudo_dir = "' + pseudo_dir + '"  \n'
                pseudolines += 'pseudopotential = "  \n' 
                for sp in species:
                    pseudo_dict[sp] = st.text_input(sp+":", value=sp+".UPF", on_change=None)
@@ -51,6 +73,7 @@ def add_pseudo(species):
             pseudolines += 'max_qradius ="%f"  \n'%max_qradius
             pseudolines += 'min_qradius ="%f"  \n'%min_qradius
 
+    pseudolines += '  \n'
     return pseudolines    
 def add_kpoint_mesh(cell):
     cs, col1, col2, col3 = st.columns([0.2,1,1,1])
@@ -70,11 +93,11 @@ def add_kpoint_mesh(cell):
     with col3:
         kshift_str = st.text_input("kpoint shift", value="0 0 0", help="0 0 0 including Gamma point")
     kpointlines = 'kpoint_mesh="' + kmesh_str +'"  \n'    
-    kpointlines += 'kpoint_shift="' + kshift_str +'"  \n'    
+    kpointlines += 'kpoint_shift="' + kshift_str +'"   \n'    
     with col2:
         kdist = st.text_input("kpoints distribution", value="1", 
                 help =" control the parallel over kpoints")
-    kpointlines +='kpoint_distribution = "' + kdist +'"  \n'    
+    kpointlines +='kpoint_distribution = "' + kdist +'"   \n'    
     return kpointlines
 
           
@@ -117,18 +140,22 @@ def add_kbandstr_lines():
 
 def add_kpoints(cell):
     expand_ = st.expander("K POINTS")
+    kpointlines = '#********* K POINT SETUP *********  \n'   
     with expand_:
         kp_method = st.radio("use gamma point, a mesh or a list", ["gamma", "use mesh", "use list"])
-        kp_bandstr = st.radio("kpoints for band structure", ["None", "use special lines", "use list"])
         if kp_method == "gamma":
-            kpointlines = 'kpoint_mesh = "1 1 1"  \n'
+            kpointlines += 'kpoint_mesh = "1 1 1"  \n'
             kpointlines += 'kpoint_shift = "0 0 0"  \n'
         elif kp_method == "use mesh":
-            kpointlines = add_kpoint_mesh(cell)
-        if kp_method == "use list" or kp_bandstr == "use list":
-            kpointlines = add_kpoint_text()
+            kpointlines += add_kpoint_mesh(cell)
+        if kp_method == "use list":
+            kpointlines += add_kpoint_text()
+        kp_bandstr = st.radio("kpoints for band structure", ["None", "use special lines", "use list"])
+        if kp_method != "use list" and kp_bandstr == "use list":
+            kpointlines += add_kpoint_text()
         if kp_bandstr == "use special lines":    
             kpointlines += add_kbandstr_lines()
+    kpointlines += '  \n'
     return kpointlines
 def add_control():
     expand_ = st.expander("CONTROL OPTIONS")
@@ -269,13 +296,14 @@ def add_control():
             ctrl_lines += 'md_integration_order="' +md_integration_order +'"  \n'
             ctrl_lines += 'md_number_of_nose_thermostats ="%d"  \n'%md_number_of_nose_thermostats
 
-        ctrl_lines = ""
+        ctrl_lines = "#******* CONTROL OPTIONS *******  \n"
         ctrl_lines += 'start_mode          ="' +start_mode +'"  \n'
         ctrl_lines += 'calculation_mode    ="' +calculation_mode +'"  \n'
         ctrl_lines += 'kohn_sham_solver    ="' +kohn_sham_solver +'"  \n'
         ctrl_lines += 'subdiag_driver      ="' +subdiag_driver +'"  \n'
         ctrl_lines += '#auto: if cuda available, use cusolver, otherwise use lapack for n<128 and scaplack for large system  \n'
         ctrl_lines += extra_lines
+        ctrl_lines += '  \n'
         return ctrl_lines
 
 def add_grid(cell):
@@ -317,9 +345,10 @@ def add_grid(cell):
         if(anisotropy >=1.1):
             st.markdown('<p style="color:red;">WARNGING: too big grid anisotropy, need to be <1.1 rmg wont run</p>', unsafe_allow_html=True)
         pot_grid= col3.number_input("rho pot grid refinement", value=2)
-
-        grid_lines = 'wavefunction_grid="'+grids_str+'"  \n'
+        grid_lines ='#******** REAL SPACE GRID ********   \n'
+        grid_lines += 'wavefunction_grid="'+grids_str+'"  \n'
         grid_lines += 'potential_grid_refinement="%d"  \n'%pot_grid
+        grid_lines += '  \n'
 
     return grid_lines
 def add_scf():
@@ -378,13 +407,14 @@ def add_mixing():
 
 def add_xc(species):
     expand_ = st.expander("EXCHANGE CORRELATION POTENTIAL")
+    xc_lines = '#*****Exchange Correlation ******  \n'
     with expand_:
         xc_type = st.radio("exchange correlation type", 
                 ["AUTO_XC", "LDA", "GGA XB CP", "PW91", "GGA BLYP", "GGA PBE",
                   "REVPBE", "PW86PBE", "PBESOL", "PBE0", "HSE", "B3LYP", "gaupbe", 
                   "vdw-df", "VDW-DF", "hartree-fock"], 
                 help = "AUTO_XC: XC will be determined from pseudopotential")
-        xc_lines  = 'exchange_correlaton_type="'+xc_type +'"  \n'
+        xc_lines += 'exchange_correlaton_type="'+xc_type +'"  \n'
         xc_lines += '#AUTO_XC: XC will be determined from pseudopotential  \n'
         vdw_corr = st.radio("empirical van der Waals correction", 
                 ["None", "DFT-D2", "Grimme-D2","DFT-D3"])
@@ -435,6 +465,7 @@ def add_xc(species):
                 xc_lines += 'ldau_pulay_scale = "%f"  \n'% ldau_pulay_scale
                 xc_lines += 'ldau_pulay_refresh = "%d"  \n'%ldau_pulay_refresh
 
+    xc_lines += '  \n'
     return xc_lines
 
 def add_qmcpack():
