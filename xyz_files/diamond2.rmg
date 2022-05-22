@@ -1,0 +1,41 @@
+description="diamond2.xyz"  
+#******** REAL SPACE GRID ********   
+wavefunction_grid="16 16 16"  
+potential_grid_refinement="2"  
+  
+#******* CONTROL OPTIONS *******  
+start_mode          ="LCAO Start"  
+calculation_mode    ="Quench Electrons  "  
+kohn_sham_solver    ="davidson"  
+subdiag_driver      ="auto"  
+#auto: if cuda available, use cusolver, otherwise use lapack for n<128 and scaplack for large system  
+  
+#********* K POINT SETUP *********  
+kpoint_mesh="5  5  5  "  
+kpoint_shift="0 0 0"   
+kpoint_distribution = "1"   
+  
+#******* Pseudopotentials *******   
+internal_pseudo_type = "nc_accuracy"  
+#use Optimized Norm-Conserving Vanderbilt (ONCV) pseudopotenitals  
+#those pseudopotentials are built in with RMG  
+write_pseudopotential_plots ="False"  
+  
+#*****Exchange Correlation ******  
+exchange_correlaton_type="AUTO_XC"  
+#AUTO_XC: XC will be determined from pseudopotential  
+  
+#****  LATTICE and ATOMS  ****   
+bravais_lattice_type="None"  
+crds_units = "Angstrom"  
+lattice_units = "Angstrom"  
+lattice_vector="  
+ 1.783500000000e+00  1.783500000000e+00  0.000000000000e+00   
+ 0.000000000000e+00  1.783500000000e+00  1.783500000000e+00   
+ 1.783500000000e+00  0.000000000000e+00  1.783500000000e+00   
+"  
+atomic_coordinate_type = "Absolute"  
+atoms="  
+C  0.000000000000e+00 0.000000000000e+00 0.000000000000e+00  1 1 1   0.00   0.00   0.00  
+C  8.917500000000e-01 8.917500000000e-01 8.917500000000e-01  1 1 1   0.00   0.00   0.00  
+"  
