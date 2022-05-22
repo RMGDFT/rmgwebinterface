@@ -202,7 +202,7 @@ class rmg_interface():
         #print(self.atoms)
 
     def cell2rmg(self, mag):
-        filestring = ""
+        filestring = "#****  LATTICE and ATOMS  ****   \n"
         #
         # some default input options
         brav_type = {
