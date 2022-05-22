@@ -275,7 +275,7 @@ def add_control():
                     ["Fermi Dirac", "Fixed", "Cold Smearing", "MethfesselPaxton"])
             if occupations_type != "Fixed":
                 cs, col1,col2 = st.columns([0.1,1,1])
-                occ_smear = col1.number_input("occupation smear in eV", value =0.1)
+                occ_smear = col1.number_input("occupation smear in eV", value =0.04)
                 MP_order = col2.number_input("Order of Methefessel Paxton Occupation", value=2)
 
 
@@ -310,7 +310,7 @@ def add_grid(cell):
     expand_ = st.expander("REAL SPACE GRID")
     with expand_:
         cs, col1, col2, col3 = st.columns([0.1,1,2,1])
-        grid_spacing = col1.number_input("grid spacing(bohr)", value=0.35,
+        grid_spacing = col1.number_input("grid spacing(bohr)", value=0.38,
                     help ="use grid spacing to determine the real space grid")
         if cell.unit == "angstrom" :
             grid_spacing = grid_spacing * 0.529177

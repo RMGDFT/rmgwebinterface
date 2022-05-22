@@ -1,172 +1,30 @@
-description="description of the input file"  
-wavefunction_grid="56 56 56"  
+description="xyz_files/C60.xyz"  
+#******** REAL SPACE GRID ********   
+wavefunction_grid="48 48 48"  
 potential_grid_refinement="2"  
-max_scf_steps = "40"  
-max_md_steps = "10"  
-max_exx_steps = "10"  
-energy_convergence_criterion="1.0e-9"  
-rms_convergence_criterion = "1.0e-7"  
-preconditioner_threshold = "0.0001"  
-exx_convergence_criterion = "1.0e-9"  
-vexx_fft_threshold = "1.0e-14"  
-charge_mixing_type = "Broyden"  
-charge_density_mixing ="0.5"  
-charge_broyden_order = "5"  
-charge_broyden_scale = "0.5"  
-charge_broyden_refresh = "100"  
-exchange_correlaton_type="AUTO_XC"  
-exx_mode = "Local fft"  
-exxdiv_treatment = "gygi-baldereschi"  
-x_gamma_extrapolation ="True"  
-exx_fracton = "-1.0"  
-vdw_corr            ="None"  
-vdwdf_grid_type     ="Coarse"  
-vdwdf_kernel_filepath ="vdW_kernel_table"  
-ldaU_mode = "None"  
-write_qmcpack_restart = "False"  
+  
+#******* CONTROL OPTIONS *******  
 start_mode          ="LCAO Start"  
 calculation_mode    ="Quench Electrons  "  
 kohn_sham_solver    ="davidson"  
 subdiag_driver      ="auto"  
-relax_mass          ="Atomic"  
-dos_method          ="tetrahedra"  
-occupations_type    ="Fermi Dirac"  
-occupation_electron_temperature_eV="0.100000"  
-MP_order="2"  
-poisson_solver      ="pfft"  
-md_temperature_control    ="Nose Hoover Chains"  
-md_integration_order="2nd Velocity Verlet"  
-md_number_of_nose_thermostats ="5"  
-davidson_multiplier = "0"  
-davidson_max_steps  = "8"  
-davidson_premg      = "4"  
+#auto: if cuda available, use cusolver, otherwise use lapack for n<128 and scaplack for large system  
+  
+#********* K POINT SETUP *********  
 kpoint_mesh = "1 1 1"  
 kpoint_shift = "0 0 0"  
+  
+#******* Pseudopotentials *******   
 internal_pseudo_type = "nc_accuracy"  
-localize_localpp ="True"  
-localize_projectors ="True"  
-max_nlradius ="100.000000"  
-min_nlradius ="2.000000"  
-max_qradius ="100.000000"  
-min_qradius ="2.000000"  
+#use Optimized Norm-Conserving Vanderbilt (ONCV) pseudopotenitals  
+#those pseudopotentials are built in with RMG  
 write_pseudopotential_plots ="False"  
-verbose = "False"  
-input_wave_function_file = "Waves/wave.out"  
-output_wave_function_file = "Waves/wave.out"  
-write_serial_restart = "False"  
-read_serial_restart = "False"  
-compressed_infile = "True"  
-compressed_outfile = "True"  
-input_tddft_file = "Waves/wave_tddft.out"  
-output_tddft_file = "Waves/wave_tddft.out"  
-nvme_weights = "False"  
-nvme_work = "False"  
-nvme_orbitals = "False"  
-nvme_qfunctons = "False"  
-nvme_weights_filepath = "Weights/"  
-nvme_work_filepath = "Work/"  
-nvme_orbitals_filepath = "Orbitals/"  
-qfunction_filepath = "Qfunctions/"  
-cube_rho = "True"  
-output_rho_xsf = "False"  
-cube_vh = "False"  
-cube_pot = "False"  
-write_data_period = "5"  
-write_eigvals_period = "5"  
-dftd3_version = "3"  
-charge_analysis_period = "0"  
-omp_threads_per_node = "0"  
-fd_allocation_limit = "65536"  
-rmg_threads_per_node = "0"  
-unoccupied_states_per_kpoint = "10"  
-state_block_size = "64"  
-extra_random_lcao_states = "0"  
-kohn_sham_fd_order = "8"  
-force_grad_order = "8"  
-non_local_block_size = "512"  
-dynamic_time_delay = "5"  
-dynamic_time_counter = "0"  
-scf_steps_offset = "0"  
-total_scf_steps_offset = "0"  
-md_steps_offset = "0"  
-coalesce_factor = "4"  
-folded_spectrum_iterations = "2"  
-vxc_diag_nmin = "1"  
-vxc_diag_nmax = "1"  
-num_wanniers = "0"  
-wannier90_scdm = "0"  
-md_temperature = "300.000000"  
-md_nose_oscillation_frequency_THz = "15.590000"  
-filter_factor = "0.250000"  
-potential_acceleration_constant_step = "0.000000"  
-ionic_time_step = "50.000000"  
-ionic_time_step_increase = "1.100000"  
-ionic_time_step_decrease = "0.500000"  
-max_ionic_time_step = "150.000000"  
-system_charge = "0.000000"  
-unoccupied_tol_factor = "1000.000000"  
-projector_expansion_factor = "1.000000"  
-folded_spectrum_width = "0.300000"  
-ecutrho = "0.000000"  
-ecutwfc = "0.000000"  
-test_energy = "0.000000"  
-test_energy_tolerance = "0.000000"  
-test_bond_length = "0.000000"  
-test_bond_length_tolerance = "0.001000"  
-relax_max_force = "0.002500"  
-stress_convergence_criterion = "0.500000"  
-gw_residual_convergence_criterion = "0.000001"  
-gw_residual_fraction = "0.900000"  
-hartree_rms_ratio = "100000.000000"  
-electric_field_magnitude = "0.000000"  
-wannier90_scdm_mu = "0.000000"  
-wannier90_scdm_sigma = "1.000000"  
-stress = "False"  
-cell_relax = "False"  
-dipole_moment = "False"  
-use_gpu_fd = "False"  
-laplacian_offdiag = "False"  
-laplacian_autocoeff = "False"  
-use_cpdgemr2d = "True"  
-use_symmetry = "True"  
-frac_symmetry = "True"  
-rmg2bgw = "False"  
-pin_nonlocal_weights = "False"  
-use_cublasxt = "False"  
-use_bessel_projectors = "False"  
-write_orbital_overlaps = "False"  
-kohn_sham_ke_fft = "False"  
-fast_density = "True"  
-lcao_use_empty_orbitals = "False"  
-write_qmcpack_restart_localized = "False"  
-alt_laplacian = "True"  
-use_alt_zgemm = "False"  
-filter_dpot = "False"  
-sqrt_interpolation = "False"  
-renormalize_forces = "True"  
-coalesce_states = "False"  
-equal_initial_density = "False"  
-write_pdos = "False"  
-folded_spectrum = "False"  
-use_numa = "True"  
-use_hwloc = "False"  
-use_async_allreduce = "True"  
-mpi_queue_mode = "True"  
-spin_manager_thread = "True"  
-spin_worker_threads = "True"  
-require_huge_pages = "False"  
-relax_dynamic_timestep = "False"  
-freeze_occupied = "False"  
-md_randomize_velocity = "True"  
-time_reversal = "True"  
-wannier90 = "False"  
-processor_grid = "1 1 1"  
-dipole_correction = "0  0  0"  
-cell_movable = "0 0 0 0 0 0 0 0 0"  
-atomic_orbital_type = "delocalized"  
-electric_field_vector = "0  0  1"  
-energy_output_units = "Hartrees"  
-interpolation_type = "FFT"  
+  
+#*****Exchange Correlation ******  
+exchange_correlaton_type="AUTO_XC"  
+#AUTO_XC: XC will be determined from pseudopotential  
+  
+#****  LATTICE and ATOMS  ****   
 bravais_lattice_type="None"  
 crds_units = "Angstrom"  
 lattice_units = "Angstrom"  
@@ -177,64 +35,64 @@ lattice_vector="
 "  
 atomic_coordinate_type = "Absolute"  
 atoms="  
-C  8.111916217520e+00 6.858136651970e+00 6.387168934360e-01  1 1 1   0.00   0.00   0.00  
-C  9.279810321750e+00 6.858136651970e+00 9.411787118130e+00  1 1 1   0.00   0.00   0.00  
-C  7.266291034660e+00 8.029311654910e+00 6.482950009510e-01  1 1 1   0.00   0.00   0.00  
-C  7.624544006370e+00 9.149103550680e+00 9.432636700230e+00  1 1 1   0.00   0.00   0.00  
-C  5.889319014440e+00 7.581098557360e+00 6.629002919690e-01  1 1 1   0.00   0.00   0.00  
-C  4.924258535100e+00 8.275167387050e+00 9.465974864510e+00  1 1 1   0.00   0.00   0.00  
-C  5.889319014440e+00 6.135227664290e+00 6.629002919690e-01  1 1 1   0.00   0.00   0.00  
-C  4.924258535100e+00 5.441158834610e+00 9.465974864510e+00  1 1 1   0.00   0.00   0.00  
-C  7.266291034660e+00 5.687014566750e+00 6.482950009510e-01  1 1 1   0.00   0.00   0.00  
-C  7.624544006370e+00 4.567222670970e+00 9.432636700230e+00  1 1 1   0.00   0.00   0.00  
-C  1.262616824970e-01 8.024231553690e+00 8.646067694100e+00  1 1 1   0.00   0.00   0.00  
-C  8.846308350660e+00 9.150532329150e+00 8.658767947160e+00  1 1 1   0.00   0.00   0.00  
-C  1.262616824970e-01 5.692094667970e+00 8.646067694100e+00  1 1 1   0.00   0.00   0.00  
-C  8.846255432940e+00 4.565793892500e+00 8.658767947160e+00  1 1 1   0.00   0.00   0.00  
-C  7.218506332520e-01 7.577817658660e+00 7.406470077800e+00  1 1 1   0.00   0.00   0.00  
-C  5.038825401240e-01 8.272891925040e+00 6.225875720500e+00  1 1 1   0.00   0.00   0.00  
-C  7.218506332520e-01 6.138455645280e+00 7.406470077800e+00  1 1 1   0.00   0.00   0.00  
-C  5.038825401240e-01 5.443381378890e+00 6.225875720500e+00  1 1 1   0.00   0.00   0.00  
-C  6.622176533670e+00 3.385675794700e-01 8.680411295080e+00  1 1 1   0.00   0.00   0.00  
-C  5.299074753510e+00 9.442373560910e+00 8.699144168340e+00  1 1 1   0.00   0.00   0.00  
-C  8.602410574210e+00 3.390967566810e-01 7.427266742180e+00  1 1 1   0.00   0.00   0.00  
-C  9.185616778230e+00 9.442902738120e+00 6.237358865980e+00  1 1 1   0.00   0.00   0.00  
-C  7.226867332450e+00 7.849814745010e-01 7.445417520510e+00  1 1 1   0.00   0.00   0.00  
-C  6.489247218320e+00 7.850873099430e-01 6.270749947980e+00  1 1 1   0.00   0.00   0.00  
-C  3.921308967470e+00 7.552840494310e+00 8.718247465650e+00  1 1 1   0.00   0.00   0.00  
-C  3.921308967470e+00 6.163432809630e+00 8.718247465650e+00  1 1 1   0.00   0.00   0.00  
-C  4.530497772540e+00 9.442955655840e+00 7.478808602520e+00  1 1 1   0.00   0.00   0.00  
-C  5.113651058840e+00 3.392555098440e-01 6.288900726310e+00  1 1 1   0.00   0.00   0.00  
-C  3.687148051690e+00 8.272891925040e+00 7.490344665710e+00  1 1 1   0.00   0.00   0.00  
-C  3.469179958560e+00 7.577817658660e+00 6.309750308420e+00  1 1 1   0.00   0.00   0.00  
-C  5.299074753510e+00 4.273899743030e+00 8.699144168340e+00  1 1 1   0.00   0.00   0.00  
-C  6.622176533670e+00 3.852515930070e+00 8.680411295080e+00  1 1 1   0.00   0.00   0.00  
-C  3.687148051690e+00 5.443381378890e+00 7.490344665710e+00  1 1 1   0.00   0.00   0.00  
-C  3.469179958560e+00 6.138455645280e+00 6.309750308420e+00  1 1 1   0.00   0.00   0.00  
-C  4.530497772540e+00 4.273317648090e+00 7.478808602520e+00  1 1 1   0.00   0.00   0.00  
-C  5.113703976570e+00 3.851880917410e+00 6.288953644030e+00  1 1 1   0.00   0.00   0.00  
-C  7.226867332450e+00 3.406154952760e+00 7.445417520510e+00  1 1 1   0.00   0.00   0.00  
-C  6.489247218320e+00 3.405996199590e+00 6.270749947980e+00  1 1 1   0.00   0.00   0.00  
-C  8.602410574210e+00 3.852039670580e+00 7.427266742180e+00  1 1 1   0.00   0.00   0.00  
-C  9.185616778230e+00 4.273370565820e+00 6.237358865980e+00  1 1 1   0.00   0.00   0.00  
-C  8.417092714980e+00 9.442373560910e+00 5.017023300150e+00  1 1 1   0.00   0.00   0.00  
-C  7.093990934820e+00 3.385675794700e-01 5.035809091140e+00  1 1 1   0.00   0.00   0.00  
-C  2.697216243450e-01 7.552840494310e+00 4.997920002840e+00  1 1 1   0.00   0.00   0.00  
-C  2.697216243450e-01 6.163432809630e+00 4.997920002840e+00  1 1 1   0.00   0.00   0.00  
-C  8.791961851120e+00 8.275167387050e+00 4.250192603980e+00  1 1 1   0.00   0.00   0.00  
-C  7.826901371780e+00 7.581098557360e+00 3.528130299850e+00  1 1 1   0.00   0.00   0.00  
-C  4.869859117830e+00 9.150585246870e+00 5.057452439060e+00  1 1 1   0.00   0.00   0.00  
-C  4.064768909320e+00 8.024231553690e+00 5.070152692120e+00  1 1 1   0.00   0.00   0.00  
-C  6.091623462120e+00 9.149050632960e+00 4.283583685980e+00  1 1 1   0.00   0.00   0.00  
-C  6.449876433840e+00 8.029311654910e+00 3.542735590860e+00  1 1 1   0.00   0.00   0.00  
-C  4.064768909320e+00 5.692041750250e+00 5.070152692120e+00  1 1 1   0.00   0.00   0.00  
-C  4.869859117830e+00 4.565688057060e+00 5.057452439060e+00  1 1 1   0.00   0.00   0.00  
-C  4.436410064460e+00 6.858136651970e+00 4.304486185810e+00  1 1 1   0.00   0.00   0.00  
-C  5.604304168700e+00 6.858136651970e+00 3.552313698380e+00  1 1 1   0.00   0.00   0.00  
-C  7.093990934820e+00 3.852515930070e+00 5.035809091140e+00  1 1 1   0.00   0.00   0.00  
-C  8.417092714980e+00 4.273899743030e+00 5.017023300150e+00  1 1 1   0.00   0.00   0.00  
-C  6.091623462120e+00 4.567222670970e+00 4.283583685980e+00  1 1 1   0.00   0.00   0.00  
-C  6.449876433840e+00 5.686961649030e+00 3.542735590860e+00  1 1 1   0.00   0.00   0.00  
-C  8.791961851120e+00 5.441158834610e+00 4.250192603980e+00  1 1 1   0.00   0.00   0.00  
-C  7.826901371780e+00 6.135227664290e+00 3.528130299850e+00  1 1 1   0.00   0.00   0.00  
+C  6.524384585120e+00 5.270605019570e+00 8.576375055440e+00  1 1 1   0.00   0.00   0.00  
+C  7.692278689350e+00 5.270605019570e+00 7.824255485730e+00  1 1 1   0.00   0.00   0.00  
+C  5.678759402260e+00 6.441780022510e+00 8.585953162950e+00  1 1 1   0.00   0.00   0.00  
+C  6.037012373970e+00 7.561571918280e+00 7.845105067830e+00  1 1 1   0.00   0.00   0.00  
+C  4.301787382040e+00 5.993566924960e+00 8.600558453970e+00  1 1 1   0.00   0.00   0.00  
+C  3.336726902700e+00 6.687635754650e+00 7.878443232110e+00  1 1 1   0.00   0.00   0.00  
+C  4.301787382040e+00 4.547696031890e+00 8.600558453970e+00  1 1 1   0.00   0.00   0.00  
+C  3.336726902700e+00 3.853627202210e+00 7.878443232110e+00  1 1 1   0.00   0.00   0.00  
+C  5.678759402260e+00 4.099482934350e+00 8.585953162950e+00  1 1 1   0.00   0.00   0.00  
+C  6.037012373970e+00 2.979691038570e+00 7.845105067830e+00  1 1 1   0.00   0.00   0.00  
+C  8.063919844500e+00 6.436699921290e+00 7.058536061700e+00  1 1 1   0.00   0.00   0.00  
+C  7.258776718260e+00 7.563000696750e+00 7.071236314760e+00  1 1 1   0.00   0.00   0.00  
+C  8.063919844500e+00 4.104563035570e+00 7.058536061700e+00  1 1 1   0.00   0.00   0.00  
+C  7.258723800540e+00 2.978262260100e+00 7.071236314760e+00  1 1 1   0.00   0.00   0.00  
+C  8.659508795250e+00 5.990286026260e+00 5.818938445400e+00  1 1 1   0.00   0.00   0.00  
+C  8.441540702120e+00 6.685360292640e+00 4.638344088100e+00  1 1 1   0.00   0.00   0.00  
+C  8.659508795250e+00 4.550924012880e+00 5.818938445400e+00  1 1 1   0.00   0.00   0.00  
+C  8.441540702120e+00 3.855849746490e+00 4.638344088100e+00  1 1 1   0.00   0.00   0.00  
+C  5.034644901270e+00 8.276225741470e+00 7.092879662680e+00  1 1 1   0.00   0.00   0.00  
+C  3.711543121110e+00 7.854841928510e+00 7.111612535940e+00  1 1 1   0.00   0.00   0.00  
+C  7.014878941810e+00 8.276754918680e+00 5.839735109780e+00  1 1 1   0.00   0.00   0.00  
+C  7.598085145830e+00 7.855371105720e+00 4.649827233580e+00  1 1 1   0.00   0.00   0.00  
+C  5.639335700050e+00 8.722639636500e+00 5.857885888110e+00  1 1 1   0.00   0.00   0.00  
+C  4.901715585920e+00 8.722745471940e+00 4.683218315580e+00  1 1 1   0.00   0.00   0.00  
+C  2.333777335070e+00 5.965308861910e+00 7.130715833250e+00  1 1 1   0.00   0.00   0.00  
+C  2.333777335070e+00 4.575901177230e+00 7.130715833250e+00  1 1 1   0.00   0.00   0.00  
+C  2.942966140140e+00 7.855424023440e+00 5.891276970120e+00  1 1 1   0.00   0.00   0.00  
+C  3.526119426440e+00 8.276913671840e+00 4.701369093910e+00  1 1 1   0.00   0.00   0.00  
+C  2.099616419290e+00 6.685360292640e+00 5.902813033310e+00  1 1 1   0.00   0.00   0.00  
+C  1.881648326160e+00 5.990286026260e+00 4.722218676020e+00  1 1 1   0.00   0.00   0.00  
+C  3.711543121110e+00 2.686368110630e+00 7.111612535940e+00  1 1 1   0.00   0.00   0.00  
+C  5.034644901270e+00 2.264984297670e+00 7.092879662680e+00  1 1 1   0.00   0.00   0.00  
+C  2.099616419290e+00 3.855849746490e+00 5.902813033310e+00  1 1 1   0.00   0.00   0.00  
+C  1.881648326160e+00 4.550924012880e+00 4.722218676020e+00  1 1 1   0.00   0.00   0.00  
+C  2.942966140140e+00 2.685786015690e+00 5.891276970120e+00  1 1 1   0.00   0.00   0.00  
+C  3.526172344170e+00 2.264349285010e+00 4.701422011630e+00  1 1 1   0.00   0.00   0.00  
+C  5.639335700050e+00 1.818623320360e+00 5.857885888110e+00  1 1 1   0.00   0.00   0.00  
+C  4.901715585920e+00 1.818464567190e+00 4.683218315580e+00  1 1 1   0.00   0.00   0.00  
+C  7.014878941810e+00 2.264508038180e+00 5.839735109780e+00  1 1 1   0.00   0.00   0.00  
+C  7.598085145830e+00 2.685838933420e+00 4.649827233580e+00  1 1 1   0.00   0.00   0.00  
+C  6.829561082580e+00 7.854841928510e+00 3.429491667750e+00  1 1 1   0.00   0.00   0.00  
+C  5.506459302420e+00 8.276225741470e+00 3.448277458740e+00  1 1 1   0.00   0.00   0.00  
+C  8.207379786340e+00 5.965308861910e+00 3.410388370440e+00  1 1 1   0.00   0.00   0.00  
+C  8.207379786340e+00 4.575901177230e+00 3.410388370440e+00  1 1 1   0.00   0.00   0.00  
+C  7.204430218720e+00 6.687635754650e+00 2.662660971580e+00  1 1 1   0.00   0.00   0.00  
+C  6.239369739380e+00 5.993566924960e+00 1.940598667450e+00  1 1 1   0.00   0.00   0.00  
+C  3.282327485430e+00 7.563053614470e+00 3.469920806660e+00  1 1 1   0.00   0.00   0.00  
+C  2.477237276920e+00 6.436699921290e+00 3.482621059720e+00  1 1 1   0.00   0.00   0.00  
+C  4.504091829720e+00 7.561519000560e+00 2.696052053580e+00  1 1 1   0.00   0.00   0.00  
+C  4.862344801440e+00 6.441780022510e+00 1.955203958460e+00  1 1 1   0.00   0.00   0.00  
+C  2.477237276920e+00 4.104510117850e+00 3.482621059720e+00  1 1 1   0.00   0.00   0.00  
+C  3.282327485430e+00 2.978156424660e+00 3.469920806660e+00  1 1 1   0.00   0.00   0.00  
+C  2.848878432060e+00 5.270605019570e+00 2.716954553410e+00  1 1 1   0.00   0.00   0.00  
+C  4.016772536300e+00 5.270605019570e+00 1.964782065980e+00  1 1 1   0.00   0.00   0.00  
+C  5.506459302420e+00 2.264984297670e+00 3.448277458740e+00  1 1 1   0.00   0.00   0.00  
+C  6.829561082580e+00 2.686368110630e+00 3.429491667750e+00  1 1 1   0.00   0.00   0.00  
+C  4.504091829720e+00 2.979691038570e+00 2.696052053580e+00  1 1 1   0.00   0.00   0.00  
+C  4.862344801440e+00 4.099430016630e+00 1.955203958460e+00  1 1 1   0.00   0.00   0.00  
+C  7.204430218720e+00 3.853627202210e+00 2.662660971580e+00  1 1 1   0.00   0.00   0.00  
+C  6.239369739380e+00 4.547696031890e+00 1.940598667450e+00  1 1 1   0.00   0.00   0.00  
 "  
