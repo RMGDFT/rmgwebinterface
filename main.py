@@ -39,7 +39,7 @@ elif cif_or_xyz == "cif":
     filename = "cifs/FeAs.cif"  
     filetype = "cif"
 elif  cif_or_xyz == "xyz":
-    filename = "xyz_files/C60.xyz"  
+    filename = "example_C60/C60.xyz"  
     filetype = "xyz"
 elif cif_or_xyz == "vasp":
     filename = "vasp_examples/POSCAR_BN_cart"
