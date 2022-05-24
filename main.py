@@ -5,13 +5,13 @@ import os
 import subprocess
 from rmg_parser import *
 from add_items import *
-st.title('RMG input User Interface')
-st.markdown("Welcome to use rmg package! This interface will help you generate input file to run with our open-source rmg package. You can use one of the examples to show the options, you can also upload your own atomic structure file and choose options. Currently cif, xyz, and vasp formats are supported for loading the atomic structure information")
-st.markdown("without any options change, the default calculation will be gamma point, norm-conservering pseudopotentials, and quench electron only.")
+st.title('RMG Input File Generator')
+st.markdown("Welcome to the RMG Input File Generator! RMG is an Open Source computer code for electronic structure calculations and modeling of materials and molecules. It is based on density functional theory and uses real space basis and pseudopotentials. Designed for scalability it has been run successfully on systems with thousands of nodes and hundreds of thousands of CPU cores. It runs on Linux/UNIX, Windows and OS X. This interface will help you generate input files to use with the rmg package. You can use one of the provided examples to examine the input options or you can upload your own atomic structure file and select options. Currently cif, xyz, and vasp formats are supported for loading the atomic structure information")
+st.markdown("Without any changes the default calculation will use Norm-conserving pseudopotentials to perform an electronic quench at the gamma point.")
 st.write('<style>div.row-widget.stRadio > div{flex-direction:row;justify-content: left}<style>',
         unsafe_allow_html=True)
 
-uploaded_file = st.file_uploader("Uploda a file in CIF, XYZ, or VASP(v5+) POSCAR format")
+uploaded_file = st.file_uploader("Begin by uploading a file in CIF, XYZ, or VASP(v5+) POSCAR format or using an example.")
 col1, col2 = st.columns(2)
 example_ =  col1.checkbox("use an example ", False)
 cif_or_xyz = "None"
