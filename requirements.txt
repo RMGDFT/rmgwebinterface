@@ -3,3 +3,6 @@ numpy==1.19.5
 pandas==1.2.5
 scipy==1.6.2
 click==8
+matplotlib==3.5.2
+py3dmol==1.8.0
+stmol==0.0.7
