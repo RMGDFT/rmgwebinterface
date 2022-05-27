@@ -2,7 +2,7 @@ import streamlit as st
 import numpy as np
 def make_supercell(crmg, cell_mult):
     cells = [int(i) for i in cell_mult.split()]
-    crmg.cell.ibrav = 0
+    crmg.ibrav = 0
     crmg.cell.a = crmg.cell.a * cells[0]
     crmg.cell.b = crmg.cell.b * cells[1]
     crmg.cell.c = crmg.cell.c * cells[2]
@@ -15,6 +15,9 @@ def make_supercell(crmg, cell_mult):
                 y =   i* crmg.cell.latticevectors[0][1] + j* crmg.cell.latticevectors[1][1] + k* crmg.cell.latticevectors[2][1] 
                 z =   i* crmg.cell.latticevectors[0][2] + j* crmg.cell.latticevectors[1][2] + k* crmg.cell.latticevectors[2][2] 
 
+                x = x * crmg.cell.lengthscale
+                y = y * crmg.cell.lengthscale
+                z = z * crmg.cell.lengthscale
                 for atom in  crmg.atoms:
                     new_atom = [atom[0], atom[1] + x, atom[2] +y, atom[3] + z]
                     atoms_super.append(new_atom)
