@@ -865,3 +865,15 @@ def add_misc():
         interpolation_type= st.radio("interpolation_type", ["FFT", "Cubic Polynomial", "prolong"])
         misc_lines += 'interpolation_type = "%s"  \n'%interpolation_type
     return misc_lines     
+def add_orbital_info(species):  
+    expand_ = st.expander("Localized Orbital information")
+    orbital_dict={}
+    with expand_:
+        st.markdown("number of orbitals per atom and their radius")
+        cstart, col1, col2 = st.columns([0.2,1,1])
+        for sp in species:
+            num_orb = col1.number_input("number of orbital for %s:"%sp, 4)
+            radius = col2.number_input("radius (bohr) for %s:"%sp, 6.5)
+            orbital_dict[sp] = [num_orb, radius]
+    return orbital_dict        
+

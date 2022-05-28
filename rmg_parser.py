@@ -249,6 +249,93 @@ class rmg_interface():
 
         return filestring
 
+    def cell2rmg_on(self, mag, orbital_dict):
+        filestring = "#****  LATTICE and ATOMS  ****   \n"
+        #
+        # some default input options
+        brav_type = {
+            0:"None",
+            1:"Cubic Primitive",
+            2:"Cubic Face Centered",
+            3:"Cubic Body Centered",
+            4:"Hexagonal Primitive",
+            8:"Orthorhombic Primitive"
+        }
+        filestring += 'bravais_lattice_type="%s"  \n'%brav_type[self.ibrav]
+        # force to use atomic unit 
+        filestring += 'crds_units = "Bohr"  \n'
+        filestring += 'lattice_units = "Bohr"  \n'
+
+        if self.cell.unit == "angstrom":
+            bohr= 1.88972612499359;
+        elif self.cell.unit == "bohr":
+            bohr = 1.0
+        else:
+            st.markdown("WARNING: unit = ",self.cell.unit)
+
+        self.cell.lengthscale = self.cell.lengthscale * bohr
+        t = LatticeMatrix(self.cell.latticevectors)
+        if self.ibrav !=0:
+            filestring += 'a_length="%16.8f"  \n'%(self.cell.a * bohr)
+            filestring += 'b_length="%16.8f"  \n'%(self.cell.b * bohr)
+            filestring += 'c_length="%16.8f"  \n'%(self.cell.c * bohr)
+        else:
+            t = LatticeMatrix(self.cell.latticevectors)
+            filestring += 'lattice_vector="  \n'
+            for i in range(3):
+                for j in range(3):
+                    filestring += " %.12e "%(self.cell.latticevectors[i][j] * self.cell.lengthscale)
+                filestring += '  \n'    
+            filestring += '"  \n'
+
+
+        num_orb_tot = 0
+        for i in range(len(self.atoms)):
+            num_orb_tot += orbital_dict[self.atoms[i][0]][0]
+            x = self.atoms[i][1] * bohr
+            y = self.atoms[i][2] * bohr
+            z = self.atoms[i][3] * bohr
+            if self.atom_unit == "Cell Relative":
+                x = self.atoms[i][1] * self.cell.latticevectors[0][0]
+                x += self.atoms[i][2] * self.cell.latticevectors[1][0]
+                x += self.atoms[i][3] * self.cell.latticevectors[2][0]
+                x *= self.cell.lengthscale
+                y = self.atoms[i][1] * self.cell.latticevectors[0][1]
+                y += self.atoms[i][2] * self.cell.latticevectors[1][1]
+                y += self.atoms[i][3] * self.cell.latticevectors[2][1]
+                y *= self.cell.lengthscale
+                z = self.atoms[i][1] * self.cell.latticevectors[0][2]
+                z += self.atoms[i][2] * self.cell.latticevectors[1][2]
+                z += self.atoms[i][3] * self.cell.latticevectors[2][2]
+                z *= self.cell.lengthscale
+
+            self.atoms[i] = [self.atoms[i][0], x,y,z] + mag[i]
+        self.atoms.sort(key=lambda x:x[1])
+
+        filestring += 'number_of_orbitals = "%d"  \n'%num_orb_tot
+        filestring += 'number_of_atoms = "%d"  \n'%(len(self.atoms))
+        filestring += 'number_of_species = "%d"  \n'%(len(self.species))
+
+        filestring += 'atomic_coordinate_type = "Absolute"  \n'
+        atom_format = "%s  %.12e %.12e %.12e"
+        orbital_format = "%d  %.12e %.12e %.12e %7.4f   1  1  \n"
+        filestring += 'atoms="  \n'
+        for a in self.atoms:
+            filestring += atom_format%(a[0],a[1], a[2], a[3])
+            filestring += "  1 1 1 %6.2f %6.2f %6.2f  \n"%(a[4], a[5], a[6])
+        filestring += '"  \n'
+
+        filestring += '#Orbitalsi: number per center, center coordinates and radious  \n'
+        filestring += 'orbitals = "  \n'
+        for a in self.atoms:
+            filestring += orbital_format%(orbital_dict[a[0]][0], a[1], a[2],a[3],orbital_dict[a[0]][1])
+
+        filestring += '"  \n'
+        filestring += 'LocalizedOrbitalLayout = "Projection"  \n'
+
+
+        return filestring
+
     def __init__(self, filename, filetype):
         self.reducetoprim = True
         if not os.path.exists(filename):

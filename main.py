@@ -12,6 +12,7 @@ st.markdown("Welcome to the RMG Input File Generator! RMG is an Open Source comp
 st.markdown("Without any changes the default calculation will use Norm-conserving pseudopotentials to perform an electronic quench at the gamma point.")
 st.write('<style>div.row-widget.stRadio > div{flex-direction:row;justify-content: left}<style>',
         unsafe_allow_html=True)
+rmg_branch = st.radio("Generate input for ", ["rmg base code", "rmg localized orbital module"], help="rmg base code use delocalized real space grids as basis set, localized orbitals module optimized atom-centered localized orbitals as a basis set")
 
 uploaded_file = st.file_uploader("Begin by uploading a file in CIF, XYZ, or VASP(v5+) POSCAR format or using an example.")
 col1, col2 = st.columns(2)
@@ -81,6 +82,8 @@ else:
 
   st.subheader("BASIC OPTIONS")
   grid_lines = add_grid(crmg.cell)
+  if rmg_branch == "rmg localized orbital module":
+     orbital_dict = add_orbital_info(crmg.species)
   pseudo_lines = add_pseudo(crmg.species)
   kpoint_lines = add_kpoints(crmg.cell)
   ctrl_lines = add_control()
@@ -119,8 +122,12 @@ else:
   rmginput_str += spin_lines
   rmginput_str += misc_lines
 
-  rmginput_str += crmg.cell2rmg(mag)
-  rmgfilename = os.path.basename(filename).split(".")[0] +".rmg"
+  if rmg_branch == "rmg base code":
+    rmginput_str += crmg.cell2rmg(mag)
+    rmgfilename = os.path.basename(filename).split(".")[0] +".rmg"
+  else:
+      rmginput_str += crmg.cell2rmg_on(mag, orbital_dict)
+      rmgfilename = os.path.basename(filename).split(".")[0] +"_on.rmg"
   st.download_button(
      label="Downlowd rmg input file",
      data=rmginput_str,
