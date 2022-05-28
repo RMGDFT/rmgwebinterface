@@ -244,7 +244,7 @@ class rmg_interface():
         for a in self.atoms:
             b = a[0]
             if b[len(b) -1].isdigit():
-                b = b[:len(b)-2]
+                b = b[:len(b)-1]
 
             filestring += atom_format%(b,a[1], a[2], a[3])
             filestring += "  1 1 1 %6.2f %6.2f %6.2f  \n"%(mag[iatom][0],mag[iatom][1],mag[iatom][2])
@@ -297,7 +297,7 @@ class rmg_interface():
         for i in range(len(self.atoms)):
             b = self.atoms[i][0]
             if b[len(b) -1].isdigit():
-                b = b[:len(b)-2]
+                b = b[:len(b)-1]
             num_orb_tot += orbital_dict[b][0]
             x = self.atoms[i][1] * bohr
             y = self.atoms[i][2] * bohr
@@ -330,7 +330,7 @@ class rmg_interface():
         for a in self.atoms:
             b = a[0]
             if b[len(b) -1].isdigit():
-                b = b[:len(b)-2]
+                b = b[:len(b)-1]
             filestring += atom_format%(b,a[1], a[2], a[3])
             filestring += "  1 1 1 %6.2f %6.2f %6.2f  \n"%(a[4], a[5], a[6])
         filestring += '"  \n'
@@ -340,7 +340,7 @@ class rmg_interface():
         for a in self.atoms:
             b = a[0]
             if b[len(b) -1].isdigit():
-                b = b[:len(b)-2]
+                b = b[:len(b)-1]
             filestring += orbital_format%(orbital_dict[b][0], a[1], a[2],a[3],orbital_dict[b][1])
 
         filestring += '"  \n'
@@ -367,7 +367,7 @@ class rmg_interface():
         for a in self.atoms:
             b = a[0]
             if b[len(b) -1].isdigit():
-                b = b[:len(b)-2]
+                b = b[:len(b)-1]
             tmp_AFM.add(a[0])
             tmp.add(b)
         self.species = list(tmp)
