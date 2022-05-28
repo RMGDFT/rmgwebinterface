@@ -872,7 +872,10 @@ def add_orbital_info(species):
         st.markdown("number of orbitals per atom and their radius")
         cstart, col1, col2 = st.columns([0.2,1,1])
         for sp in species:
-            num_orb = col1.number_input("number of orbital for %s:"%sp, 4)
+            num_orb = 4
+            if sp in num_orbitals_dict:
+                num_orb = num_orbitals_dict[sp]
+            num_orb = col1.number_input("number of orbital for %s:"%sp, num_orb)
             radius = col2.number_input("radius (bohr) for %s:"%sp, 6.5)
             orbital_dict[sp] = [num_orb, radius]
     return orbital_dict        
