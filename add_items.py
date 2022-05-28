@@ -626,7 +626,7 @@ def add_spin(species, atoms):
             s_or_a = st.radio("Init Magnetization", ["by species", "by atoms"])
             if s_or_a == "by species":
                 for sp in species:
-                    dict_mag_species[sp] = st.number_input(sp, 0.0, 
+                    dict_mag_species[sp] = st.number_input(sp, min_value = -1.0, max_value = 1.0, value =0.0, 
                             help="spin up and down density: (0.5+x, 0.5-x) of total atomic charge density")
                 for i in range(len(atoms)):
                     mag[i][0] = dict_mag_species[atoms[i][0]]

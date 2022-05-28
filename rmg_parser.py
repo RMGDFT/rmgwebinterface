@@ -242,7 +242,11 @@ class rmg_interface():
         atom_format = "%s  %.12e %.12e %.12e"
         iatom = 0
         for a in self.atoms:
-            filestring += atom_format%(a[0],a[1], a[2], a[3])
+            b = a[0]
+            if b[len(b) -1].isdigit():
+                b = b[:len(b)-2]
+
+            filestring += atom_format%(b,a[1], a[2], a[3])
             filestring += "  1 1 1 %6.2f %6.2f %6.2f  \n"%(mag[iatom][0],mag[iatom][1],mag[iatom][2])
             iatom += 1
         filestring += '"  \n'
@@ -291,7 +295,10 @@ class rmg_interface():
 
         num_orb_tot = 0
         for i in range(len(self.atoms)):
-            num_orb_tot += orbital_dict[self.atoms[i][0]][0]
+            b = self.atoms[i][0]
+            if b[len(b) -1].isdigit():
+                b = b[:len(b)-2]
+            num_orb_tot += orbital_dict[b][0]
             x = self.atoms[i][1] * bohr
             y = self.atoms[i][2] * bohr
             z = self.atoms[i][3] * bohr
@@ -321,14 +328,20 @@ class rmg_interface():
         orbital_format = "%d  %.12e %.12e %.12e %7.4f   1  1  \n"
         filestring += 'atoms="  \n'
         for a in self.atoms:
-            filestring += atom_format%(a[0],a[1], a[2], a[3])
+            b = a[0]
+            if b[len(b) -1].isdigit():
+                b = b[:len(b)-2]
+            filestring += atom_format%(b,a[1], a[2], a[3])
             filestring += "  1 1 1 %6.2f %6.2f %6.2f  \n"%(a[4], a[5], a[6])
         filestring += '"  \n'
 
         filestring += '#Orbitalsi: number per center, center coordinates and radious  \n'
         filestring += 'orbitals = "  \n'
         for a in self.atoms:
-            filestring += orbital_format%(orbital_dict[a[0]][0], a[1], a[2],a[3],orbital_dict[a[0]][1])
+            b = a[0]
+            if b[len(b) -1].isdigit():
+                b = b[:len(b)-2]
+            filestring += orbital_format%(orbital_dict[b][0], a[1], a[2],a[3],orbital_dict[b][1])
 
         filestring += '"  \n'
         filestring += 'LocalizedOrbitalLayout = "Projection"  \n'
@@ -350,7 +363,13 @@ class rmg_interface():
 
         # set up species list
         tmp = set([])
+        tmp_AFM = set([])
         for a in self.atoms:
-                tmp.add(a[0])
+            b = a[0]
+            if b[len(b) -1].isdigit():
+                b = b[:len(b)-2]
+            tmp_AFM.add(a[0])
+            tmp.add(b)
         self.species = list(tmp)
+        self.species_AFM = list(tmp_AFM)
         #self.rmginput = self.cell2rmg(mag)

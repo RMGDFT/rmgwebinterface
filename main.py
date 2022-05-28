@@ -88,7 +88,7 @@ else:
   kpoint_lines = add_kpoints(crmg.cell)
   ctrl_lines = add_control()
   xc_lines = add_xc(crmg.species)
-  spin_lines, mag = add_spin(crmg.species, crmg.atoms)
+  spin_lines, mag = add_spin(crmg.species_AFM, crmg.atoms)
   st.subheader("COMMONLY USED OPTIONS")
   scf_lines=""
   mixing_lines = ""
