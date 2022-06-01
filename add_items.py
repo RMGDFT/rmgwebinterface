@@ -528,26 +528,31 @@ def add_lattice(bounding_box):
             a = col1.number_input("length a", value=a)
             b = a
             c = a
+            lattvec = [[a,0.0,0.0],[0.0,b,0.0],[0.0,0.0,c]]
         elif ibrav_str == "FCC":
             ibrav = 2
             a = col1.number_input("length a", value=a)
             b = a
             c = a
+            lattvec = [[0.5 * a,0.5*a,0.0],[0.5*a,0.0,0.5*a],[0.0,0.5*a,0.5*a]]
         elif ibrav_str =="BCC":       
             ibrav = 3
             a = col1.number_input("length a", value=a)
             b = a
             c = a
+            lattvec = [[-0.5 * a,0.5*a, 0.5*a],[0.5*a,-0.5*a,0.5*a],[0.5*a,0.5*a,-0.5*a]]
         elif ibrav_str == "Orthorhombic": 
             ibrav = 8
             a = col1.number_input("length a", value=a)
             b = col2.number_input("length b", value=b)
             c = col3.number_input("length c", value=c)
+            lattvec = [[a,0.0,0.0],[0.0,b,0.0],[0.0,0.0,c]]
         elif ibrav_str == "Hexagonal":
             ibrav = 4
             a = col1.number_input("length a", value=a)
             b = a
             c = col3.number_input("length c", value=c)
+            lattvec = [[a,0.0,0.0],[-0.5*a,sqrt(3.0)/2 * a,0.0],[0.0,0.0,c]]
     return (ibrav, a,b,c, lattvec)            
 def add_IOctrl():
     expand_ = st.expander("IO: files and paths")

@@ -4,8 +4,9 @@ import numpy as np
 from stmol import showmol
 def view_xyz(crmg):
     xyz_data ="%d\n\n"%(len(crmg.atoms))
+    
     for atom in  crmg.atoms:
-        xyz_data += "%s  %f %f %f\n"%(atom[0], atom[1],atom[2],atom[3])
+        xyz_data += "%s  %f %f %f\n"%(atom[0], atom[1] * crmg.cell.lengthscale,atom[2] * crmg.cell.lengthscale,atom[3] * crmg.cell.lengthscale)
 
 
     xyz_view = py3Dmol.view()
