@@ -160,6 +160,7 @@ def add_kpoints(cell):
 def add_control():
     expand_ = st.expander("CONTROL OPTIONS")
     extra_lines =""
+    ctrl_lines =""
     with expand_:
         start_mode = st.radio("start mode", 
                 ["LCAO Start", "Restart From File", "Random Start",
@@ -628,6 +629,9 @@ def add_spin(species, atoms):
 
         if(nspin_str == "spin polarization"):
             spin_lines += 'spin_polarization = "True"  \n'
+            AFM = st.checkbox("Anti-Ferromagnetic?", False)
+            spin_lines += 'AFM = "%s"  \n'%str(AFM) 
+
             s_or_a = st.radio("Init Magnetization", ["by species", "by atoms"])
             if s_or_a == "by species":
                 for sp in species:
