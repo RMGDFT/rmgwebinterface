@@ -68,9 +68,11 @@ else:
  
   
   supercell = st.checkbox("make a supercell", False)
+  supercell_name = ""
   if supercell:
       cell_mult = st.text_input("supercell expansion", "1  1  1")
       make_supercell(crmg, cell_mult)
+      supercell_name=cell_mult.replace(" ","")
 
   
   view_str = st.checkbox("view atomic structure", False)
@@ -122,12 +124,13 @@ else:
   rmginput_str += spin_lines
   rmginput_str += misc_lines
 
+    
   if rmg_branch == "rmg base code":
     rmginput_str += crmg.cell2rmg(mag)
-    rmgfilename = os.path.basename(filename).split(".")[0] +".rmg"
+    rmgfilename = os.path.basename(filename).split(".")[0] + supercell_name+".rmg"
   else:
       rmginput_str += crmg.cell2rmg_on(mag, orbital_dict)
-      rmgfilename = os.path.basename(filename).split(".")[0] +"_on.rmg"
+      rmgfilename = os.path.basename(filename).split(".")[0] + supercell_name+"_on.rmg"
   st.download_button(
      label="Downlowd rmg input file",
      data=rmginput_str,
