@@ -20,9 +20,9 @@ col1, col2 = st.columns(2)
 example_ =  col1.checkbox("use an example ", False)
 cif_or_xyz = "None"
 if example_:
-    cif_or_xyz = col2.radio("choose cif or xyz", ["None", "cif", "xyz", "vasp"])
+    cif_or_xyz = col2.radio("choose cif or xyz", ["None", "cif", "xyz", "vasp", "QE"])
 
-filetype_supported = ["cif", "xyz", "vasp"]
+filetype_supported = ["cif", "xyz", "vasp", "QE"]
 filetype =""
 if uploaded_file:
     if not os.path.isdir("tempDir"):
@@ -38,7 +38,7 @@ if uploaded_file:
     elif "POSCAR" in uploaded_file.name:
         filetype = "vasp"
     else:
-        filetype = st.radio("choose your filetype", ["None", "cif", "xyz", "vasp", "more is coming"])
+        filetype = st.radio("choose your filetype", ["None", "cif", "xyz", "vasp", "QE", "more is coming"])
 elif cif_or_xyz == "cif":
     filename = "cifs/FeAs.cif"  
     filetype = "cif"
@@ -48,6 +48,9 @@ elif  cif_or_xyz == "xyz":
 elif cif_or_xyz == "vasp":
     filename = "vasp_examples/POSCAR_BN_cart"
     filetype = "vasp"
+elif cif_or_xyz == "QE":
+    filename = "QE_examples/diamond.scf.in"
+    filetype = "QE"
 else:
     st.markdown("upload a file or choose an example")
 
@@ -67,7 +70,7 @@ else:
 
   crmg = rmg_interface(filename, filetype)
  
-  folder_picker() 
+  #folder_picker() 
   supercell = st.checkbox("make a supercell", False)
   supercell_name = ""
   if supercell:

@@ -13,7 +13,95 @@ from utils import *
 from uctools import *
 from add_items import *
 
+def token_to_value(all_lines, token):
+    for line in all_lines:
+        if(token in line):
+            t_pos = line.find(token)
+            v_pos_b = line.find("=", t_pos)
+            v_pos_e = line.find(",", t_pos)
+            return line[v_pos_b+1:v_pos_e]
+    return None    
 class rmg_interface():
+    def qe2cell(self, qefile=None):
+        with open(qefile, "r") as f:
+            all_lines = f.readlines()
+        self.cell = CellData()
+        ibrav_str = token_to_value(all_lines, "ibrav")
+        if ibrav_str == None:
+            print("no ibrav from QE file")
+            
+        self.ibrav = int(ibrav_str)
+        self.cell.latticevectors = []
+        celldm= [-1,-1,-1,-1,-1,-1] 
+        for i in range(6):
+            token = "celldm("+str(i+1)+")"
+            celldm_str = token_to_value(all_lines, token)
+            if celldm_str != None:
+                celldm[i] = float(celldm_str)
+        if self.ibrav == 1 or self.ibrav == 2 or self.ibrav == 3:
+            self.cell.a = celldm[0] 
+            self.cell.b = celldm[0] 
+            self.cell.c = celldm[0]
+        elif self.ibrav == 4:
+            self.cell.a = celldm[0] 
+            self.cell.b = celldm[0] 
+            self.cell.c = celldm[2] * celldm[0]
+        elif self.ibrav == 8:
+            self.cell.a = celldm[0] 
+            self.cell.b = celldm[1] * celldm[0]
+            self.cell.c = celldm[2] * celldm[0]
+        elif self.ibrav == 0:
+            cell_line_index = 0
+            while i < len(all_lines):
+                if "CELL_PARAMETERS" in all_lines[i]:
+                    cell_line_index = i
+                    break
+                i = i+1
+            cell_para_unit = all_lines[cell_line_index].replace("{"," ").replace("}"," ").split()[1]
+            scale = 1.0
+            if cell_para_unit == "alat":
+                scale = celldm[0]
+            elif cell_para_unit == "angstrom":
+                scale = 1.0/0.529177
+            elif cell_para_unit == "bohr":
+                scale = 1.0
+            for i in range(3):
+                ai = all_lines[cell_line_index + i + 1].split()
+                self.cell.latticevectors.append([float(ai[0]) *scale,float(ai[1]) *scale,float(ai[2]) *scale])
+        else:
+            print("ibrav not programedi for ibrav = ", self.ibrav)
+
+
+        self.cell.unit = "bohr"
+        num_atoms = int(token_to_value(all_lines, "nat"))
+        atom_line_index = 0
+        while i < len(all_lines):
+            if "ATOMIC_POSITIONS" in all_lines[i]:
+                atom_line_index = i
+                break
+            i = i+1
+        atom_unit = all_lines[atom_line_index].replace("{"," ").replace("}"," ").split()[1]
+        self.atom_unit = "Absolute"
+        self.atoms = []
+        scale = 1.0
+        if atom_unit == "alat":
+            scale = celldm[0]
+        elif atom_unit == "angstrom":
+            scale = 1.0/0.529177
+        elif atom_unit == "bohr":
+            scale = 1.0
+        elif atom_unit == "crystal":
+            self.atom_unit = "Cell Relative"
+        else:
+            print("crystal_sg not programed")
+
+        for i in range(num_atoms):
+            oneatom = all_lines[atom_line_index + i + 1].split()
+            self.atoms.append([oneatom[0], float(oneatom[1]) * scale, float(oneatom[2]) * scale, float(oneatom[3]) * scale ])
+
+        
+
+
     def vasp2cell(self, POSCAR=None):
         with open(POSCAR, "r") as f:
             all_lines = f.readlines()
@@ -360,6 +448,8 @@ class rmg_interface():
             self.xyz2cell(filename)
         elif filetype == "vasp":
             self.vasp2cell(filename)
+        elif filetype == "QE":
+            self.qe2cell(filename)
 
         # set up species list
         tmp = set([])
