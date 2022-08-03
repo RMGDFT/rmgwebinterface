@@ -7,7 +7,7 @@ from rmg_parser import *
 from add_items import *
 from view_xyz import *
 from make_supercell import *
-from folder_picker import *
+#from folder_picker import *
 st.title('RMG Input File Generator')
 st.markdown("Welcome to the RMG Input File Generator! RMG is an Open Source computer code for electronic structure calculations and modeling of materials and molecules. It is based on density functional theory and uses real space basis and pseudopotentials. Designed for scalability it has been run successfully on systems with thousands of nodes and hundreds of thousands of CPU cores. It runs on Linux/UNIX, Windows and OS X. This interface will help you generate input files to use with the rmg package. You can use one of the provided examples to examine the input options or you can upload your own atomic structure file and select options. Currently cif, xyz, and vasp formats are supported for loading the atomic structure information")
 st.markdown("Without any changes the default calculation will use Norm-conserving pseudopotentials to perform an electronic quench at the gamma point.")
