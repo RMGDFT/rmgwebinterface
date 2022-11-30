@@ -183,21 +183,22 @@ class rmg_interface():
         c = 1.0
         need_lattice = True
         latticevectors = []
-        if len(all_lines) > num_atoms + 2:
-            if "lattice" in all_lines[num_atoms+2] and len(all_lines) > num_atoms + 5:
-                a0 = float(all_lines[num_atoms+3].split()[0])
-                a1 = float(all_lines[num_atoms+3].split()[1])
-                a2 = float(all_lines[num_atoms+3].split()[2])
+        if "Lattice" in all_lines[1]:
+           lat = all_lines[1].split('"')[1] 
+           if len(lat.split()) == 9:
+                a0 = float(lat.split()[0])
+                a1 = float(lat.split()[1])
+                a2 = float(lat.split()[2])
                 latticevectors.append([a0, a1, a2])
                 a = sqrt(a0*a0+a1*a1+a2*a2)
-                a0 = float(all_lines[num_atoms+4].split()[0])
-                a1 = float(all_lines[num_atoms+4].split()[1])
-                a2 = float(all_lines[num_atoms+4].split()[2])
+                a0 = float(lat.split()[3])
+                a1 = float(lat.split()[4])
+                a2 = float(lat.split()[5])
                 latticevectors.append([a0, a1, a2])
                 b = sqrt(a0*a0+a1*a1+a2*a2)
-                a0 = float(all_lines[num_atoms+5].split()[0])
-                a1 = float(all_lines[num_atoms+5].split()[1])
-                a2 = float(all_lines[num_atoms+5].split()[2])
+                a0 = float(lat.split()[6])
+                a1 = float(lat.split()[7])
+                a2 = float(lat.split()[8])
                 latticevectors.append([a0, a1, a2])
                 c = sqrt(a0*a0+a1*a1+a2*a2)
 
