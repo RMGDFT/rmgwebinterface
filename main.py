@@ -15,7 +15,7 @@ st.write('<style>div.row-widget.stRadio > div{flex-direction:row;justify-content
         unsafe_allow_html=True)
 rmg_branch = st.radio("Generate input for ", ["rmg base code", "rmg localized orbital module"], help="rmg base code use delocalized real space grids as basis set, localized orbitals module optimized atom-centered localized orbitals as a basis set")
 
-uploaded_file = st.file_uploader("Begin by uploading a file in CIF, XYZ, or VASP(v5+) POSCAR format or using an example.")
+uploaded_file = st.file_uploader("Begin by uploading a file in CIF, XYZ, or VASP(v5+) POSCAR, or QuantumEspresso format or using an example.")
 col1, col2 = st.columns(2)
 example_ =  col1.checkbox("use an example ", False)
 cif_or_xyz = "None"

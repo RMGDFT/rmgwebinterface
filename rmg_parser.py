@@ -68,6 +68,16 @@ class rmg_interface():
             for i in range(3):
                 ai = all_lines[cell_line_index + i + 1].split()
                 self.cell.latticevectors.append([float(ai[0]) *scale,float(ai[1]) *scale,float(ai[2]) *scale])
+            self.cell.a = 0.0
+            self.cell.b = 0.0
+            self.cell.c = 0.0
+            for i in range(3):
+                self.cell.a += self.cell.latticevectors[0][i] * self.cell.latticevectors[0][i] 
+                self.cell.b += self.cell.latticevectors[1][i] * self.cell.latticevectors[1][i] 
+                self.cell.c += self.cell.latticevectors[2][i] * self.cell.latticevectors[2][i] 
+            self.cell.a = sqrt(self.cell.a)
+            self.cell.b = sqrt(self.cell.b)
+            self.cell.c = sqrt(self.cell.c)
         else:
             print("ibrav not programedi for ibrav = ", self.ibrav)
 
