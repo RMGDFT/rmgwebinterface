@@ -6,5 +6,5 @@ scipy==1.6.2
 click==8
 matplotlib==3.5.2
 py3dmol==2.0.0.post2
-stmol==0.0.7
+stmol==0.0.9
 tk==0.1.0
