@@ -8,25 +8,25 @@ def add_pseudo(species):
         cstart, col1 = st.columns([0.1,1])
         pseudo_dict={}
         internal_pp = True 
-        pp_type = st.radio("Select pseudopotentials", ["ONCV", "GBRV", "SelectFiles"], 
+        pp_type = st.radio("Select pseudopotentials", ["SG15(NC)", "Pseudo Dojo(NC)", "GBRV-1.5(US)", "SelectFiles"], 
             help = """
             ONCV: build-in normal conserving Haman pseudopotentials
             GBRV: build-in ultra-soft pseudopotentials
             SelectFiles: need to be in upf2 or xml format""")
         pseudolines = ""  
-        if pp_type == "ONCV":
+        if pp_type == "SG15(NC)":
             for sp in species:
-                if sp.lower() not in species_list_ncpp:
+                if sp.lower() not in species_list_sg15:
                     internal_pp = False
-                    st.markdown("no internal ONCV pseudopotential available for specie " + sp )
+                    st.markdown("no internal SG15 pseudopotential available for specie " + sp )
                     st.markdown("select pseudopotentials by yourself ")
                     break;
 
             pseudolines = '#******* Pseudopotentials *******   \n'
-            pseudolines += 'internal_pseudo_type = "nc_accuracy"  \n'
+            pseudolines += 'internal_pseudo_type = "sg15"  \n'
             pseudolines += '#use Optimized Norm-Conserving Vanderbilt (ONCV) pseudopotenitals  \n'
             pseudolines += '#those pseudopotentials are built in with RMG  \n'
-        if pp_type == "GBRV":
+        if pp_type == "GBRV-1.5(US)":
             for sp in species:
                 if sp.lower() not in species_list_uspp:
                     internal_pp = False
@@ -37,6 +37,18 @@ def add_pseudo(species):
             pseudolines += 'internal_pseudo_type = "ultrasoft"  \n'
             pseudolines += '#use Vanderbilt ultrasoft (GBRV) pseudopotenitals  \n'
             pseudolines += '#those pseudopotentials are built in with RMG   \n'
+        if pp_type == "Pseudo Dojo(NC)":
+            for sp in species:
+                if sp.lower() not in species_list_ncpp:
+                    internal_pp = False
+                    st.markdown("no internal Pseudo Dojo pseudopotential available for specie " + sp )
+                    st.markdown("select pseudopotentials by yourself ")
+                    break;
+
+            pseudolines = '#******* Pseudopotentials *******   \n'
+            pseudolines += 'internal_pseudo_type = "nc_accuracy"  \n'
+            pseudolines += '#use Optimized Norm-Conserving Vanderbilt (ONCV) pseudopotenitals  \n'
+            pseudolines += '#those pseudopotentials are built in with RMG  \n'
 
         cstart, col1 = st.columns([0.2,1])
         with col1:
