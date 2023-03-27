@@ -1,6 +1,7 @@
 
 import streamlit as st
 from internal_pp_list import *
+import math
 def add_pseudo(species):  
     expand_ = st.expander("PSEUDOPOTENTIAL")
     with expand_:
@@ -322,11 +323,16 @@ def add_control():
 def add_grid(cell):
     expand_ = st.expander("REAL SPACE GRID")
     with expand_:
-        cs, col1, col2, col3 = st.columns([0.1,1,2,1])
-        grid_spacing = col1.number_input("grid spacing(bohr)", value=0.38,
+        cs, col1, col2 = st.columns([0.1,2,2])
+        cutoff = col1.number_input("equivalent cutoff energy(Ry) in plane wave", value=70.0, step=5.0,
+                    help ="approximate equivalent cutoff energy in plane wave code, it may be different for different lattice types")
+        grid_spacing_0 = 3.1415926/math.sqrt(cutoff)
+        grid_spacing = col2.number_input("grid spacing(bohr)", value=grid_spacing_0,
                     help ="use grid spacing to determine the real space grid")
         if cell.unit == "angstrom" :
             grid_spacing = grid_spacing * 0.529177
+
+            
         nx = int(round(cell.a/grid_spacing))
         ny = int(round(cell.b/grid_spacing))
         nz = int(round(cell.c/grid_spacing))
@@ -347,7 +353,7 @@ def add_grid(cell):
             nx1 = (nx+i2-1)//i2 * i2
             ny1 = (ny+i2-1)//i2 * i2
             nz1 = (nz+i2-1)//i2 * i2
-        grids_str = col2.text_input("number of grid Nx, Ny, Nz", value="%d %d %d"%(nx1, ny1, nz1))
+        grids_str = col1.text_input("number of grid Nx, Ny, Nz", value="%d %d %d"%(nx1, ny1, nz1))
 
         hx = cell.a/int(grids_str.split()[0])
         hy = cell.b/int(grids_str.split()[1])
@@ -357,7 +363,7 @@ def add_grid(cell):
         st.markdown("grid anisotropy =%f"%anisotropy)
         if(anisotropy >=1.1):
             st.markdown('<p style="color:red;">WARNGING: too big grid anisotropy, need to be <1.1 rmg wont run</p>', unsafe_allow_html=True)
-        pot_grid= col3.number_input("rho pot grid refinement", value=2)
+        pot_grid= col2.number_input("rho pot grid refinement", value=2)
         grid_lines ='#******** REAL SPACE GRID ********   \n'
         grid_lines += 'wavefunction_grid="'+grids_str+'"  \n'
         grid_lines += 'potential_grid_refinement="%d"  \n'%pot_grid
