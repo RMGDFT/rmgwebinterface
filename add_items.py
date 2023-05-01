@@ -190,7 +190,10 @@ def add_control():
                     "Band Structure Only  ", 
                     "NEB Relax  ",
                     "Dimer Relax  ",
-                    "TDDFT "])
+                    "TDDFT ",
+                    "STM",
+                    "NSCF"
+                    ])
         if calculation_mode == "TDDFT ":
             cs, col1,col2 = st.columns([0.1,1,1,1])
 
@@ -805,7 +808,7 @@ def add_misc():
         use_cpdgemr2d= col0.checkbox("use_cpdgemr2d",True)
         misc_lines += 'use_cpdgemr2d = "%s"  \n'%str(use_cpdgemr2d)
         use_symmetry= col1.checkbox("use_symmetry",True)
-        misc_lines += 'use_symmetry = "%s"  \n'%str(use_symmetry)
+        misc_lines += 'use_symmetry = "%d"  \n'%(use_symmetry)
         frac_symmetry= col2.checkbox("frac_symmetry",True)
         misc_lines += 'frac_symmetry = "%s"  \n'%str(frac_symmetry)
         rmg2bgw= col0.checkbox("rmg2bgw",False)
