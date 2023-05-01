@@ -436,7 +436,7 @@ def add_xc(species):
                   "REVPBE", "PW86PBE", "PBESOL", "PBE0", "HSE", "B3LYP", "gaupbe", 
                   "vdw-df", "VDW-DF", "hartree-fock"], 
                 help = "AUTO_XC: XC will be determined from pseudopotential")
-        xc_lines += 'exchange_correlaton_type="'+xc_type +'"  \n'
+        xc_lines += 'exchange_correlation_type="'+xc_type +'"  \n'
         xc_lines += '#AUTO_XC: XC will be determined from pseudopotential  \n'
         vdw_corr = st.radio("empirical van der Waals correction", 
                 ["None", "DFT-D2", "Grimme-D2","DFT-D3"])
