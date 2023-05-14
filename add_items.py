@@ -907,3 +907,89 @@ def add_orbital_info(species):
             orbital_dict[sp] = [num_orb, radius]
     return orbital_dict        
 
+def add_lead_info():  
+    with expand_:
+        eq_left_right = st.checkbox("left lead = right lead?", True)
+        a_lead1 = st.number_input("length of left lead (lead1)", 10.0)
+        a_lead2 = a_lead1
+        if eq_left_right:
+            a_lead2 = a_lead1
+        else:
+            a_lead2 = st.number_input("length of right lead (lead2)", 10.0)
+    return a_lead1, a_lead2, eq_left_right
+
+def add_grid_negf(cell):
+    expand_ = st.expander("REAL SPACE GRID for NEGF")
+    with expand_:
+        cs, col1, col2 = st.columns([0.1,2,2])
+        cutoff = col1.number_input("equivalent cutoff energy(Ry) in plane wave", value=70.0, step=5.0,
+                    help ="approximate equivalent cutoff energy in plane wave code, it may be different for different lattice types")
+        grid_spacing_0 = 3.1415926/math.sqrt(cutoff)
+        grid_spacing = col2.number_input("grid spacing(bohr)", value=grid_spacing_0,
+                    help ="use grid spacing to determine the real space grid")
+        if cell.unit == "angstrom" :
+            grid_spacing = grid_spacing * 0.529177
+
+            
+        nx = int(round(cell.a/grid_spacing))
+        ny = int(round(cell.b/grid_spacing))
+        nz = int(round(cell.c/grid_spacing))
+        i2 = 1
+        for i in range(4):
+            i2 *= 2
+            nx1 = (nx+i2-1)//i2 * i2
+            ny1 = (ny+i2-1)//i2 * i2
+            nz1 = (nz+i2-1)//i2 * i2
+            h_max = max(cell.a/nx1, cell.b/ny1, cell.c/nz1)
+            h_min = min(cell.a/nx1, cell.b/ny1, cell.c/nz1)
+            anisotropy = h_max/h_min
+            if(anisotropy > 1.1): break
+        if i2 == 2:
+            st.markdown("reduce grid spacing, anisotropy too large %f"%anisotropy) 
+        else:
+            i2 = i2//2
+            nx1 = (nx+i2-1)//i2 * i2
+            ny1 = (ny+i2-1)//i2 * i2
+            nz1 = (nz+i2-1)//i2 * i2
+
+        hx = cell.a/int(nx1)
+        hy = cell.b/int(ny1)
+        hz = cell.c/int(nz1)
+            
+        eq_left_right = st.checkbox("left lead = right lead?", True)
+        a_lead1 = st.number_input("length of left lead (lead1)", 8.156)
+        a_lead2 = a_lead1
+        if eq_left_right:
+            a_lead2 = a_lead1
+        else:
+            a_lead2 = st.number_input("length of right lead (lead2)", 8.156)
+        a_center = cell.a - a_lead1 - a_lead2
+
+        nx_lead1 = int(round(a_lead1/hx))
+        nx_lead2 = int(round(a_lead2/hx))
+        nx_center = int(round( a_center/hx))
+        nx_lead1 = (nx_lead1+3)//4 * 4
+        nx_lead2 = (nx_lead2+3)//4 * 4
+        nx_center = (nx_center+3)//4 * 4
+
+        hx_lead1 = a_lead1/int(nx_lead1)
+        hx_lead2 = a_lead2/int(nx_lead2)
+        hx_center = a_center/int(nx_center)
+        hy = cell.b/int(ny1)
+        hz = cell.c/int(nz1)
+        st.markdown("final grid spacing: hx =%f %f %f hy=%f hz=%f "%(hx_lead1, hx_lead2, hx_center,hy,hz) + cell.unit)
+        anisotropy = max(hx_lead1, hx_lead2, hx_center,hy,hz)/min(hx_lead1, hx_lead2, hx_center,hy,hz)
+        st.markdown("grid anisotropy =%f"%anisotropy)
+        if(anisotropy >=1.1):
+            st.markdown('<p style="color:red;">WARNGING: too big grid anisotropy, need to be <1.1 rmg wont run</p>', unsafe_allow_html=True)
+
+        st.markdown("real space grid for lead1: %d %d %d"%( nx_lead1, ny1, nz1))
+        st.markdown("real space grid for lead2: %d %d %d"%( nx_lead2, ny1, nz1))
+        st.markdown("real space grid for center: %d %d %d"%( nx_center, ny1, nz1))
+
+        pot_grid= col2.number_input("rho pot grid refinement", value=1)
+        grid_lines ='#******** REAL SPACE GRID ********   \n'
+        grid_lines += 'potential_grid_refinement="%d"  \n'%pot_grid
+        grid_lines += '  \n'
+
+    return grid_lines, nx_lead1, nx_lead2, nx_center, ny1, nz1, a_lead1, a_lead2, a_center, eq_left_right

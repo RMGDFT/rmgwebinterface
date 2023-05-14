@@ -7,20 +7,21 @@ from rmg_parser import *
 from add_items import *
 from view_xyz import *
 from make_supercell import *
+from output_negf import *
 #from folder_picker import *
 st.title('RMG Input File Generator')
 st.markdown("Welcome to the RMG Input File Generator! RMG is an Open Source computer code for electronic structure calculations and modeling of materials and molecules. It is based on density functional theory and uses real space basis and pseudopotentials. Designed for scalability it has been run successfully on systems with thousands of nodes and hundreds of thousands of CPU cores. It runs on Linux/UNIX, Windows and OS X. This interface will help you generate input files to use with the rmg package. You can use one of the provided examples to examine the input options or you can upload your own atomic structure file and select options. Currently cif, xyz, and vasp formats are supported for loading the atomic structure information")
 st.markdown("Without any changes the default calculation will use Norm-conserving pseudopotentials to perform an electronic quench at the gamma point.")
 st.write('<style>div.row-widget.stRadio > div{flex-direction:row;justify-content: left}<style>',
         unsafe_allow_html=True)
-rmg_branch = st.radio("Generate input for ", ["rmg base code", "rmg localized orbital module"], help="rmg base code use delocalized real space grids as basis set, localized orbitals module optimized atom-centered localized orbitals as a basis set")
+rmg_branch = st.radio("Generate input for ", ["rmg base code", "rmg localized orbital module", "NEGF"], help="rmg base code use delocalized real space grids as basis set, localized orbitals module optimized atom-centered localized orbitals as a basis set")
 
 uploaded_file = st.file_uploader("Begin by uploading a file in CIF, XYZ, or VASP(v5+) POSCAR, or QuantumEspresso format or using an example.")
 col1, col2 = st.columns(2)
 example_ =  col1.checkbox("use an example ", False)
 cif_or_xyz = "None"
 if example_:
-    cif_or_xyz = col2.radio("choose cif or xyz", ["None", "cif", "xyz", "vasp", "QE"])
+    cif_or_xyz = col2.radio("choose cif or xyz", ["None", "cif", "xyz", "vasp", "QE", "NEGF"])
 
 filetype_supported = ["cif", "xyz", "vasp", "QE"]
 filetype =""
@@ -51,6 +52,9 @@ elif cif_or_xyz == "vasp":
 elif cif_or_xyz == "QE":
     filename = "QE_examples/diamond.scf.in"
     filetype = "QE"
+elif cif_or_xyz == "NEGF":
+    filename = "NEGF_examples/input.xyz"
+    filetype = "xyz"
 else:
     st.markdown("upload a file or choose an example")
 
@@ -87,14 +91,18 @@ else:
   rmginput_str = 'description="'+description+'"  \n'
 
   st.subheader("BASIC OPTIONS")
-  grid_lines = add_grid(crmg.cell)
-  if rmg_branch == "rmg localized orbital module":
+  if rmg_branch == "rmg localized orbital module" or rmg_branch == "NEGF":
      orbital_dict = add_orbital_info(crmg.species)
+  if rmg_branch != "NEGF":
+    grid_lines = add_grid(crmg.cell)
+  else:
+    grid_lines, nx_lead1, nx_lead2, nx_center, ny, nz , a_lead1, a_lead2, a_center, eq_lead= add_grid_negf(crmg.cell) 
   pseudo_lines = add_pseudo(crmg.species)
   kpoint_lines = add_kpoints(crmg.cell)
   ctrl_lines = add_control()
   xc_lines = add_xc(crmg.species)
   spin_lines, mag = add_spin(crmg.species_AFM, crmg.atoms)
+
   st.subheader("COMMONLY USED OPTIONS")
   scf_lines=""
   mixing_lines = ""
@@ -132,14 +140,24 @@ else:
   if rmg_branch == "rmg base code":
     rmginput_str += crmg.cell2rmg(mag)
     rmgfilename = os.path.basename(filename).split(".")[0] + supercell_name+".rmg"
-  else:
+  elif rmg_branch == "rmg localized orbital module":
       rmginput_str += crmg.cell2rmg_on(mag, orbital_dict)
       rmgfilename = os.path.basename(filename).split(".")[0] + supercell_name+"_on.rmg"
-  st.download_button(
-     label="Downlowd rmg input file",
-     data=rmginput_str,
-     file_name = rmgfilename)
-  show_rmginput = st.checkbox("show the generated rmg input file", False)
-  if show_rmginput:
-    st.markdown(rmginput_str)
+
+
+  if rmg_branch == "rmg base code" or rmg_branch == "rmg localized orbital module":
+    st.download_button(
+      label="Downlowd rmg input file",
+      data=rmginput_str,
+      file_name = rmgfilename)
+    show_rmginput = st.checkbox("show the generated rmg input file", False)
+    if show_rmginput:
+      st.markdown(rmginput_str)
+  if rmg_branch == "NEGF":
+      output_negf(rmginput_str, crmg, a_lead1, a_lead2, a_center, nx_lead1, nx_lead2, nx_center, ny, nz, eq_lead, orbital_dict)
+
+
+
+
+
 
