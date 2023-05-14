@@ -190,7 +190,10 @@ def add_control():
                     "Band Structure Only  ", 
                     "NEB Relax  ",
                     "Dimer Relax  ",
-                    "TDDFT "])
+                    "TDDFT ",
+                    "STM",
+                    "NSCF"
+                    ])
         if calculation_mode == "TDDFT ":
             cs, col1,col2 = st.columns([0.1,1,1,1])
 
@@ -433,7 +436,7 @@ def add_xc(species):
                   "REVPBE", "PW86PBE", "PBESOL", "PBE0", "HSE", "B3LYP", "gaupbe", 
                   "vdw-df", "VDW-DF", "hartree-fock"], 
                 help = "AUTO_XC: XC will be determined from pseudopotential")
-        xc_lines += 'exchange_correlaton_type="'+xc_type +'"  \n'
+        xc_lines += 'exchange_correlation_type="'+xc_type +'"  \n'
         xc_lines += '#AUTO_XC: XC will be determined from pseudopotential  \n'
         vdw_corr = st.radio("empirical van der Waals correction", 
                 ["None", "DFT-D2", "Grimme-D2","DFT-D3"])
@@ -805,7 +808,7 @@ def add_misc():
         use_cpdgemr2d= col0.checkbox("use_cpdgemr2d",True)
         misc_lines += 'use_cpdgemr2d = "%s"  \n'%str(use_cpdgemr2d)
         use_symmetry= col1.checkbox("use_symmetry",True)
-        misc_lines += 'use_symmetry = "%s"  \n'%str(use_symmetry)
+        misc_lines += 'use_symmetry = "%d"  \n'%(use_symmetry)
         frac_symmetry= col2.checkbox("frac_symmetry",True)
         misc_lines += 'frac_symmetry = "%s"  \n'%str(frac_symmetry)
         rmg2bgw= col0.checkbox("rmg2bgw",False)
