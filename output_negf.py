@@ -7,9 +7,235 @@ import math
 from datetime import datetime
 from optparse import OptionParser, OptionGroup
 import warnings
-import shutil
-from zipfile import ZipFile
 import tarfile
+from config_part import *
+
+
+
+def LCR_file_output(lead1, center, lead2):
+
+    if center.dirname == lead1.dirname:
+        dir_3lead1 = lead1.dirname
+        dir_3lead2 = lead2.dirname
+    else:
+        dir_3lead1 = "3lead_lead1"
+        dir_3lead2 = "3lead_lead2"
+
+    lcr1 = """
+        #  orbitals are read from
+../%s/Waves/wave.out
+
+#  charge density and potentials are read from
+../%s/Waves/wave.out
+"""% (lead1.dirname, dir_3lead1)
+
+    lcr1 += """
+#   lcr[].NX_GRID, NY_GRID, NZ_GRID
+%d  %d  %d
+
+#   starting grid point in the orignal grid
+0  0  0
+
+#   ending grid point in the orignal grid
+%d  %d  %d
+
+#   starting grid point in the NEGF globla grid
+0  0  0
+"""%(lead1.nx, lead1.ny, lead1.nz, lead1.nx, lead1.ny, lead1.nz )
+
+    lcr1 += """
+# lcr[].num_ions  number of ions in a conductor or a lead
+%d
+
+#lcr[].state_begin, state_middle, state_end state_middle is dummy
+0  0  %d
+"""%(lead1.num_atoms, lead1.num_orb)
+
+    lcr1 += """
+#lcr[].ion_begin
+  0
+
+#lcr[].bias (eV)  dummy
+0.0       0.0       0.0
+
+# a_length of this supercell (same as ON2 cal),
+# the starting x-coordinate (in the global system)
+%f  0.0
+
+# b_length of this supercell (same as ON2 cal),
+# the starting y-coordinate (in the global system)
+%f  0.0
+"""%(lead1.a, lead1.b)
+
+    lcr2 = """
+        #  orbitals are read from
+../%s/Waves/wave.out
+
+#  charge density and potentials are read from
+../%s/Waves/wave.out
+"""% (lead2.dirname, dir_3lead2)
+
+    lcr2 += """
+#   lcr[].NX_GRID, NY_GRID, NZ_GRID
+%d  %d  %d
+
+#   starting grid point in the orignal grid
+0  0  0
+
+#   ending grid point in the orignal grid
+%d  %d  %d
+
+#   starting grid point in the NEGF globla grid
+0  0  0
+"""%(lead2.nx, lead2.ny, lead2.nz, lead2.nx, lead2.ny, lead2.nz )
+
+    lcr2 += """
+# lcr[].num_ions  number of ions in a conductor or a lead
+%d
+
+#lcr[].state_begin, state_middle, state_end state_middle is dummy
+0  0  %d
+"""%(lead2.num_atoms, lead2.num_orb)
+
+    lcr2 += """
+#lcr[].ion_begin
+  0
+
+#lcr[].bias (eV)  dummy
+0.0       0.0       0.0
+
+# a_length of this supercell (same as ON2 cal),
+# the starting x-coordinate (in the global system)
+%f  %f
+
+# b_length of this supercell (same as ON2 cal),
+# the starting y-coordinate (in the global system)
+%f  0.0
+"""%(lead2.a, lead1.a + center.a, lead2.b)
+
+    lcr0 = """
+        #  orbitals are read from
+../%s/Waves/wave.out
+
+#  charge density and potentials are read from
+../%s/Waves/wave.out
+"""% (center.dirname, center.dirname)
+
+    lcr0 += """
+#   lcr[].NX_GRID, NY_GRID, NZ_GRID
+%d  %d  %d
+
+#   starting grid point in the orignal grid
+0  0  0
+
+#   ending grid point in the orignal grid
+%d  %d  %d
+
+#   starting grid point in the NEGF globla grid
+0  0  0
+"""%(center.nx, center.ny, center.nz, center.nx, center.ny, center.nz )
+
+    lcr0 += """
+# lcr[].num_ions  number of ions in a conductor or a lead
+%d
+
+#lcr[].state_begin, state_middle, state_end state_middle is dummy
+0  0  %d
+"""%(center.num_atoms, center.num_orb)
+
+    lcr0 += """
+#lcr[].ion_begin
+  0
+
+#lcr[].bias (eV)  dummy
+0.0       0.0       0.0
+
+# a_length of this supercell (same as ON2 cal),
+# the starting x-coordinate (in the global system)
+%f  %f
+
+# b_length of this supercell (same as ON2 cal),
+# the starting y-coordinate (in the global system)
+%f  0.0
+"""%(center.a, lead1.a, center.b)
+    trans = """
+#num of probes and which block the probe attached to
+2  0  2
+
+#num of sub systems and their atomic order in NEGF calculations
+#need to edit for multi-probe calclations
+3  1  0  2
+# num_probe_potential_window & their ranges[in the order of lead 1, 2, 3 ...]
+#they are dummy for 2-probe calculations and 
+#need to edit for multi-probe calclations
+4  40 120  40 120  40 120  40 120
+
+# num_dos_axis_window for integration along x,y,z axis
+# (required for mode 200)
+3  0 110  0 72 0 72
+
+#ncircle 
+ 50 
+
+
+#nmax_gq1 
+ 50 
+
+
+#nmax_gq2 
+ 128 
+
+
+#Enery Low Bound 
+ -30.0 
+
+
+#KT 
+ 0.025 
+
+
+#GAMMA 
+ 0.5 
+
+
+#DELTA2 
+ 2.05 
+
+
+#DELTA 
+ 1.0E-6 
+
+
+#Charge density Pulay order 
+ 5 
+
+
+#Charge density Pulay refresh steps 
+ 100 
+
+
+#Charge density Pulay beta 
+ 0.5 
+
+
+#processor grids for block matrix operation  
+1 
+1
+"""
+
+cond_input = """
+#  input for conductance calculations 
+
+%d %d 5d  nC nL nR 
+3 %d %d %d  num_blocks, block_dim 
+-2.0 2.0 401 Emin,Emax, E_points 
+0.005  small imaginary part 
+0.05  kbt 
+2001 1 1   
+1   number of conductance curve from lead i to lead j
+1  2  lead i to lead j
+"""(lead1.num_orb+lead2.num_orb+center.nx, lead1.num_orb, lead2.num_orb, lead1.num_orb, center.num_orb, lead2.num_orb)
+    return lcr0, lcr1, lcr2, trans, cond_input
 
 def atom_orbital_out(rmginput_str, a, nx, ny, nz, atoms, orbital_dict):
     
@@ -185,7 +411,14 @@ charge_pulay_refresh = "20"
     for atom in atoms_center:
         sp = atom[0]
         num_orb_center += orbital_dict[sp][0]
+    num_atoms_lead1 = len(atoms_lead1)
+    num_atoms_lead2 = len(atoms_lead2)
+    num_atoms_center = len(atoms_center)
 
+
+    lead1 = config_part("lead1", a_lead1,crmg.cell.b * bohr, crmg.cell.c*bohr, nx_lead1, ny, nz, num_atoms_lead1, num_orb_lead1)
+    lead2 = config_part("lead2", a_lead2,crmg.cell.b * bohr, crmg.cell.c*bohr, nx_lead2, ny, nz, num_atoms_lead2, num_orb_lead2)
+    center = config_part("center", a_center,crmg.cell.b * bohr, crmg.cell.c*bohr, nx_center, ny, nz, num_atoms_center, num_orb_center)
     input_lead1 = rmginput_str
     input_lead2 = rmginput_str
     input_3lead1 = rmginput_str
@@ -222,7 +455,7 @@ charge_pulay_refresh = "20"
     a_3lead1 = 3.0 * a_lead1
     nx_3lead1 = 3*nx_lead1
     input_3lead1 = """
-tart_mode_NEGF="111"
+start_mode_NEGF="111"
 metalic="true"
 num_blocks="3"
 blocks_dim="%d %d %d"
@@ -235,10 +468,50 @@ chargedensity_compass = "0 48 96 0 72 0 72"
     with open(os.path.join("NEGF_INPUTS/3lead_lead1", "input"), "w") as f:
         f.write(input_3lead1)
 
+    lcr0, lcr1, lcr2, tran, cond = LCR_file_output(lead1, lead1, lead1)
+
+    with open(os.path.join("NEGF_INPUTS/3lead_lead1", "LCR.dat0"), "w") as f:
+        f.write(lcr0)
+    with open(os.path.join("NEGF_INPUTS/3lead_lead1", "LCR.dat1"), "w") as f:
+        f.write(lcr1)
+    with open(os.path.join("NEGF_INPUTS/3lead_lead1", "LCR.dat2"), "w") as f:
+        f.write(lcr2)
+    with open(os.path.join("NEGF_INPUTS/3lead_lead1", "trans.in"), "w") as f:
+        f.write(tran)
+    with open(os.path.join("NEGF_INPUTS/3lead_lead1", "cond.input"), "w") as f:
+        f.write(cond)
+
+
+    lcr0, lcr1, lcr2, tran, cond = LCR_file_output(lead2, lead2, lead2)
+
+    with open(os.path.join("NEGF_INPUTS/3lead_lead2", "LCR.dat0"), "w") as f:
+        f.write(lcr0)
+    with open(os.path.join("NEGF_INPUTS/3lead_lead2", "LCR.dat1"), "w") as f:
+        f.write(lcr1)
+    with open(os.path.join("NEGF_INPUTS/3lead_lead2", "LCR.dat2"), "w") as f:
+        f.write(lcr2)
+    with open(os.path.join("NEGF_INPUTS/3lead_lead2", "trans.in"), "w") as f:
+        f.write(tran)
+    with open(os.path.join("NEGF_INPUTS/3lead_lead1", "cond.input"), "w") as f:
+        f.write(cond)
+
+    lcr0, lcr1, lcr2, tran, cond = LCR_file_output(lead1, center, lead2)
+
+    with open(os.path.join("NEGF_INPUTS/bias_0.0", "LCR.dat0"), "w") as f:
+        f.write(lcr0)
+    with open(os.path.join("NEGF_INPUTS/bias_0.0", "LCR.dat1"), "w") as f:
+        f.write(lcr1)
+    with open(os.path.join("NEGF_INPUTS/bias_0.0", "LCR.dat2"), "w") as f:
+        f.write(lcr2)
+    with open(os.path.join("NEGF_INPUTS/bias_0.0", "trans.in"), "w") as f:
+        f.write(tran)
+    with open(os.path.join("NEGF_INPUTS/bias_0.0", "cond.input"), "w") as f:
+        f.write(cond)
+
     a_3lead2 = 3.0 * a_lead2
     nx_3lead2 = 3*nx_lead2
     input_3lead2 = """
-tart_mode_NEGF="111"
+start_mode_NEGF="111"
 metalic="true"
 num_blocks="3"
 blocks_dim="%d %d %d"
@@ -250,6 +523,25 @@ chargedensity_compass = "0 48 96 0 72 0 72"
 
     with open(os.path.join("NEGF_INPUTS/3lead_lead2", "input"), "w") as f:
         f.write(input_3lead2)
+
+    input_bias = """
+start_mode_NEGF="112"
+num_blocks="3"
+blocks_dim="%d %d %d"
+"""%(num_orb_lead1, num_orb_center, num_orb_lead2)
+
+    input_bias+= """
+potential_compass = "1 %d %d 0 %d 0 %d"
+"""%(nx_lead1, nx_lead1 + nx_center, ny, nz)
+
+    input_bias+= """
+chargedensity_compass = "1 %d %d 0 %d 0 %d"
+"""%(nx_lead1, nx_lead1 + nx_center, ny, nz)
+
+    input_bias += atom_orbital_out(rmginput_str, a_lead1+a_center+a_lead2, nx_lead1 + nx_lead2 + nx_center, ny, nz, crmg.atoms, orbital_dict)
+
+    with open(os.path.join("NEGF_INPUTS/bias_0.0", "input"), "w") as f:
+        f.write(input_bias)
 
 
     with tarfile.open('NEGF_INPUTS.tar', "w:gz") as tar:
