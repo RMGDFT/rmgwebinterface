@@ -223,10 +223,10 @@ def LCR_file_output(lead1, center, lead2):
 1
 """
 
-cond_input = """
+    cond_input = """
 #  input for conductance calculations 
 
-%d %d 5d  nC nL nR 
+%d %d %d  nC nL nR 
 3 %d %d %d  num_blocks, block_dim 
 -2.0 2.0 401 Emin,Emax, E_points 
 0.005  small imaginary part 
@@ -234,7 +234,7 @@ cond_input = """
 2001 1 1   
 1   number of conductance curve from lead i to lead j
 1  2  lead i to lead j
-"""(lead1.num_orb+lead2.num_orb+center.nx, lead1.num_orb, lead2.num_orb, lead1.num_orb, center.num_orb, lead2.num_orb)
+"""%(lead1.num_orb+lead2.num_orb+center.nx, lead1.num_orb, lead2.num_orb, lead1.num_orb, center.num_orb, lead2.num_orb)
     return lcr0, lcr1, lcr2, trans, cond_input
 
 def atom_orbital_out(rmginput_str, a, nx, ny, nz, atoms, orbital_dict):
@@ -541,6 +541,10 @@ chargedensity_compass = "1 %d %d 0 %d 0 %d"
     input_bias += atom_orbital_out(rmginput_str, a_lead1+a_center+a_lead2, nx_lead1 + nx_lead2 + nx_center, ny, nz, crmg.atoms, orbital_dict)
 
     with open(os.path.join("NEGF_INPUTS/bias_0.0", "input"), "w") as f:
+        f.write(input_bias)
+
+    input_bias = input_bias.replace('start_mode_NEGF="112"', 'start_mode_NEGF="110"')
+    with open(os.path.join("NEGF_INPUTS/bias_0.0", "input.110"), "w") as f:
         f.write(input_bias)
 
 
