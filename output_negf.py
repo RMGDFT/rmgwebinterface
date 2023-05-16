@@ -315,8 +315,10 @@ charge_mixing_type = "Pulay"
 charge_pulay_order = "5"
 charge_pulay_scale = "0.1"
 charge_pulay_refresh = "20"
-#drho_precond = "false"
-#charge_pulay_Gspace = "false"
+drho_precond = "false"
+charge_pulay_Gspace = "false"
+occupation_electron_temperature_eV = "0.1"
+kohn_sham_mg_levels = "2"
 """
 
 
