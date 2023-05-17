@@ -444,6 +444,10 @@ kohn_sham_mg_levels = "2"
     if not os.path.isdir("NEGF_INPUTS/bias_0.0"):
         os.mkdir("NEGF_INPUTS/bias_0.0")
 
+    st.markdown(os.path.isdir("NEGF_INPUTS"))    
+    st.markdown(os.path.isdir("NEGF_INPUTS/lead1"))    
+    st.markdown(os.path.isdir("NEGF_INPUTS/lead2"))    
+
     input_lead1 = atom_orbital_out(rmginput_str, a_lead1, nx_lead1, ny, nz, atoms_lead1, orbital_dict)
     with open(os.path.join("NEGF_INPUTS/lead1", "input"), "w") as f:
         f.write(input_lead1)
