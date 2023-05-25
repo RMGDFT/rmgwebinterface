@@ -90,17 +90,19 @@ class rmg_interface():
                 atom_line_index = i
                 break
             i = i+1
-        atom_unit = all_lines[atom_line_index].replace("{"," ").replace("}"," ").split()[1]
+        atom_unit = all_lines[atom_line_index].replace("{"," ").replace("}"," ").split()
         self.atom_unit = "Absolute"
         self.atoms = []
         scale = 1.0
-        if atom_unit == "alat":
+        if(len(atom_unit) == 1):
+            self.atom_unit = "Cell Relative"
+        elif atom_unit[1] == "alat":
             scale = celldm[0]
-        elif atom_unit == "angstrom":
+        elif atom_unit[1] == "angstrom":
             scale = 1.0/0.529177
-        elif atom_unit == "bohr":
+        elif atom_unit[1] == "bohr":
             scale = 1.0
-        elif atom_unit == "crystal":
+        elif atom_unit[1] == "crystal":
             self.atom_unit = "Cell Relative"
         else:
             print("crystal_sg not programed")
