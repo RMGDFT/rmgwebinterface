@@ -106,7 +106,7 @@ def add_kpoint_mesh(cell):
     with col3:
         kshift_str = st.text_input("kpoint shift", value="0 0 0", help="0 0 0 including Gamma point")
     kpointlines = 'kpoint_mesh="' + kmesh_str +'"  \n'    
-    kpointlines += 'kpoint_shift="' + kshift_str +'"   \n'    
+    kpointlines += 'kpoint_is_shift="' + kshift_str +'"   \n'    
     with col2:
         kdist = st.text_input("kpoints distribution", value="1", 
                 help =" control the parallel over kpoints")
@@ -158,7 +158,7 @@ def add_kpoints(cell):
         kp_method = st.radio("use gamma point, a mesh or a list", ["gamma", "use mesh", "use list"])
         if kp_method == "gamma":
             kpointlines += 'kpoint_mesh = "1 1 1"  \n'
-            kpointlines += 'kpoint_shift = "0 0 0"  \n'
+            kpointlines += 'kpoint_is_shift = "0 0 0"  \n'
         elif kp_method == "use mesh":
             kpointlines += add_kpoint_mesh(cell)
         if kp_method == "use list":
