@@ -227,6 +227,7 @@ def add_control():
         kohn_sham_solver=st.radio("kohn_sham_solver", ["davidson", "multigrid"],
                help="Davidson is prefered for a small system and multigrid for a large system")
 
+        cube_rho = st.checkbox("output rho in cube format", True)
 
         more_ctrl = st.checkbox("check the box for more control options", False)
         if more_ctrl:
@@ -319,6 +320,7 @@ def add_control():
         ctrl_lines += 'kohn_sham_solver    ="' +kohn_sham_solver +'"  \n'
         ctrl_lines += 'subdiag_driver      ="' +subdiag_driver +'"  \n'
         ctrl_lines += '#auto: if cuda available, use cusolver, otherwise use lapack for n<128 and scaplack for large system  \n'
+        ctrl_lines += 'cube_rho = "%s"  \n'%str(cube_rho) 
         ctrl_lines += extra_lines
         ctrl_lines += '  \n'
         return ctrl_lines
@@ -598,14 +600,14 @@ def add_IOctrl():
         nvme_work_filepath = col2.text_input("nvme directory for work arrays", "Work/")
         nvme_orbitals_filepath = col1.text_input(" nvme directory for orbitals", "Orbitals/")
         qfunction_filepath = col2.text_input("nvme directory for Qfunction", "Qfunctions/")
-        cube_rho = col1.checkbox("output rho in cube format", True)
-        output_rho_xsf = col2.checkbox("output rho in xsf format", False)
+
         cube_vh = col1.checkbox("output vh in cube format",  False)
         cube_pot = col2.checkbox("output pot in cube format", False)
         write_data_period = col1.number_input("steps to write the restart file", 5)
         write_eigvals_period = col2.number_input("steps to write eigenvalues",5)    
         cube_states_list = col1.text_input("list of states to plot in cube format", "", 
                 help="0,1-3,6,9 will print states 0, 1 to 3, 6 and 9")
+        output_rho_xsf = col2.checkbox("output rho in xsf format", False)
 
     IO_lines = ""
     IO_lines += 'verbose = "%s"  \n'%str(verbose)
@@ -625,7 +627,6 @@ def add_IOctrl():
     IO_lines += 'nvme_work_filepath = "%s"  \n'%nvme_work_filepath
     IO_lines += 'nvme_orbitals_filepath = "%s"  \n'%nvme_orbitals_filepath
     IO_lines += 'qfunction_filepath = "%s"  \n'%qfunction_filepath
-    IO_lines += 'cube_rho = "%s"  \n'%str(cube_rho) 
     IO_lines += 'output_rho_xsf = "%s"  \n'%str(output_rho_xsf) 
     IO_lines += 'cube_vh = "%s"  \n'%str(cube_vh) 
     IO_lines += 'cube_pot = "%s"  \n'%str(cube_pot) 
