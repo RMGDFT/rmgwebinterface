@@ -16,6 +16,7 @@ def add_pseudo(species):
             SelectFiles: need to be in upf2 or xml format""")
         pseudolines = ""  
         if pp_type == "SG15(NC)":
+            print(species_list_sg15)
             for sp in species:
                 if sp.lower() not in species_list_sg15:
                     internal_pp = False
@@ -28,6 +29,7 @@ def add_pseudo(species):
             pseudolines += '#use Optimized Norm-Conserving Vanderbilt (ONCV) pseudopotenitals  \n'
             pseudolines += '#those pseudopotentials are built in with RMG  \n'
         if pp_type == "GBRV-1.5(US)":
+            print(species_list_uspp)
             for sp in species:
                 if sp.lower() not in species_list_uspp:
                     internal_pp = False

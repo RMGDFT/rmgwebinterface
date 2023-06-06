@@ -209,6 +209,8 @@ species_list_uspp = [
 "ZN"   ,
 "ZR"   ]
 
+for i in range(len(species_list_sg15)):
+    species_list_sg15[i] = species_list_sg15[i].lower()
 for i in range(len(species_list_ncpp)):
     species_list_ncpp[i] = species_list_ncpp[i].lower()
 for i in range(len(species_list_uspp)):

@@ -147,7 +147,7 @@ else:
 
   if rmg_branch == "rmg base code" or rmg_branch == "rmg localized orbital module":
     st.download_button(
-      label="Downlowd rmg input file",
+      label="Download rmg input file",
       data=rmginput_str,
       file_name = rmgfilename)
     show_rmginput = st.checkbox("show the generated rmg input file", False)
