@@ -31,25 +31,64 @@ class rmg_interface():
             print("no ibrav from QE file")
             
         self.ibrav = int(ibrav_str)
-        self.cell.latticevectors = []
+        self.cell.latticevectors = [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
         celldm= [-1,-1,-1,-1,-1,-1] 
         for i in range(6):
             token = "celldm("+str(i+1)+")"
             celldm_str = token_to_value(all_lines, token)
             if celldm_str != None:
                 celldm[i] = float(celldm_str)
-        if self.ibrav == 1 or self.ibrav == 2 or self.ibrav == 3:
+        if self.ibrav == 1:
             self.cell.a = celldm[0] 
             self.cell.b = celldm[0] 
             self.cell.c = celldm[0]
+            self.cell.latticevectors[0][0] = self.cell.a
+            self.cell.latticevectors[1][1] = self.cell.b
+            self.cell.latticevectors[2][2] = self.cell.c
+        elif self.ibrav == 2:
+            self.cell.a = celldm[0] 
+            self.cell.b = celldm[0] 
+            self.cell.c = celldm[0]
+            self.cell.latticevectors[0][0] = 0.5 * celldm[0]
+            self.cell.latticevectors[0][1] = 0.5 * celldm[0]
+            self.cell.latticevectors[0][2] = 0.0
+            self.cell.latticevectors[1][0] = 0.0
+            self.cell.latticevectors[1][1] = 0.5 * celldm[0]
+            self.cell.latticevectors[1][2] = 0.5 * celldm[0]
+            self.cell.latticevectors[2][0] = 0.5 * celldm[0]
+            self.cell.latticevectors[2][1] = 0.0
+            self.cell.latticevectors[2][2] = 0.5 * celldm[0]
+
+        elif self.ibrav == 3:
+            self.cell.a = celldm[0] 
+            self.cell.b = celldm[0] 
+            self.cell.c = celldm[0]
+            self.cell.latticevectors[0][0] = 0.5 * celldm[0]
+            self.cell.latticevectors[0][1] = 0.5 * celldm[0]
+            self.cell.latticevectors[0][2] = -0.5 * celldm[0]
+            self.cell.latticevectors[1][0] = -0.5 * celldm[0]
+            self.cell.latticevectors[1][1] = 0.5 * celldm[0]
+            self.cell.latticevectors[1][2] = 0.5 * celldm[0]
+            self.cell.latticevectors[2][0] = 0.5 * celldm[0]
+            self.cell.latticevectors[2][1] = -0.5 * celldm[0]
+            self.cell.latticevectors[2][2] = 0.5 * celldm[0]
         elif self.ibrav == 4:
             self.cell.a = celldm[0] 
             self.cell.b = celldm[0] 
             self.cell.c = celldm[2] * celldm[0]
+
+
+            self.cell.latticevectors[0][0] = celldm[0]
+            self.cell.latticevectors[1][0] = -0.5*celldm[0]
+            self.cell.latticevectors[1][1] = 0.5 * sqrt(3.0) * celldm[0]
+            self.cell.latticevectors[2][2] = self.cell.c
         elif self.ibrav == 8:
             self.cell.a = celldm[0] 
             self.cell.b = celldm[1] * celldm[0]
             self.cell.c = celldm[2] * celldm[0]
+            self.cell.latticevectors[0][0] = self.cell.a
+            self.cell.latticevectors[1][1] = self.cell.b
+            self.cell.latticevectors[2][2] = self.cell.c
         elif self.ibrav == 0:
             cell_line_index = 0
             while i < len(all_lines):
