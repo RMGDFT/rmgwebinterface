@@ -83,9 +83,9 @@ else:
       supercell_name=cell_mult.replace(" ","")
 
   
-  view_str = st.checkbox("view atomic structure", False)
-  if view_str:
-      view_xyz(crmg)
+  #view_str = st.checkbox("view atomic structure", False)
+  #if view_str:
+  #    view_xyz(crmg)
 
   description = st.text_input("description", value=desc_text)
   rmginput_str = 'description="'+description+'"  \n'
