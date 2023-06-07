@@ -21,7 +21,7 @@ col1, col2 = st.columns(2)
 example_ =  col1.checkbox("use an example ", False)
 cif_or_xyz = "None"
 if example_:
-    cif_or_xyz = col2.radio("choose cif or xyz", ["None", "cif", "xyz", "vasp", "QE", "NEGF"])
+    cif_or_xyz = col2.radio("choose cif or xyz", ["None", "cif", "xyz", "vasp", "QE", "NEGF", "STM"])
 
 filetype_supported = ["cif", "xyz", "vasp", "QE"]
 filetype =""
@@ -54,6 +54,9 @@ elif cif_or_xyz == "QE":
     filetype = "QE"
 elif cif_or_xyz == "NEGF":
     filename = "NEGF_examples/input.xyz"
+    filetype = "xyz"
+elif cif_or_xyz == "STM":
+    filename = "STM_example/Au111_1x1.xyz"
     filetype = "xyz"
 else:
     st.markdown("upload a file or choose an example")
