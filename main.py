@@ -148,6 +148,7 @@ else:
       rmgfilename = os.path.basename(filename).split(".")[0] + supercell_name+"_on.rmg"
 
 
+  rmgfilename = st.text_input("output file name", rmgfilename)
   if rmg_branch == "rmg base code" or rmg_branch == "rmg localized orbital module":
     st.download_button(
       label="Download rmg input file",
