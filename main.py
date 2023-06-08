@@ -139,7 +139,7 @@ else:
   rmginput_str += spin_lines
   rmginput_str += misc_lines
 
-    
+  rmgfilename=""  
   if rmg_branch == "rmg base code":
     rmginput_str += crmg.cell2rmg(mag)
     rmgfilename = os.path.basename(filename).split(".")[0] + supercell_name+".rmg"
@@ -148,8 +148,8 @@ else:
       rmgfilename = os.path.basename(filename).split(".")[0] + supercell_name+"_on.rmg"
 
 
-  rmgfilename = st.text_input("output file name", rmgfilename)
   if rmg_branch == "rmg base code" or rmg_branch == "rmg localized orbital module":
+    rmgfilename = st.text_input("output file name", rmgfilename)
     st.download_button(
       label="Download rmg input file",
       data=rmginput_str,

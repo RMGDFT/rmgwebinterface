@@ -379,16 +379,40 @@ kohn_sham_mg_levels = "2"
     atoms_3lead1 = []
     atoms_3lead2 = []
 
+    if crmg.atoms[0][1] < 0.0:
+        for i in range(len(crmg.atoms)):
+            crmg.atoms[i][1] += crmg.atoms[0][1]
+            
+    shift_from0 = 0.0
+    if crmg.atoms[0][1] < 1.0e-5:
+        shift_from0 = 0.1
+        for i in range(len(crmg.atoms)):
+            crmg.atoms[i][1] += shift_from0
+
+
+    num_atoms_lead1 = 0
+    num_atoms_lead2 = 0
+    num_atoms_center = 0
+
     for atom in crmg.atoms:
         if atom[1] < a_lead1:
-            atoms_lead1.append(atom)
+            num_atoms_lead1 +=1
         elif atom[1] < a_lead1 + a_center:
-            x = atom[1] - a_lead1
-            atoms_center.append([atom[0], x, atom[2], atom[3]])
+            num_atoms_center += 1
         else:
-            x = atom[1] - a_lead1 - a_center
-            atoms_lead2.append([atom[0], x, atom[2], atom[3]])
+            num_atoms_lead2 += 1
 
+    for i in range(len(crmg.atoms)):
+        crmg.atoms[i][1] -= shift_from0
+
+    atoms_lead1 = crmg.atoms[0:num_atoms_lead1]
+    atoms_center = crmg.atoms[num_atoms_lead1:num_atoms_lead1 + num_atoms_center]
+    atoms_lead2 = crmg.atoms[num_atoms_lead1+num_atoms_center:]
+
+    for i in range(len(atoms_center)):
+        atoms_center[i][1] -= a_lead1
+    for i in range(len(atoms_lead2)):
+        atoms_lead2[i][1] -= a_lead1 + a_center
 
     for i in range(3):
         for atom in atoms_lead1:
@@ -413,9 +437,6 @@ kohn_sham_mg_levels = "2"
     for atom in atoms_center:
         sp = atom[0]
         num_orb_center += orbital_dict[sp][0]
-    num_atoms_lead1 = len(atoms_lead1)
-    num_atoms_lead2 = len(atoms_lead2)
-    num_atoms_center = len(atoms_center)
 
 
     lead1 = config_part("lead1", a_lead1,crmg.cell.b * bohr, crmg.cell.c*bohr, nx_lead1, ny, nz, num_atoms_lead1, num_orb_lead1)
@@ -549,8 +570,10 @@ chargedensity_compass = "1 %d %d 0 %d 0 %d"
     with open(os.path.join("NEGF_INPUTS/bias_0.0", "input.110"), "w") as f:
         f.write(input_bias)
 
-
-    with tarfile.open('NEGF_INPUTS.tar', "w:gz") as tar:
+    rmgfilename = 'NEGF_INPUTS'
+    rmgfilename = st.text_input("output file name", rmgfilename)
+    rmgfilename += '.tar'
+    with tarfile.open(rmgfilename, "w:gz") as tar:
         tar.add('NEGF_INPUTS', arcname=os.path.basename('NEGF_INPUTS'))
     #shutil.make_archive('NEGF_INPUTS.zip', 'zip', root_dir='.', base_dir='NEGF_INPUTS')
     #with ZipFile('NEGF_INPUTS.zip', 'w') as zip_object:
@@ -559,12 +582,12 @@ chargedensity_compass = "1 %d %d 0 %d 0 %d"
     #            file_path = os.path.join(folder_name, filename)
     #            zip_object.write(file_path, os.path.basename(file_path))
                 
-    with open('NEGF_INPUTS.tar', 'rb') as fp:
+    with open(rmgfilename, 'rb') as fp:
 
       st.download_button(
         label="Downlowd negf input files",
         data=fp,
-        file_name = 'NEGF_INPUTS.tar',
+        file_name = rmgfilename,
         mime='application/zip'
       )
 
