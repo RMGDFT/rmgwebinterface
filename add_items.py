@@ -115,8 +115,10 @@ def add_kpoint_mesh(cell):
 
           
 def add_kpoint_text():
+
+    kpoint_units = st.radio("kpoint_units", ["Reciprocal lattice", "2pi/alat"])
     cs, col1 = st.columns([0.2,1])
-    kp_list_str=col1.text_area("K point list in unit of reciprocal lattice vectors and its weight", "0.0  0.0  0.0  1.0")
+    kp_list_str=col1.text_area("K point list in unit of reciprocal lattice vectors or 2pi/alat and its weight", "0.0  0.0  0.0  1.0")
     kp_list = kp_list_str.split("\n")
     kpoints = ""
     kpointlines = 'kpoint_mesh = "-1 1 1"  \n'
@@ -125,6 +127,8 @@ def add_kpoint_text():
         if(len(kp.split()) ==4):
             num_kpt+=1
             kpoints += kp + '  \n'
+
+    kpointlines += 'kpoint_units = "' + kpoint_units +'"  \n'        
     kpointlines += 'kpoints = "  \n'
     kpointlines += kpoints
     kpointlines += '"  \n'
@@ -134,11 +138,28 @@ def add_kpoint_text():
     return kpointlines
 
 def add_kbandstr_lines():
+    kpoint_units_band = st.radio("kpoint_units_bandstr", ["Reciprocal lattice", "2pi/alat"])
     cs, col1 = st.columns([0.2,1])
-    kp_list_str=col1.text_area("special lines for band structure calculation",
-       '''   0.0   0.0   0.0   0  G
-   0.5   0.0   0.0   20 X''', help ="kx, ky, kz, num, symbol, in unit of reciprocal lattice vector, num: number of kpoinks to previous special kpoint. symbol for plot")
-    kpointlines = 'kpoints_bandstructure = "  \n'
+
+    kband_diamond2 = ""
+    if kpoint_units_band == "Reciprocal lattice": 
+        kband_diamond2 = """0.0   0.0     0.0    0   G
+0.5   0.0     0.5    20  X
+0.75  0.25    0.5    10  W
+0.5   0.5     0.5    15  L
+0.0   0.0     0.0    20  G
+0.375 0.1875  0.1875 20  K """
+    if kpoint_units_band == "2pi/alat": 
+        kband_diamond2 = """0.0   0.0     0.0    0   G
+1.0   0.0     0.0    20  X
+1.0   0.5     0.0    10  W
+0.5   0.5     0.5    15  L
+0.0   0.0     0.0    20  G
+0.75  0.75    0.0    20  K"""
+    kp_list_str=col1.text_area("special lines for band structure calculation, default for fcc",
+     kband_diamond2,  help ="kx, ky, kz, num, symbol, in unit of reciprocal lattice vector or 2pi/alat, num: number of kpoinks to previous special kpoint. symbol for plot")
+    kpointlines = 'kpoint_units = "' + kpoint_units_band +'"  \n'        
+    kpointlines += 'kpoints_bandstructure = "  \n'
     kp_list = kp_list_str.split("\n")
     for kp in kp_list:
         if(len(kp.split()) == 5):
