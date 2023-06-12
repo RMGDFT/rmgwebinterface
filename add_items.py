@@ -116,7 +116,8 @@ def add_kpoint_mesh(cell):
           
 def add_kpoint_text():
 
-    kpoint_units = st.radio("kpoint_units", ["Reciprocal lattice", "2pi/alat"])
+    #kpoint_units = st.radio("kpoint_units", ["Reciprocal lattice", "2pi/alat"])
+    kpoint_units = st.radio("kpoint_units", ["Reciprocal lattice"])
     cs, col1 = st.columns([0.2,1])
     kp_list_str=col1.text_area("K point list in unit of reciprocal lattice vectors or 2pi/alat and its weight", "0.0  0.0  0.0  1.0")
     kp_list = kp_list_str.split("\n")
@@ -138,7 +139,8 @@ def add_kpoint_text():
     return kpointlines
 
 def add_kbandstr_lines():
-    kpoint_units_band = st.radio("kpoint_units_bandstr", ["Reciprocal lattice", "2pi/alat"])
+    #kpoint_units_band = st.radio("kpoint_units_bandstr", ["Reciprocal lattice", "2pi/alat"])
+    kpoint_units_band = st.radio("kpoint_units_bandstr", ["Reciprocal lattice"])
     cs, col1 = st.columns([0.2,1])
 
     kband_diamond2 = ""
