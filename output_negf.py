@@ -278,7 +278,7 @@ def atom_orbital_out(rmginput_str, a, nx, ny, nz, atoms, orbital_dict):
 
     return rmginput_str + filestring
 
-def output_negf(rmginput_str, crmg, a_lead1, a_lead2, a_center, nx_lead1, nx_lead2, nx_center, ny, nz, eq_lead, orbital_dict):
+def output_negf(rmginput_str, crmg, a_lead1, a_lead2, a_center, nx_lead1, nx_lead2, nx_center, ny, nz, eq_lead, num_atoms_lead1, num_atoms_lead2, orbital_dict):
     
     if not eq_lead:
        st.markdown("WARNING: not programmed yet")
@@ -383,27 +383,7 @@ kohn_sham_mg_levels = "2"
         for i in range(len(crmg.atoms)):
             crmg.atoms[i][1] += crmg.atoms[0][1]
             
-    shift_from0 = 0.0
-    if crmg.atoms[0][1] < 1.0e-5:
-        shift_from0 = 0.1
-        for i in range(len(crmg.atoms)):
-            crmg.atoms[i][1] += shift_from0
-
-
-    num_atoms_lead1 = 0
-    num_atoms_lead2 = 0
-    num_atoms_center = 0
-
-    for atom in crmg.atoms:
-        if atom[1] < a_lead1:
-            num_atoms_lead1 +=1
-        elif atom[1] < a_lead1 + a_center:
-            num_atoms_center += 1
-        else:
-            num_atoms_lead2 += 1
-
-    for i in range(len(crmg.atoms)):
-        crmg.atoms[i][1] -= shift_from0
+    num_atoms_center = len(crmg.atoms) - num_atoms_lead1 - num_atoms_lead2
 
     atoms_lead1 = crmg.atoms[0:num_atoms_lead1]
     atoms_center = crmg.atoms[num_atoms_lead1:num_atoms_lead1 + num_atoms_center]

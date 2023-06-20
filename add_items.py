@@ -945,7 +945,8 @@ def add_lead_info():
             a_lead2 = st.number_input("length of right lead (lead2)", 10.0)
     return a_lead1, a_lead2, eq_left_right
 
-def add_grid_negf(cell):
+def add_grid_negf(crmg):
+    cell = crmg.cell
     expand_ = st.expander("REAL SPACE GRID for NEGF")
     with expand_:
         cs, col1, col2 = st.columns([0.1,2,2])
@@ -984,12 +985,42 @@ def add_grid_negf(cell):
         hz = cell.c/int(nz1)
             
         eq_left_right = st.checkbox("left lead = right lead?", True)
-        a_lead1 = st.number_input("length of left lead (lead1)", 8.156)
-        a_lead2 = a_lead1
-        if eq_left_right:
-            a_lead2 = a_lead1
-        else:
-            a_lead2 = st.number_input("length of right lead (lead2)", 8.156)
+        num_atoms_lead1 = st.number_input("number of atoms in left lead (lead1)", 0)
+        num_atoms_lead2 = num_atoms_lead1
+        if not eq_left_right:
+            num_atoms_lead2 = st.number_input("number of atoms in right lead (lead2)", 0)
+
+        # determin a_lead1 and a_lead2
+        num_atoms_tot = len(crmg.atoms)
+        if num_atoms_tot <= num_atoms_lead1 + num_atoms_lead2:
+            st.markdown("num of atoms wrong, lead1 %d lead2 %d > tot %d"%(num_atoms_lead1, num_atoms_lead2, num_atoms_tot))
+
+
+        crmg.atoms.sort(key=lambda x:x[1])
+
+        y_firstatom = crmg.atoms[0][2]
+        z_firstatom = crmg.atoms[0][3]
+        a_lead1 = 0.0
+        for i in range(num_atoms_lead1, num_atoms_tot):
+            tem = abs(crmg.atoms[i][2] - y_firstatom) + abs(crmg.atoms[i][3] - z_firstatom)
+            if (tem < 1.0e-4):
+                a_lead1 =  crmg.atoms[i][1] - crmg.atoms[0][1]
+                break;
+
+        y_lastatom = crmg.atoms[num_atoms_tot-1][2]
+        z_lastatom = crmg.atoms[num_atoms_tot-1][3]
+        a_lead2 = 0.0
+        for i in range(num_atoms_tot - num_atoms_lead2-1, 0, -1):
+            tem = abs(crmg.atoms[i][2] - y_lastatom) + abs(crmg.atoms[i][3] - z_lastatom)
+            if (tem < 1.0e-4):
+                a_lead2 =  -crmg.atoms[i][1] + crmg.atoms[num_atoms_tot-1][1]
+                break;
+
+        st.markdown("length of lead1 %f   lead2 %f  and total length %f"%(a_lead1, a_lead2, cell.a))
+
+        if  a_lead1 <1.0e-5 or a_lead2 < 1.0e-5:
+            st.markdown("lead1 or lead2 wrong, check the length of lead1 and lead2")
+        
         a_center = cell.a - a_lead1 - a_lead2
 
         nx_lead1 = int(round(a_lead1/hx))
@@ -1019,4 +1050,4 @@ def add_grid_negf(cell):
         grid_lines += 'potential_grid_refinement="%d"  \n'%pot_grid
         grid_lines += '  \n'
 
-    return grid_lines, nx_lead1, nx_lead2, nx_center, ny1, nz1, a_lead1, a_lead2, a_center, eq_left_right
+    return grid_lines, nx_lead1, nx_lead2, nx_center, ny1, nz1, a_lead1, a_lead2, a_center, eq_left_right, num_atoms_lead1, num_atoms_lead2

@@ -221,7 +221,7 @@ num_orbitals_dict = {
 "Al" :4,
 "Ar" :9,
 "As" :9,
-"Au" :9,
+"Au" :13,
 "Ba" :8,
 "Be" :4,
 "Bi" :13,    
