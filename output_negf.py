@@ -451,7 +451,7 @@ kohn_sham_mg_levels = "2"
     input_lead2 = atom_orbital_out(rmginput_str, a_lead2, nx_lead2, ny, nz, atoms_lead2, orbital_dict)
     with open(os.path.join("NEGF_INPUTS/lead2", "input"), "w") as f:
         f.write(input_lead2)
-    input_center = atom_orbital_out(rmginput_str, a_center, nx_lead2, ny, nz, atoms_center, orbital_dict)
+    input_center = atom_orbital_out(rmginput_str, a_center, nx_center, ny, nz, atoms_center, orbital_dict)
     with open(os.path.join("NEGF_INPUTS/center", "input"), "w") as f:
         f.write(input_center)
 
