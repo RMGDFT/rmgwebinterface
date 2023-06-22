@@ -459,6 +459,7 @@ kohn_sham_mg_levels = "2"
     nx_3lead1 = 3*nx_lead1
     input_3lead1 = """
 start_mode_NEGF="111"
+max_scf_steps = "20"
 metalic="true"
 num_blocks="3"
 blocks_dim="%d %d %d"
