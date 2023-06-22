@@ -86,8 +86,8 @@ def LCR_file_output(lead1, center, lead2):
 %d  %d  %d
 
 #   starting grid point in the NEGF globla grid
-0  0  0
-"""%(lead2.nx, lead2.ny, lead2.nz, lead2.nx, lead2.ny, lead2.nz )
+%d  0  0
+"""%(lead2.nx, lead2.ny, lead2.nz, lead2.nx, lead2.ny, lead2.nz, lead1.nx+center.nx )
 
     lcr2 += """
 # lcr[].num_ions  number of ions in a conductor or a lead
@@ -132,8 +132,8 @@ def LCR_file_output(lead1, center, lead2):
 %d  %d  %d
 
 #   starting grid point in the NEGF globla grid
-0  0  0
-"""%(center.nx, center.ny, center.nz, center.nx, center.ny, center.nz )
+%d  0  0
+"""%(center.nx, center.ny, center.nz, center.nx, center.ny, center.nz, lead1.nx )
 
     lcr0 += """
 # lcr[].num_ions  number of ions in a conductor or a lead
