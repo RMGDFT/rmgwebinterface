@@ -929,8 +929,8 @@ def add_orbital_info(species):
             num_orb = 4
             if sp in num_orbitals_dict:
                 num_orb = num_orbitals_dict[sp]
-            num_orb = col1.number_input("number of orbital for %s:"%sp, num_orb)
-            radius = col2.number_input("radius (bohr) for %s:"%sp, 6.5)
+            num_orb = col1.number_input("number of orbital for %s:"%sp, value=num_orb)
+            radius = col2.number_input("radius (bohr) for %s:"%sp, value=6.5)
             orbital_dict[sp] = [num_orb, radius]
     return orbital_dict        
 
