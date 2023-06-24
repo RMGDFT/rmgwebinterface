@@ -217,11 +217,11 @@ for i in range(len(species_list_uspp)):
     species_list_uspp[i] = species_list_uspp[i].lower()
 
 num_orbitals_dict = {
-"Ag" :13,
+"Ag" :9,
 "Al" :4,
 "Ar" :9,
 "As" :9,
-"Au" :13,
+"Au" :9,
 "Ba" :8,
 "Be" :4,
 "Bi" :13,    
