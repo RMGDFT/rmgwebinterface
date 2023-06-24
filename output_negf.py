@@ -382,12 +382,10 @@ kohn_sham_mg_levels = "2"
             
     num_atoms_center = len(crmg.atoms) - num_atoms_lead1 - num_atoms_lead2
 
-    for i in range(num_atoms_lead1):
-        atoms_lead1.append(crmg.atoms[i])
-    for i in range(num_atoms_center):
-        atoms_center.append( crmg.atoms[num_atoms_lead1+i])
-    for i in range(num_atoms_lead2):
-        atoms_lead2.append( crmg.atoms[num_atoms_lead1+num_atoms_center+i])
+    atoms_list = copy.deepcopy(crmg.atoms)
+    atoms_lead1 = atoms_list[0:num_atoms_lead1]
+    atoms_center = atoms_list[num_atoms_lead1:num_atoms_lead1+num_atoms_center]
+    atoms_lead2 = atoms_list[num_atoms_lead1 + num_atoms_center:]
 
     for i in range(len(atoms_center)):
         atoms_center[i][1] -= a_lead1
