@@ -513,6 +513,7 @@ chargedensity_compass = "0 48 96 0 72 0 72"
     nx_3lead2 = 3*nx_lead2
     input_3lead2 = """
 start_mode_NEGF="111"
+max_scf_steps = "10"
 metalic="true"
 num_blocks="3"
 blocks_dim="%d %d %d"
@@ -527,6 +528,7 @@ chargedensity_compass = "0 48 96 0 72 0 72"
 
     input_bias = """
 start_mode_NEGF="112"
+max_scf_steps = "10"
 num_blocks="3"
 blocks_dim="%d %d %d"
 """%(num_orb_lead1, num_orb_center, num_orb_lead2)
