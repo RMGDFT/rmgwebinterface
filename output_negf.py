@@ -378,13 +378,13 @@ kohn_sham_mg_levels = "2"
 
     if crmg.atoms[0][1] < 0.0:
         for i in range(len(crmg.atoms)):
-            crmg.atoms[i][1] += crmg.atoms[0][1]
+            crmg.atoms[i][1] -= crmg.atoms[0][1]
             
     num_atoms_center = len(crmg.atoms) - num_atoms_lead1 - num_atoms_lead2
 
-    atoms_lead1 = crmg.atoms[0:num_atoms_lead1]
-    atoms_center = crmg.atoms[num_atoms_lead1:num_atoms_lead1 + num_atoms_center]
-    atoms_lead2 = crmg.atoms[num_atoms_lead1+num_atoms_center:]
+    atoms_lead1 = crmg.atoms[0:num_atoms_lead1].copy()
+    atoms_center = crmg.atoms[num_atoms_lead1:num_atoms_lead1 + num_atoms_center].copy()
+    atoms_lead2 = crmg.atoms[num_atoms_lead1+num_atoms_center:].copy()
 
     for i in range(len(atoms_center)):
         atoms_center[i][1] -= a_lead1
