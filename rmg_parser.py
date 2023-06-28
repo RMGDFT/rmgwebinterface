@@ -106,7 +106,7 @@ class rmg_interface():
                 scale = 1.0
             for i in range(3):
                 ai = all_lines[cell_line_index + i + 1].split()
-                self.cell.latticevectors.append([float(ai[0]) *scale,float(ai[1]) *scale,float(ai[2]) *scale])
+                self.cell.latticevectors[i] = [float(ai[0]) *scale,float(ai[1]) *scale,float(ai[2]) *scale]
             self.cell.a = 0.0
             self.cell.b = 0.0
             self.cell.c = 0.0
