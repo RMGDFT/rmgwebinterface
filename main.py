@@ -99,7 +99,7 @@ else:
   if rmg_branch != "NEGF":
     grid_lines = add_grid(crmg.cell)
   else:
-    grid_lines, nx_lead1, nx_lead2, nx_center, ny, nz , a_lead1, a_lead2, a_center, eq_lead, num_atoms_lead1, num_atoms_lead2= add_grid_negf(crmg) 
+    grid_lines, nx_lead1, nx_lead2, nx_center, ny, nz , a_lead1, a_lead2, a_center, eq_lead, num_atoms_lead1, num_atoms_lead2= add_grid_negf(crmg, orbital_dict) 
   pseudo_lines = add_pseudo(crmg.species)
   kpoint_lines = add_kpoints(crmg.cell)
   ctrl_lines = add_control()

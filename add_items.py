@@ -932,6 +932,12 @@ def add_orbital_info(species):
             num_orb = col1.number_input("number of orbital for %s:"%sp, value=num_orb)
             radius = col2.number_input("radius (bohr) for %s:"%sp, value=6.5)
             orbital_dict[sp] = [num_orb, radius]
+        for isp in range(1,len(species)):
+            if abs(orbital_dict[species[isp]][1] - orbital_dict[species[0]][1] ) > 0.001: 
+                st.error("radius must be same %f %f"%(orbital_dict[species[isp]][1], orbital_dict[species[0]][1]))
+                st.stop()
+            
+
     return orbital_dict        
 
 def add_lead_info():  
@@ -945,7 +951,7 @@ def add_lead_info():
             a_lead2 = st.number_input("length of right lead (lead2)", 10.0)
     return a_lead1, a_lead2, eq_left_right
 
-def add_grid_negf(crmg):
+def add_grid_negf(crmg, orbital_dict):
     cell = crmg.cell
     expand_ = st.expander("REAL SPACE GRID for NEGF")
     with expand_:
@@ -1040,6 +1046,26 @@ def add_grid_negf(crmg):
         st.markdown("grid anisotropy =%f"%anisotropy)
         if(anisotropy >=1.1):
             st.markdown('<p style="color:red;">WARNGING: too big grid anisotropy, need to be <1.1 rmg wont run</p>', unsafe_allow_html=True)
+            st.stop()
+
+        for orb_inf in orbital_dict:
+            radius = orbital_dict[orb_inf][1]
+        if cell.unit == "angstrom":
+            radius = radius * 0.529177
+
+        orbital_nx_lead1 = int(2.0*radius/hx_lead1)   
+        orbital_nx_lead2 = int(2.0*radius/hx_lead2)   
+        orbital_nx_center = int(2.0*radius/hx_center)   
+        orbital_nx_lead1 = ((orbital_nx_lead1+1)//2) *2 + 1
+        orbital_nx_lead2 = ((orbital_nx_lead2+1)//2) *2 + 1
+        orbital_nx_center = ((orbital_nx_center+1)//2) *2 + 1
+
+        st.error("orbital sizes are different for lead %d %d and center %d "%(orbital_nx_lead1, orbital_nx_lead2, orbital_nx_center))
+        if  orbital_nx_lead2 != orbital_nx_lead1 or orbital_nx_center != orbital_nx_lead1:
+            st.error("orbital sizes are different for lead %d %d and center %d "%(orbital_nx_lead1, orbital_nx_lead2, orbital_nx_center))
+            st.error("modify cutoff or gridspacing ")
+            st.stop()
+                    
 
         st.markdown("real space grid for lead1: %d %d %d"%( nx_lead1, ny1, nz1))
         st.markdown("real space grid for lead2: %d %d %d"%( nx_lead2, ny1, nz1))
