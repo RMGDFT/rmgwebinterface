@@ -1060,7 +1060,6 @@ def add_grid_negf(crmg, orbital_dict):
         orbital_nx_lead2 = ((orbital_nx_lead2+1)//2) *2 + 1
         orbital_nx_center = ((orbital_nx_center+1)//2) *2 + 1
 
-        st.error("orbital sizes are different for lead %d %d and center %d "%(orbital_nx_lead1, orbital_nx_lead2, orbital_nx_center))
         if  orbital_nx_lead2 != orbital_nx_lead1 or orbital_nx_center != orbital_nx_lead1:
             st.error("orbital sizes are different for lead %d %d and center %d "%(orbital_nx_lead1, orbital_nx_lead2, orbital_nx_center))
             st.error("modify cutoff or gridspacing ")
