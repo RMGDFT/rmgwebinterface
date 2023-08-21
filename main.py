@@ -5,7 +5,7 @@ import os
 import subprocess
 from rmg_parser import *
 from add_items import *
-from view_xyz import *
+#from view_xyz import *
 from make_supercell import *
 from output_negf import *
 #from folder_picker import *
@@ -86,9 +86,9 @@ else:
       supercell_name=cell_mult.replace(" ","")
 
   
-  view_str = st.checkbox("view atomic structure", False)
-  if view_str:
-      view_xyz(crmg)
+  #view_str = st.checkbox("view atomic structure", False)
+  #if view_str:
+  #    view_xyz(crmg)
 
   description = st.text_input("description", value=desc_text)
   rmginput_str = 'description="'+description+'"  \n'
