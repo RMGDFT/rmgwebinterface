@@ -394,7 +394,11 @@ class rmg_interface():
         return filestring
 
     def cell2rmg_on(self, mag, orbital_dict):
-        filestring = "#****  LATTICE and ATOMS  ****   \n"
+        filestring = "#*** for ON and NEGF, alyways use multigrid level 2 *** \n"
+        filestring += 'kohn_sham_mg_levels ="2" \n'
+        filestring += '#*** non-local projector should be always localized for ON and NEGF***i \n'
+        filestring += 'max_nlradius="6.0" \n\n'
+        filestring += "#****  LATTICE and ATOMS  ****   \n"
         #
         # some default input options
         brav_type = {
