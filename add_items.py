@@ -74,10 +74,10 @@ def add_pseudo(species):
                     help = "false: non-local projectors will spread in whole space, similar to plane wave codes")
             localize_localpp = col2.checkbox("local potential localization", value = True, 
                     help = "fasle: pseudopotential's local part spreads in the whole space")
-            max_nlradius = col1.number_input("max radius of non-local projector", 100.0)
-            min_nlradius = col2.number_input("max radius of non-local projector", 2.0)
-            max_qradius = col1.number_input("max radius of q functions in Ultrasoft PP", 100.0)
-            min_qradius = col2.number_input("min radius of q functions in Ultrasoft PP", 2.0)
+            max_nlradius = col1.number_input("max radius of non-local projector", value = 6.0)
+            min_nlradius = col2.number_input("min radius of non-local projector", value = 2.0)
+            max_qradius = col1.number_input("max radius of q functions in Ultrasoft PP", value = 6.0)
+            min_qradius = col2.number_input("min radius of q functions in Ultrasoft PP", value = 2.0)
 
             pseudolines += 'localize_localpp ="%s"  \n'%str(localize_localpp)
             pseudolines += 'localize_projectors ="%s"  \n'%str(localize_projectors)
