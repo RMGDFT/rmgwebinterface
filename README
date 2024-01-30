@@ -1,1 +1,13 @@
 Generate RMG input from cif or other file formats
+
+(1)use streamlit on your linux machine
+streamlit run main.py
+
+(2) use the cloud server 
+ https://rmgdft-rmgwebinterface-main-y6jk8h.streamlit.app/
+
+(3)rmginput.py files_list
+   files_list is a text file where all inititial files location and genenerated
+   rmginput file location
+   check the example of files_list_example
+

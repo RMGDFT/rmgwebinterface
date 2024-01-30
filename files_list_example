@@ -1,0 +1,5 @@
+#initial file name and type         rmg input file path   cutoff(Ry)  k_delta(1.0/bohr)
+./QE_examples/diamond.scf.in   QE    /tmp/diamond             80.0   0.5
+./vasp_examples/POSCAR_BN_cart vasp  /tmp/BN                  80.0   0.5
+./example_C60/C60.xyz          xyz   /tmp/C60                 80.0   0.5
+./cifs/Si.cif                  cif   /tmp/Si                  80.0   0.5
