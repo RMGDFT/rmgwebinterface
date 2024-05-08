@@ -1,0 +1,15 @@
+start_mode          ="LCAO Start"
+#start_mode          ="Restart From File"
+calculation_mode    ="Quench Electrons  "
+#calculation_mode    ="Relax Structure  "
+kohn_sham_solver    ="davidson"
+subdiag_driver      ="auto"
+
+#******* Pseudopotentials *******
+internal_pseudo_type = "sg15"
+
+stress = "false"
+cell_relax = "false"
+stress_convergence_criterion = "0.50000000"
+max_scf_steps = "100"
+exchange_correlation_type = "AUTO_XC"

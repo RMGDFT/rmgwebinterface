@@ -17,11 +17,26 @@ kdelt = 1000.0
 cutoff = 100.0
 pp_type_list = ["SG15(NC)", "GBRV-1.5(US)","Pseudo Dojo(NC)"]
 
-if len(sys.argv) != 2:
+if len(sys.argv) < 2:
     print("need to give a file including the initial files location and output directroy")
     exit()
 with open(sys.argv[1], "r") as f:
    all_files = f.readlines()
+
+default_options = """
+start_mode          ="LCAO Start"
+calculation_mode    ="Quench Electrons  "
+kohn_sham_solver    ="davidson"
+subdiag_driver      ="auto"
+
+#******* Pseudopotentials *******
+internal_pseudo_type = "sg15"
+
+"""
+if len(sys.argv) == 3:
+    with open(sys.argv[2], "r") as f:
+        default_options = f.read()
+   
 for init_file in all_files:
    if(init_file.lstrip()[0] == "#"):
        continue
@@ -55,9 +70,10 @@ for init_file in all_files:
    spin_lines, mag = add_spin_text(crmg.species_AFM, crmg.atoms, 0)
    
    rmginput_str += grid_lines
-   rmginput_str += ctrl_lines
+   rmginput_str += default_options;
+#   rmginput_str += ctrl_lines
    rmginput_str += kpoint_lines
-   rmginput_str += pseudo_lines
+#   rmginput_str += pseudo_lines
    rmginput_str += xc_lines
    
    if rmg_branch == "rmg base code":

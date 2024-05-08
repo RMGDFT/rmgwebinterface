@@ -11,3 +11,6 @@ streamlit run main.py
    rmginput file location
    check the example of files_list_example
 
+(4)rmginput.py files_list default_options
+   one can change the file default_options to modify input options for all
+   input files
