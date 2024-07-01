@@ -535,17 +535,20 @@ def add_lattice(bounding_box):
     expand_ = st.expander("LATTICE INFO in unit of Anstrom")
     lattvec = [[1.0,0.0,0.0],[0.0,1.0,0.0],[0.0,0.0,1.0]]
     #estimate the a, b, c = bounding box + 5 Angstrom
-    a = bounding_box[1] - bounding_box[0] +5.0
-    b = bounding_box[3] - bounding_box[2] +5.0
-    c = bounding_box[5] - bounding_box[4] +5.0
-    lattvec = [[a,0.0,0.0],[0.0,b,0.0],[0.0,0.0,c]]
 
     ibrav = 0
     with expand_:
         st.markdown("min_x = %f, max_x = %f"%(bounding_box[0], bounding_box[1]))
         st.markdown("min_y = %f, max_x = %f"%(bounding_box[2], bounding_box[3]))
         st.markdown("min_z = %f, max_z = %f"%(bounding_box[4], bounding_box[5]))
+        vacuum_length = st.number_input("Vaccum in Angstrom", value = 5.0, step = 1.0)
+        centered = st.checkbox("move atoms to center of the unit cell?", True)
+        a = bounding_box[1] - bounding_box[0] +vacuum_length
+        b = bounding_box[3] - bounding_box[2] +vacuum_length
+        c = bounding_box[5] - bounding_box[4] +vacuum_length
+
         cs, col1 = st.columns([0.1,1])
+        lattvec = [[a,0.0,0.0],[0.0,b,0.0],[0.0,0.0,c]]
         ibrav_str = st.radio("Bravais lattice type", 
                 ["Orthorhombic", "Simple Cubic", "FCC", "BCC", "Hexagonal", "do not know"],
                 help = "choose do not know for others")
@@ -593,7 +596,7 @@ def add_lattice(bounding_box):
             b = a
             c = col3.number_input("length c", value=c)
             lattvec = [[a,0.0,0.0],[-0.5*a,sqrt(3.0)/2 * a,0.0],[0.0,0.0,c]]
-    return (ibrav, a,b,c, lattvec)            
+    return (ibrav, a,b,c, lattvec, centered)            
 def add_IOctrl():
     expand_ = st.expander("IO: files and paths")
     with expand_:

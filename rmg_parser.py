@@ -264,13 +264,22 @@ class rmg_interface():
             z_min = min(self.atoms, key=lambda x:x[3])[3]
 
             bounding_box = [x_min,x_max, y_min, y_max, z_min, z_max]
-            (ibrav, a, b, c,latticevectors) = add_lattice(bounding_box)
+            (ibrav, a, b, c,latticevectors, centered) = add_lattice(bounding_box)
         self.cell = CellData()
         self.ibrav = ibrav
         self.cell.a = a
         self.cell.b = b
         self.cell.c = c
         self.cell.latticevectors = latticevectors
+        if centered and ibrav == 8:
+            xshift = (x_min + x_max -a) *0.5 
+            yshift = (y_min + y_max -b) *0.5 
+            zshift = (z_min + z_max -c) *0.5 
+            for atom in self.atoms:
+                atom[1] -= xshift
+                atom[2] -= yshift
+                atom[3] -= zshift
+
 
     def cif2cell(self, cif_file=None): 
         #################################################################
