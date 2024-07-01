@@ -218,28 +218,21 @@ def add_control():
                     "NSCF"
                     ])
         if calculation_mode == "TDDFT ":
-            cs, col1,col2 = st.columns([0.1,1,1,1])
+            cs, col1,col2 = st.columns([0.1,1,1])
 
-            restart_tddft = col1.checkbox("restart TDDFT?", False)
-            tddft_mode = col2.radio("TDDFT mode", ["electric field", "point charge"])
             tddft_steps = col1.number_input("number tddft steps", 2000)
             tddft_time_step = col2.number_input("tddft time step in atomic unit", 0.2) 
 
-            extra_lines += 'restart_tddft = "%s"  \n'%str(restart_tddft) 
-            extra_lines += 'tddft_mode = "%s"  \n'%tddft_mode
             extra_lines += 'tddft_steps = "%d"  \n'%tddft_steps
             extra_lines += 'tddft_time_step = "%f"  \n'%tddft_time_step
 
-            if tddft_mode == "electric field":
-                electric_field_magnitude = col1.number_input("E field value", 0.001)
-                electric_field_vector = col2.text_input("E field direction", "1  0  0")
-                extra_lines += 'electric_field_magnitude = "%f"  \n'%electric_field_magnitude
-                extra_lines += 'electric_field_vector = "%s"  \n'%electric_field_vector 
-            else:
-                tddft_qpos = col1.text_input("point charge position", "0.0  0.0  0.0")
-                tddft_qgau = col2.number_input("Gaussian for point charge", 0.1)
-                extra_lines += 'tddft_qpos = "%s"  \n'%tddft_qpos
-                extra_lines += 'tddft_qgau = "%f"  \n'%tddft_qgau
+            electric_field_magnitude = col1.number_input("E field value", value=0.001, format="%f", step=0.001)
+            electric_field_vector = col2.text_input("E field direction", "1  0  0")
+            extra_lines += 'electric_field_magnitude = "%f"  \n'%electric_field_magnitude
+            extra_lines += 'electric_field_vector = "%s"  \n'%electric_field_vector 
+
+            restart_tddft = col1.checkbox("restart TDDFT?", False)
+            extra_lines += 'restart_tddft = "%s"  \n'%str(restart_tddft) 
 
         subdiag_driver = st.radio("diagonalizatoin libs",
                 ["auto", "lapack", "scalapack", "magma", 
