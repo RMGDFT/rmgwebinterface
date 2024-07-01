@@ -234,6 +234,11 @@ def add_control():
             restart_tddft = col1.checkbox("restart TDDFT?", False)
             extra_lines += 'restart_tddft = "%s"  \n'%str(restart_tddft) 
 
+            unoccupied_states_per_kpoint= col1.number_input("unoccupied_states_per_kpoint", 10)
+            extra_lines += 'unoccupied_states_per_kpoint = "%d"  \n'%unoccupied_states_per_kpoint
+            unoccupied_tol_factor= col1.number_input("unoccupied_tol_factor", 1.0)
+            extra_lines += 'unoccupied_tol_factor = "%f"  \n'%unoccupied_tol_factor
+
         subdiag_driver = st.radio("diagonalizatoin libs",
                 ["auto", "lapack", "scalapack", "magma", 
                  "cusolver", "elpa", "rocsolver"])
