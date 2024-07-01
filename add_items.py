@@ -218,7 +218,7 @@ def add_control():
                     "NSCF"
                     ])
         if calculation_mode == "TDDFT ":
-            cs, col1,col2 = st.columns([0.1,1,1])
+            col1,col2 = st.columns([1,1])
 
             tddft_steps = col1.number_input("number tddft steps", 2000)
             tddft_time_step = col2.number_input("tddft time step in atomic unit", 0.2) 
