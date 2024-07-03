@@ -254,6 +254,7 @@ class rmg_interface():
                 c = sqrt(a0*a0+a1*a1+a2*a2)
 
                 need_lattice = False
+                centered = False
         if need_lattice:
             # bounding box of the xyz atoms
             x_max = max(self.atoms, key=lambda x:x[1])[1]
