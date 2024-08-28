@@ -229,13 +229,17 @@ def add_control():
             electric_field_vector = col2.text_input("E field for tddft ", "0.001  0.0  0.0")
             extra_lines += 'electric_field_tddft = "%s"  \n'%electric_field_vector 
 
-            restart_tddft = col1.checkbox("restart TDDFT?", False)
-            extra_lines += 'restart_tddft = "%s"  \n'%str(restart_tddft) 
 
             unoccupied_states_per_kpoint= col1.number_input("unoccupied_states_per_kpoint", 10)
             extra_lines += 'unoccupied_states_per_kpoint = "%d"  \n'%unoccupied_states_per_kpoint
-            unoccupied_tol_factor= col1.number_input("unoccupied_tol_factor", 1.0)
+            unoccupied_tol_factor= col2.number_input("unoccupied_tol_factor", 1.0)
             extra_lines += 'unoccupied_tol_factor = "%f"  \n'%unoccupied_tol_factor
+
+            tddft_start_state = col1.number_input("number of frozen states in tddft", 0)
+            extra_lines += 'tddft_start_state = "%d"  \n'%tddft_start_state
+
+            restart_tddft = col2.checkbox("restart TDDFT?", False)
+            extra_lines += 'restart_tddft = "%s"  \n'%str(restart_tddft) 
 
         subdiag_driver = st.radio("diagonalizatoin libs",
                 ["auto", "lapack", "scalapack", "magma", 
@@ -810,8 +814,6 @@ def add_misc():
         misc_lines += 'gw_residual_fraction = "%f"  \n'%gw_residual_fraction
         hartree_rms_ratio= col2.number_input("hartree_rms_ratio", 100000.0)
         misc_lines += 'hartree_rms_ratio = "%f"  \n'%hartree_rms_ratio
-        electric_field_magnitude= col0.number_input("electric_field_magnitude", 0.0)
-        misc_lines += 'electric_field_magnitude = "%f"  \n'%electric_field_magnitude
         wannier90_scdm_mu= col1.number_input("wannier90_scdm_mu", 0.0)
         misc_lines += 'wannier90_scdm_mu = "%f"  \n'%wannier90_scdm_mu
         wannier90_scdm_sigma= col2.number_input("wannier90_scdm_sigma", 1.0)
@@ -902,8 +904,8 @@ def add_misc():
         misc_lines += 'cell_movable = "%s"  \n'%cell_movable
         atomic_orbital_type= st.radio("atomic_orbital_type", ["delocalized","localized"])
         misc_lines += 'atomic_orbital_type = "%s"  \n'%atomic_orbital_type
-        electric_field_vector= st.text_input("electric_field_vector", "0  0  1")
-        misc_lines += 'electric_field_vector = "%s"  \n'%electric_field_vector
+        electric_field_vector= st.text_input("electric_field", "0.0  0.0  0.001")
+        misc_lines += 'electric_field = "%s"  \n'%electric_field_vector
         states_count_and_occupation_spin_up= st.text_input("states_count_and_occupation_spin_up", "")
         if states_count_and_occupation_spin_up != "":
             misc_lines += 'states_count_and_occupation_spin_up = "%s"  \n'%states_count_and_occupation_spin_up
