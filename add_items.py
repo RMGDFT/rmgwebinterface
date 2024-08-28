@@ -246,7 +246,7 @@ def add_control():
                  "cusolver", "elpa", "rocsolver"])
         if subdiag_driver == "scalapack":
             blk_size = st.number_input("block dim for scalapack", 64)
-            extgra_lines += 'scalapack_block_factor = "%d"  \n'%blk_size
+            extra_lines += 'scalapack_block_factor = "%d"  \n'%blk_size
         kohn_sham_solver=st.radio("kohn_sham_solver", ["davidson", "multigrid"],
                help="Davidson is prefered for a small system and multigrid for a large system")
 
