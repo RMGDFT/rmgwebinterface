@@ -226,19 +226,18 @@ def add_control():
             extra_lines += 'tddft_steps = "%d"  \n'%tddft_steps
             extra_lines += 'tddft_time_step = "%f"  \n'%tddft_time_step
 
-            electric_field_vector = col2.text_input("E field for tddft ", "0.001  0.0  0.0")
+            electric_field_vector = col1.text_input("E field for tddft ", "0.001  0.0  0.0")
             extra_lines += 'electric_field_tddft = "%s"  \n'%electric_field_vector 
 
+            tddft_start_state = col2.number_input("number of frozen states in tddft", 0)
+            extra_lines += 'tddft_start_state = "%d"  \n'%tddft_start_state
 
             unoccupied_states_per_kpoint= col1.number_input("unoccupied_states_per_kpoint", 10)
             extra_lines += 'unoccupied_states_per_kpoint = "%d"  \n'%unoccupied_states_per_kpoint
             unoccupied_tol_factor= col2.number_input("unoccupied_tol_factor", 1.0)
             extra_lines += 'unoccupied_tol_factor = "%f"  \n'%unoccupied_tol_factor
 
-            tddft_start_state = col1.number_input("number of frozen states in tddft", 0)
-            extra_lines += 'tddft_start_state = "%d"  \n'%tddft_start_state
-
-            restart_tddft = col2.checkbox("restart TDDFT?", False)
+            restart_tddft = col1.checkbox("restart TDDFT?", False)
             extra_lines += 'restart_tddft = "%s"  \n'%str(restart_tddft) 
 
         subdiag_driver = st.radio("diagonalizatoin libs",
