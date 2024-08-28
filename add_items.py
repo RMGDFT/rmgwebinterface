@@ -241,6 +241,9 @@ def add_control():
             restart_tddft = col1.checkbox("restart TDDFT?", False)
             extra_lines += 'restart_tddft = "%s"  \n'%str(restart_tddft) 
 
+            tddft_noscf = col1.checkbox("no scf for ground state ?", False)
+            extra_lines += 'tddft_noscf = "%s"  \n'%str(tddft_noscf) 
+
         subdiag_driver = st.radio("diagonalizatoin libs",
                 ["auto", "lapack", "scalapack", "magma", 
                  "cusolver", "elpa", "rocsolver"])
