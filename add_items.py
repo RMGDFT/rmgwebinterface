@@ -226,10 +226,8 @@ def add_control():
             extra_lines += 'tddft_steps = "%d"  \n'%tddft_steps
             extra_lines += 'tddft_time_step = "%f"  \n'%tddft_time_step
 
-            electric_field_magnitude = col1.number_input("E field value", value=0.001, format="%f", step=0.001)
-            electric_field_vector = col2.text_input("E field direction", "1  0  0")
-            extra_lines += 'electric_field_magnitude = "%f"  \n'%electric_field_magnitude
-            extra_lines += 'electric_field_vector = "%s"  \n'%electric_field_vector 
+            electric_field_vector = col2.text_input("E field for tddft ", "0.001  0.0  0.0")
+            extra_lines += 'electric_field_tddft = "%s"  \n'%electric_field_vector 
 
             restart_tddft = col1.checkbox("restart TDDFT?", False)
             extra_lines += 'restart_tddft = "%s"  \n'%str(restart_tddft) 
