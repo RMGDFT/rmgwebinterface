@@ -226,7 +226,7 @@ def add_control():
             extra_lines += 'tddft_steps = "%d"  \n'%tddft_steps
             extra_lines += 'tddft_time_step = "%f"  \n'%tddft_time_step
 
-            electric_field_vector = col1.text_input("E field for tddft ", "0.001  0.0  0.0")
+            electric_field_vector = col1.text_input("E field for tddft ", "1.0e-6  0.0  0.0")
             extra_lines += '#electric field in unit of Hatree/bohr  \n'
             extra_lines += 'electric_field_tddft = "%s"  \n'%electric_field_vector 
 
