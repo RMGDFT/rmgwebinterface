@@ -1,4 +1,8 @@
-import streamlit as st
+try:
+    import streamlit as st
+    from add_items import *
+except:
+    from add_items_text import *
 import os
 import sys
 import string
@@ -11,7 +15,6 @@ import CifFile
 import subprocess
 from utils import *
 from uctools import *
-from add_items import *
 
 def token_to_value(all_lines, token):
     for line in all_lines:

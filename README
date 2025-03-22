@@ -14,3 +14,10 @@ streamlit run main.py
 (4)rmginput.py files_list default_options
    one can change the file default_options to modify input options for all
    input files
+
+python package required:
+sudo apt install python3-numpy
+
+to use browser-based user interface 
+sudo apt install pipx
+pipx install streamlit
