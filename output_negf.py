@@ -234,7 +234,7 @@ def LCR_file_output(lead1, center, lead2):
 2001 1 1   
 1   number of conductance curve from lead i to lead j
 1  2  lead i to lead j
-"""%(lead1.num_orb+lead2.num_orb+center.nx, lead1.num_orb, lead2.num_orb, lead1.num_orb, center.num_orb, lead2.num_orb)
+"""%(lead1.num_orb+lead2.num_orb+center.num_orb, lead1.num_orb, lead2.num_orb, lead1.num_orb, center.num_orb, lead2.num_orb)
     return lcr0, lcr1, lcr2, trans, cond_input
 
 def atom_orbital_out(rmginput_str, a, nx, ny, nz, atoms, orbital_dict):
