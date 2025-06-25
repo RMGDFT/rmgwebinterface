@@ -226,7 +226,7 @@ def LCR_file_output(lead1, center, lead2):
     cond_input = """
 #  input for conductance calculations 
 
-%d %d %d  nC nL nR 
+%d %d %d  ntot nL nR 
 3 %d %d %d  num_blocks, block_dim 
 -2.0 2.0 401 Emin,Emax, E_points 
 0.005  small imaginary part 
