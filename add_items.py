@@ -1011,20 +1011,28 @@ def add_grid_negf(crmg, orbital_dict):
         y_firstatom = crmg.atoms[0][2]
         z_firstatom = crmg.atoms[0][3]
         a_lead1 = 0.0
-        for i in range(num_atoms_lead1, num_atoms_tot):
-            tem = abs(crmg.atoms[i][2] - y_firstatom) + abs(crmg.atoms[i][3] - z_firstatom)
-            if (tem < 1.0e-4):
-                a_lead1 =  crmg.atoms[i][1] - crmg.atoms[0][1]
-                break;
+        i = num_atoms_lead1
+        tem = abs(crmg.atoms[i][2] - y_firstatom) + abs(crmg.atoms[i][3] - z_firstatom)
+        if (tem < 1.0e-4):
+            a_lead1 =  crmg.atoms[i][1] - crmg.atoms[0][1]
+        else:
+            st.markdown("the number of atoms in lead1 is not correct %f %d"%(tem, i))
+            st.markdown("periodic atom %f %f %f"%(crmg.atoms[i][1], crmg.atoms[i][2], crmg.atoms[i][3]))
+            st.markdown("periodic atom %f %f %f"%(crmg.atoms[0][1], crmg.atoms[0][2], crmg.atoms[0][3]))
+            st.stop()
 
         y_lastatom = crmg.atoms[num_atoms_tot-1][2]
         z_lastatom = crmg.atoms[num_atoms_tot-1][3]
         a_lead2 = 0.0
-        for i in range(num_atoms_tot - num_atoms_lead2-1, 0, -1):
-            tem = abs(crmg.atoms[i][2] - y_lastatom) + abs(crmg.atoms[i][3] - z_lastatom)
-            if (tem < 1.0e-4):
-                a_lead2 =  -crmg.atoms[i][1] + crmg.atoms[num_atoms_tot-1][1]
-                break;
+        i = num_atoms_tot - num_atoms_lead2-1
+        tem = abs(crmg.atoms[i][2] - y_lastatom) + abs(crmg.atoms[i][3] - z_lastatom)
+        if (tem < 1.0e-4):
+            a_lead2 =  -crmg.atoms[i][1] + crmg.atoms[num_atoms_tot-1][1]
+        else:
+            st.markdown("the number of atoms in lead1 is not correct %f %d"%(tem, i))
+            st.markdown("periodic atom %f %f %f"%(crmg.atoms[i][1], crmg.atoms[i][2], crmg.atoms[i][3]))
+            st.markdown("periodic atom %f %f %f"%(crmg.atoms[num_atoms_tot-1][1], crmg.atoms[num_atoms_tot-1][2], crmg.atoms[num_atoms_tot-1][3]))
+            st.stop()
 
         st.markdown("length of lead1 %f   lead2 %f  and total length %f"%(a_lead1, a_lead2, cell.a))
 
